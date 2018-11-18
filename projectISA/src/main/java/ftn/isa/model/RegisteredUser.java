@@ -1,12 +1,15 @@
 package ftn.isa.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class RegisteredUser {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String username;
 	private String password;
@@ -21,7 +24,7 @@ public class RegisteredUser {
 	public RegisteredUser() {}
 	
 	//izbaciti id posle kao parametar, i generisati ga u telu konstruktora
-	public RegisteredUser(Long id, String username, String password, String email, String name, String lastName, String city,
+	public RegisteredUser(String username, String password, String email, String name, String lastName, String city,
 			String telephoneNumber, String role) {
 		super();
 		this.username = username;
