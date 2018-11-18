@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ftn.isa.model.RegisteredUser;
+import ftn.isa.model.User;
 import ftn.isa.service.UserService;
 
 @RestController
@@ -20,13 +20,12 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/users",method = RequestMethod.GET)
-	public List<RegisteredUser> getUsers() {
-		return userService.findAll();
+	public List<User> getUsers() {
+		return userService.getAllUsers();
 	}
 	
 	@RequestMapping(value="/users",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addUser(@RequestBody RegisteredUser user) {
-		System.out.println(user.getName() + "***********");
+	public void addUser(@RequestBody User user) {
 		userService.addUser(user);
 	}
 	

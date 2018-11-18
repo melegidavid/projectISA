@@ -6,24 +6,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class AvioCompany {
+public class Hotel {
 
-	@Id	
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
 	private String address;
 	private String description;
-	private double averageRating;
+	//private HotelMenuItem menu;
+	//private List<HotelRoom> rooms;
 	
-	public AvioCompany() {}
+	public Hotel() {
+		
+	}
 
-	public AvioCompany(String name, String address, String description, double averageRating) {
+	public Hotel(String name, String address, String description/*, HotelMenu menu, List<HotelRoom> rooms*/) {
 		super();
 		this.name = name;
 		this.address = address;
 		this.description = description;
-		this.averageRating = averageRating;
+	/*	this.menu = menu;
+		this.rooms = rooms;*/
 	}
 
 	public Long getId() {
@@ -58,15 +62,21 @@ public class AvioCompany {
 		this.description = description;
 	}
 
-	public double getAverageRating() {
-		return averageRating;
+	/*public HotelMenu getMenu() {
+		return menu;
 	}
 
-	public void setAverageRating(double averageRating) {
-		this.averageRating = averageRating;
+	public void setMenu(HotelMenu menu) {
+		this.menu = menu;
 	}
-	
-	
+
+	public List<HotelRoom> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<HotelRoom> rooms) {
+		this.rooms = rooms;
+	}*/
 	
 	
 	

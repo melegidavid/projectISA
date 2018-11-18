@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class RegisteredUser {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,10 +21,9 @@ public class RegisteredUser {
 	private String role;
 	
 
-	public RegisteredUser() {}
+	public User() {}
 	
-	//izbaciti id posle kao parametar, i generisati ga u telu konstruktora
-	public RegisteredUser(String username, String password, String email, String name, String lastName, String city,
+	public User(String username, String password, String email, String name, String lastName, String city,
 			String telephoneNumber, String role) {
 		super();
 		this.username = username;
