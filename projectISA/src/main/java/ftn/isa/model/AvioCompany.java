@@ -1,9 +1,15 @@
 package ftn.isa.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class AvioCompany {
@@ -16,6 +22,9 @@ public class AvioCompany {
 	private String description;
 	private double averageRating;
 	
+	@OneToMany(mappedBy = "avioCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<AvioFlight> flights;
+	
 	public AvioCompany() {}
 
 	public AvioCompany(String name, String address, String description, double averageRating) {
@@ -24,6 +33,7 @@ public class AvioCompany {
 		this.address = address;
 		this.description = description;
 		this.averageRating = averageRating;
+		this.flights = new ArrayList<>();
 	}
 
 	public Long getId() {

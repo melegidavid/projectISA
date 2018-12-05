@@ -1,9 +1,17 @@
 package ftn.isa.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import ftn.isa.enums.Role;
 
 @Entity
 public class User {
@@ -18,13 +26,15 @@ public class User {
 	private String lastName;
 	private String city;
 	private String telephoneNumber;
-	private String role;
+	private Role role; 
+	//@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//private List<User> friends;
 	
 
 	public User() {}
 	
 	public User(String username, String password, String email, String name, String lastName, String city,
-			String telephoneNumber, String role) {
+			String telephoneNumber, Role role) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -34,13 +44,14 @@ public class User {
 		this.city = city;
 		this.telephoneNumber = telephoneNumber;
 		this.role = role;
+		//this.friends = new ArrayList<>();
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 
