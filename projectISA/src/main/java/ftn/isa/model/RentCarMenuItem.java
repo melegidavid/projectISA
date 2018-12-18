@@ -1,9 +1,12 @@
 package ftn.isa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class RentCarMenuItem {
@@ -11,9 +14,13 @@ public class RentCarMenuItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
 	private String serviceName;
 	private double price;
 	private String description;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private RentCar rentCar;
 	
 	public RentCarMenuItem() {
 		
@@ -58,5 +65,12 @@ public class RentCarMenuItem {
 		this.description = description;
 	}
 	
+	public RentCar getRentCar() {
+		return rentCar;
+	}
+
+	public void setRentCar(RentCar rentCar) {
+		this.rentCar = rentCar;
+	}
 	
 }

@@ -1,9 +1,18 @@
 package ftn.isa.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class RentCarBranch {
@@ -12,22 +21,24 @@ public class RentCarBranch {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
-	private String city;
-	private String country;
-	private String street;
-	private String postalCode;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
+	private Address address;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private RentCar rentCar;
+	
+	@OneToMany(mappedBy = "rentCarBranch", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Vehicle> vehicles  = new ArrayList<>();
 	
 	public RentCarBranch() {
 		
 	}
 
-	public RentCarBranch(String name, String city, String country, String street, String postalCode) {
+	public RentCarBranch(String name) {
 		super();
-		this.name = name;
-		this.city = city;
-		this.country = country;
-		this.street = street;
-		this.postalCode = postalCode;
+		this.name = name;	
 	}
 
 	public Long getId() {
@@ -46,37 +57,19 @@ public class RentCarBranch {
 		this.name = name;
 	}
 
-	public String getCity() {
-		return city;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
-	public String getCountry() {
-		return country;
+	public RentCar getRentCar() {
+		return rentCar;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setRentCar(RentCar rentCar) {
+		this.rentCar = rentCar;
 	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-	
-	
 }

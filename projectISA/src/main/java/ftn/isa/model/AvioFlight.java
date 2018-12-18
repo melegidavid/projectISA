@@ -1,12 +1,21 @@
 package ftn.isa.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class AvioFlight {
@@ -18,22 +27,39 @@ public class AvioFlight {
 	private String dateTimeFinish;
 	private double flightDuration;
 	private double flightDistance;
-	private int  numberOfTransfers; //broj presedanja
-	//private List<String> locationOfTransfers;
 	private double price;
+	
+	@ElementCollection
+    @MapKeyColumn(name="seat", nullable = false, unique = true)
+    @Column(name="free", nullable = false)
+	@CollectionTable(name="avio_flight_seats", joinColumns=@JoinColumn(name="id"))
+	private Map<Double, Boolean> seats = new HashMap<>(); // 1.20, znaci da je prva klasa sediste broj 20. itd...
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private AvioCompany avioCompany;
 	
+	@ElementCollection
+    @MapKeyColumn(name="user", unique = true, nullable = false)
+    @Column(name="rate", nullable = false)
+	@CollectionTable(name="avio_flight_rates", joinColumns=@JoinColumn(name="id"))
+	private Map<Long, Integer> rates = new HashMap<>(); 
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
+	private Address startLocation;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
+	private Address endLocation;
+
 	public AvioFlight() {}
 
 	public AvioFlight(String dateTimeStart, String dateTimeFinish, double flightDuration, double flightDistance,
-			int numberOfTransfers, double price) {
+						double price) {
 		this.dateTimeStart = dateTimeStart;
 		this.dateTimeFinish = dateTimeFinish;
 		this.flightDuration = flightDuration;
 		this.flightDistance = flightDistance;
-		this.numberOfTransfers = numberOfTransfers;
 		this.price = price;
 	}
 
@@ -77,14 +103,6 @@ public class AvioFlight {
 		this.flightDistance = flightDistance;
 	}
 
-	public int getNumberOfTransfers() {
-		return numberOfTransfers;
-	}
-
-	public void setNumberOfTransfers(int numberOfTransfers) {
-		this.numberOfTransfers = numberOfTransfers;
-	}
-
 	public double getPrice() {
 		return price;
 	}
@@ -101,7 +119,35 @@ public class AvioFlight {
 		this.avioCompany = avioCompany;
 	}
 	
+	public Map<Long, Integer> getRates() {
+		return rates;
+	}
 	
-	
-	
+	public void setRates(Map<Long, Integer> rates) {
+		this.rates = rates;
+	}
+
+	public Address getStartLocation() {
+		return startLocation;
+	}
+
+	public void setStartLocation(Address startLocation) {
+		this.startLocation = startLocation;
+	}
+
+	public Address getEndLocation() {
+		return endLocation;
+	}
+
+	public void setEndLocation(Address endLocation) {
+		this.endLocation = endLocation;
+	}
+
+	public Map<Double, Boolean> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(Map<Double, Boolean> seats) {
+		this.seats = seats;
+	}
 }

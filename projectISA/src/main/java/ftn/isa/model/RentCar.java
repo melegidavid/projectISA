@@ -1,11 +1,23 @@
 package ftn.isa.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class RentCar {
@@ -14,26 +26,30 @@ public class RentCar {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
-	private String address;
-	private String description;
-	/*private List<RentCarMenuItem> rentCarMenu;
-	private List<Vehicle> vehicles;
-	private List<RentCarBranch> branches;*/
 	
-	public RentCar() {
-		//STAVITI INICIJALIZACIJU LISTA
-	}
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
+	private Address address;
+	private String description;
+	
+	@OneToMany(mappedBy = "rentCar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<RentCarMenuItem> rentCarMenu = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "rentCar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<RentCarBranch> branches  = new ArrayList<>(); 
+	
+	@ElementCollection
+    @MapKeyColumn(name="user", unique = true, nullable = false)
+    @Column(name="rate", nullable = false)
+	@CollectionTable(name="rent_car_rates", joinColumns=@JoinColumn(name="id"))
+	private Map<Long, Integer> rates = new HashMap<>(); 
+	
+	public RentCar() {}
 
-	public RentCar(String name, String address, String description/*, List<RentCarMenuItem> rentCarMenu,
-			List<Vehicle> vehicles, List<RentCarBranch> branches*/) {
+	public RentCar(String name, String description) {
 		super();
 		this.name = name;
-		this.address = address;
 		this.description = description;
-		/*this.rentCarMenu = rentCarMenu;
-		this.vehicles = vehicles;
-		this.branches = branches;*/
-		//STAVITI INICIJALIZACIJU LISTA
 	}
 
 	public Long getId() {
@@ -52,11 +68,11 @@ public class RentCar {
 		this.name = name;
 	}
 
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
@@ -68,20 +84,20 @@ public class RentCar {
 		this.description = description;
 	}
 
-	/*public List<RentCarMenuItem> getRentCarMenu() {
+	public Map<Long, Integer> getRates() {
+		return rates;
+	}
+
+	public void setRates(Map<Long, Integer> rates) {
+		this.rates = rates;
+	}
+
+	public List<RentCarMenuItem> getRentCarMenu() {
 		return rentCarMenu;
 	}
 
 	public void setRentCarMenu(List<RentCarMenuItem> rentCarMenu) {
 		this.rentCarMenu = rentCarMenu;
-	}
-
-	public List<Vehicle> getVehicles() {
-		return vehicles;
-	}
-
-	public void setVehicles(List<Vehicle> vehicles) {
-		this.vehicles = vehicles;
 	}
 
 	public List<RentCarBranch> getBranches() {
@@ -90,6 +106,5 @@ public class RentCar {
 
 	public void setBranches(List<RentCarBranch> branches) {
 		this.branches = branches;
-	}*/
-	
+	}
 }

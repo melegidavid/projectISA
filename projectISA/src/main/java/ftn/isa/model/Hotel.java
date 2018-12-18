@@ -1,9 +1,23 @@
 package ftn.isa.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Hotel {
@@ -12,22 +26,32 @@ public class Hotel {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
-	private String address;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
+	private Address address;
 	private String description;
-	//private HotelMenuItem menu;
-	//private List<HotelRoom> rooms;
+	
+	@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<HotelMenuItem> menu = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<HotelRoom> rooms = new ArrayList<>();
+	
+	@ElementCollection
+    @MapKeyColumn(name="user", unique = true, nullable = false)
+    @Column(name="rate", nullable = false)
+	@CollectionTable(name="hotel_rates", joinColumns=@JoinColumn(name="id"))
+	private Map<Long, Integer> rates = new HashMap<>(); 
 	
 	public Hotel() {
 		
 	}
 
-	public Hotel(String name, String address, String description/*, HotelMenu menu, List<HotelRoom> rooms*/) {
+	public Hotel(String name, String description) {
 		super();
 		this.name = name;
-		this.address = address;
 		this.description = description;
-	/*	this.menu = menu;
-		this.rooms = rooms;*/
 	}
 
 	public Long getId() {
@@ -46,14 +70,6 @@ public class Hotel {
 		this.name = name;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -62,12 +78,12 @@ public class Hotel {
 		this.description = description;
 	}
 
-	/*public HotelMenu getMenu() {
-		return menu;
+	public Map<Long, Integer> getRates() {
+		return rates;
 	}
 
-	public void setMenu(HotelMenu menu) {
-		this.menu = menu;
+	public void setRates(Map<Long, Integer> rates) {
+		this.rates = rates;
 	}
 
 	public List<HotelRoom> getRooms() {
@@ -76,8 +92,23 @@ public class Hotel {
 
 	public void setRooms(List<HotelRoom> rooms) {
 		this.rooms = rooms;
-	}*/
-	
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public List<HotelMenuItem> getMenu() {
+		return menu;
+	}
+
+	public void setMenu(List<HotelMenuItem> menu) {
+		this.menu = menu;
+	}
 	
 	
 }
