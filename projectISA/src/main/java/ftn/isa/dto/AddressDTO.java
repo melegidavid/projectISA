@@ -1,15 +1,9 @@
-package ftn.isa.model;
+package ftn.isa.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import ftn.isa.model.Address;
 
-@Entity
-public class Address {
+public class AddressDTO {
 
-	@Id	
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String country;
 	private String city;
@@ -17,17 +11,23 @@ public class Address {
 	private String street;
 	private int number;
 	
-	public Address() {
-		
+	public AddressDTO() {}
+	
+	public AddressDTO(Address address) {
+		this.id = address.getId();
+		this.country = address.getCountry();
+		this.city = address.getCity();
+		this.postalCode = address.getPostalCode();
+		this.street = address.getStreet();
+		this.number = address.getNumber();
 	}
 
-	public Address(String country, String city, int postalCode, String street, int number) {
-		super();
-		this.country = country;
-		this.city = city;
-		this.postalCode = postalCode;
-		this.street = street;
-		this.number = number;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getCountry() {
@@ -69,12 +69,7 @@ public class Address {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
+	
+	
 }

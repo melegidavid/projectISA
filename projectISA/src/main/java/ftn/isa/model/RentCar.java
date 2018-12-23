@@ -30,6 +30,7 @@ public class RentCar {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
 	private Address address;
+	
 	private String description;
 	
 	@OneToMany(mappedBy = "rentCar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
