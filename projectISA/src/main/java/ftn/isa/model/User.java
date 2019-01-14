@@ -26,7 +26,7 @@ public class User {
 	private String lastName;
 	private String city;
 	private String telephoneNumber;
-	private Role role;
+	private Role role; 
 	
 	public User() {}
 	

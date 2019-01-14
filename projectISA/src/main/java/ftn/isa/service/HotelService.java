@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ftn.isa.model.Hotel;
+import ftn.isa.model.HotelRoom;
 import ftn.isa.repository.HotelRepository;
+import ftn.isa.repository.HotelRoomRepository;
 
 @Service
 public class HotelService {
@@ -21,7 +23,19 @@ public class HotelService {
 		return list;
 	}
 	
-	public void addHotel(Hotel hotel) {
-		hotelRepository.save(hotel);
+	public Hotel findHotel(Long id) {
+		return hotelRepository.getOne(id);
+	}
+	
+	public Hotel saveHotel(Hotel hotel) {
+		return hotelRepository.save(hotel);
+	}
+	
+	public Hotel updateHotel(Hotel hotel) {
+		return hotelRepository.save(hotel);
+	}
+	
+	public void removeHotel(Hotel hotel) {
+		hotelRepository.delete(hotel);
 	}
 }
