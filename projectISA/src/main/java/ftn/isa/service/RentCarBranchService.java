@@ -2,8 +2,10 @@ package ftn.isa.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import ftn.isa.model.RentCarBranch;
 import ftn.isa.repository.RentCarBranchRepository;
 

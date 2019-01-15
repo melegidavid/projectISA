@@ -95,7 +95,7 @@ public class RentCarController {
 		rentCar.setDescription(rentCarDTO.getDescription());
 		//rentCar.setAddress(rentCarDTO.getAddressDTO()); ne dozvoliti da se menja adresa
 		
-		rentCar = rentCarService.save(rentCar);
+		rentCar = rentCarService.update(rentCar);
 		
 		return new ResponseEntity<>(new RentCarDTO(rentCar), HttpStatus.OK);	
 	}
@@ -127,10 +127,10 @@ public class RentCarController {
 	//menu items, jer ne mogu da postoje bez rentacar-a
 	
 	//vraca meni za odredjeni rent a car servis
-	@RequestMapping(value="/{id}/menu", method=RequestMethod.GET)
-	public ResponseEntity<List<RentCarMenuItemDTO>> getRentCarMenu(@PathVariable Long id){
+	@RequestMapping(value="/{idRentCar}/menu", method=RequestMethod.GET)
+	public ResponseEntity<List<RentCarMenuItemDTO>> getRentCarMenu(@PathVariable Long idRentCar){
 		
-		RentCar rentCar = rentCarService.findOne(id);
+		RentCar rentCar = rentCarService.findOne(idRentCar);
 		
 		if(rentCar == null){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -169,7 +169,6 @@ public class RentCarController {
 	public ResponseEntity<RentCarMenuItemDTO> saveRentCarMenuItem(@PathVariable Long idRentCar , @RequestBody RentCarMenuItemDTO rentCarMenuItemDTO){
 		
 		RentCarMenuItem rentCarMenuItem = new RentCarMenuItem();
-		rentCarMenuItem.setId(rentCarMenuItemDTO.getId());
 		rentCarMenuItem.setPrice(rentCarMenuItemDTO.getPrice());
 		rentCarMenuItem.setDescription(rentCarMenuItemDTO.getDescription());
 		rentCarMenuItem.setServiceName(rentCarMenuItemDTO.getServiceName());
@@ -180,7 +179,37 @@ public class RentCarController {
 		return new ResponseEntity<>(new RentCarMenuItemDTO(rentCarMenuItem), HttpStatus.CREATED);	
 	}
 	
-	//delete i update meniitema
+	@RequestMapping(value="/{idRentCar}/updateMenuItem", method=RequestMethod.PUT, consumes="application/json") //bez value mozda
+	public ResponseEntity<RentCarMenuItemDTO> updateRentCarMenuItem(@RequestBody RentCarMenuItemDTO itemDTO){
+		
+		RentCarMenuItem menuItem = menuItemService.findOne(itemDTO.getId()); 
+		
+		if (menuItem == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		menuItem.setPrice(itemDTO.getPrice());
+		menuItem.setDescription(itemDTO.getDescription());
+		menuItem.setServiceName(itemDTO.getServiceName());
+		
+		menuItem = menuItemService.update(menuItem);
+		
+		return new ResponseEntity<>(new RentCarMenuItemDTO(menuItem), HttpStatus.OK);	
+	}
 	
+	@RequestMapping(value="/{idRentCar}/{idMenuItem}/deleteMenuItem", method=RequestMethod.DELETE) //bez value mozda
+	public ResponseEntity<Void> deleteRentCarMenuItem(@PathVariable Long idMenuItem){
+		
+		RentCarMenuItem menuItem = menuItemService.findOne(idMenuItem);
+
+		if(menuItem == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+		menuItemService.remove(idMenuItem);
+		
+		return new ResponseEntity<>(HttpStatus.OK);	
+	}
+
 	
 }
