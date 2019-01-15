@@ -155,7 +155,7 @@ public class AvioCompanyController {
 	}
 
 	
-	@RequestMapping(value = "/{id}/flights", method = RequestMethod.POST, consumes = "applicationjson")
+	@RequestMapping(value = "/{id}/flights", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<AvioFlightDTO> addFlightToAvioCompany(@PathVariable("id") Long id,
 			@RequestBody AvioFlightDTO avioFlightDTO) {
 		AvioCompany avioCompany = avioCompanyService.findAvioCompany(id);
