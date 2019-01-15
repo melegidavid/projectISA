@@ -15,13 +15,30 @@ public class AvioCompanyService {
 	@Autowired 
 	private AvioCompanyRepository avioCompanyRepository;
 	
+	//get all 
 	public List<AvioCompany> getAllAvioCompanies() {
 		List<AvioCompany> list = new ArrayList<AvioCompany>();
 		avioCompanyRepository.findAll().forEach(list::add);
 		return list;
 	}
 	
-	public void addAvioCompany(AvioCompany avioCompany) {
-		avioCompanyRepository.save(avioCompany);
+	//get one
+	public AvioCompany findAvioCompany(Long id) {
+		return avioCompanyRepository.getOne(id);
+	}
+	
+	//save 
+	public AvioCompany saveAvioCompany(AvioCompany avioCompany) {
+		return avioCompanyRepository.save(avioCompany);
+	}
+	
+	//update
+	public AvioCompany updateAvioCompany(AvioCompany avioCompany) {
+		return avioCompanyRepository.save(avioCompany);
+	}
+	
+	//delete
+	public void removeAvioComapny(Long id) {
+		avioCompanyRepository.deleteById(id);
 	}
 }

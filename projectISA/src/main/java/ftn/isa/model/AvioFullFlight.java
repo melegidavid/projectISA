@@ -28,7 +28,6 @@ public class AvioFullFlight {
                joinColumns = @JoinColumn(name="full_flight_id", referencedColumnName="id"), 
                inverseJoinColumns = @JoinColumn(name="flight_id", referencedColumnName="id"))
 	private List<AvioFlight> locationOfTransfers = new ArrayList<>();
-	
 	public AvioFullFlight() {}
 
 	public AvioFullFlight(String dateTimeStart, String dateTimeFinish, double fullFlightDuration,
@@ -39,8 +38,20 @@ public class AvioFullFlight {
 		this.fullFlightDuration = fullFlightDuration;
 		this.fullFlightDistance = fullFlightDistance;
 		this.fullPrice = fullPrice;
+	
 	}
-
+	
+	//vraca avio kompanije svih letova 
+	public List<AvioCompany> getAvioCompaniesOfFlights() {
+		List<AvioCompany> temp = new ArrayList<AvioCompany>();
+		for(AvioFlight flight : locationOfTransfers) {
+			if(!temp.contains(flight.getAvioCompany())) {
+				temp.add(flight.getAvioCompany());
+			}
+		}
+		return temp;
+	}
+	
 	public Long getId() {
 		return id;
 	}
