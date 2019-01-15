@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import ftn.isa.service.HotelRoomService;
 import ftn.isa.service.HotelService;
 
 @RestController
+@CrossOrigin(origins="*") //ili http://localhost:4200
 @RequestMapping(value="/hotels")
 public class HotelController {
 
@@ -55,7 +57,7 @@ public class HotelController {
 		return new ResponseEntity<>(hotelsDTO, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="{/id}", method = RequestMethod.GET)
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public ResponseEntity<HotelDTO> findHotel(@PathVariable("id") Long id) {
 		Hotel hotel = hotelService.findHotel(id);
 		
@@ -104,7 +106,7 @@ public class HotelController {
 		
 		Hotel hotel = hotelService.findHotel(id);
 		if(hotel != null) {
-			hotelService.removeHotel(hotel);
+			hotelService.removeHotel(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -138,8 +140,10 @@ public class HotelController {
 		return new ResponseEntity<>(roomsDTO, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/rooms/{roomId}", method = RequestMethod.GET)
+	@RequestMapping(value="{hotelId}/rooms/{roomId}", method = RequestMethod.GET)
 	public ResponseEntity<HotelRoomDTO> getHotelRoom(@PathVariable("roomId") Long roomId) {
+		
+		
 		
 		HotelRoom room = hotelRoomService.findHotelRoom(roomId);
 		
@@ -230,8 +234,19 @@ public class HotelController {
 	@RequestMapping(value="/{hotelId}/menu/{itemId}", method=RequestMethod.GET)
 	public ResponseEntity<HotelMenuItemDTO> getHotelMenuItem(@PathVariable("hotelId") Long hotelId, @PathVariable("menuId") Long menuId) {
 		
+		Hotel hotel = hotelService.findHotel(hotelId);
+		if(hotel == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<HotelMenuItem> items = hotel.getMenu();
 		HotelMenuItem item = hotelMenuItemService.findHotelMenuItem(menuId);
+		
 		if(item == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		if(!items.contains(item)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
