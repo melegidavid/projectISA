@@ -1,0 +1,46 @@
+.navbar {
+    padding: .8rem;
+}
+
+.navbar-nav li {
+    padding-right: 20px;
+}
+
+.nav-link {
+    font-size: 1.3em;
+}
+
+.active {
+    font-size: 1.2em;
+}
+
+.jumbo {
+    background-image: url("http://s1.1zoom.me/b5751/555/Alfa_Romeo_2017_Stelvio_Quadrifoglio_Worldwide_Red_539851_1920x1080.jpg");
+    height: 30em;
+    background-size: 100%, 100%;
+    min-height: 400px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.padding{
+    padding-bottom: 2rem;
+}
+
+.welcome {
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.welcome hr {
+    border-top: 2px solid #b4b4b4;
+    width: 95%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.jumbo-hotel  {
+    background-color: #c9f0ff;
+}

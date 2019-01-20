@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="images/travel.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="">Flights</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hotels">Hotels</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron jumbotron-fluid jumbo">
+  <div class="container">
+
+  </div>
+</div>
+
+<div class="container-fluid padding">
+  <div class="row welcome text-centre">
+    <div class="col-12">
+      <h1 class="display-4">Rent a cars</h1>
+      <hr>
+      <div class="col-12">
+        <p class="lead">List of all rent a cars</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid padding">
+  <div class="row padding">
+    <div class="col-md-4">
+      <h1>Search</h1>
+      <hr>
+      <form>
+        <div class="form-group">
+          <label for="name1">Name:</label>
+          <input type="text" class="form-control" id="name1" placeholder="Enter name">
+
+          <label for="country1">Country</label>
+          <input type="text" class="form-control" id="country1" placeholder="Enter country">
+
+          <label for="city1">City</label>
+          <input type="text" class="form-control" id="city1" placeholder="Eneter city">
+
+          <label for="rooms1">Rooms</label>
+          <input class="form-control" type="number" value="1" id="rooms1">
+
+          <label for="guests1">Guests</label>
+          <input class="form-control" type="number" value="1" id="guests1">
+          <hr>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-8">
+      <div *ngFor="let car of rentACars">
+        <div class="jumbotron jumbo-hotel">
+          <h1 class="display-4"> {{car.name}} </h1>
+          <hr>
+          <p class="lead"> {{car.addressDTO.country + ','}} {{car.addressDTO.city}} </p>
+          <p class="lead"> {{car.addressDTO.street}} {{car.addressDTO.number}}
+          </p>
+          <p class="lead">
+            <a class="btn btn-outline-secondary btn-lg" role="button">See more</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
