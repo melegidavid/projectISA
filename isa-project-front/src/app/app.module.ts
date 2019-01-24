@@ -9,6 +9,11 @@ import { AppRoutingModule } from './app-routing-module';
 import { AllHotelsComponent } from './all-hotels/all-hotels.component';
 import { HttpClientModule } from '../../node_modules/@angular/common/http';
 import { AllRentACarsComponent } from './all-rent-a-cars/all-rent-a-cars.component';
+import { RentCarProfileComponent } from './rent-car-profile/rent-car-profile.component';
+import { RentCarSearchComponent } from './rent-car-search/rent-car-search.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { RentCarVehicleComponent } from './rent-car-vehicle/rent-car-vehicle.component';
+import { RentCarEditComponent } from './rent-car-edit/rent-car-edit.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +22,12 @@ import { AllRentACarsComponent } from './all-rent-a-cars/all-rent-a-cars.compone
     LoginComponent,
     RegisterComponent,
     AllHotelsComponent,
-    AllRentACarsComponent
+    AllRentACarsComponent,
+    RentCarProfileComponent,
+    RentCarSearchComponent,
+    UserProfileComponent,
+    RentCarVehicleComponent,
+    RentCarEditComponent
   ],
   imports: [
     BrowserModule,

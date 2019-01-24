@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ftn.isa.model.Hotel;
-import ftn.isa.model.HotelRoom;
 import ftn.isa.repository.HotelRepository;
-import ftn.isa.repository.HotelRoomRepository;
 
 @Service
 public class HotelService {

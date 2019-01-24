@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router} from '@angular/router'
 
 @Component({
   selector: 'app-all-rent-a-cars',
@@ -10,7 +11,9 @@ export class AllRentACarsComponent implements OnInit {
 
   rentACars: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) {
+       this.router = router; 
+   }
 
   ngOnInit() {
     this.http.get("http://localhost:9004/rent_a_cars/all")
@@ -18,6 +21,10 @@ export class AllRentACarsComponent implements OnInit {
       this.rentACars = data;
       console.log(this.rentACars);
     })
+
+    
+
+
   }
 
 }
