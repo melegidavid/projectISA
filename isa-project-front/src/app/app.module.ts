@@ -14,6 +14,9 @@ import { RentCarSearchComponent } from './rent-car-search/rent-car-search.compon
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { RentCarVehicleComponent } from './rent-car-vehicle/rent-car-vehicle.component';
 import { RentCarEditComponent } from './rent-car-edit/rent-car-edit.component';
+import { UserService} from './user.service'
+import { FormsModule } from '@angular/forms'
+
 
 @NgModule({
   declarations: [
@@ -32,9 +35,12 @@ import { RentCarEditComponent } from './rent-car-edit/rent-car-edit.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

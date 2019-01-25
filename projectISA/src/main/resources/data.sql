@@ -1,3 +1,6 @@
+insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account) values (1,'DavidJuzniVetar', 'BugarskaBrena','melegi@gmail.com','David','Melegi','Zrenjanin','06334321',2, true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account) values (2,'Rodja', 'rodja','rodja@gmail.com','Dusan','Radj','Zrenjanin','060123123',1, true);
+
 insert into avio_company (id,name,address_id,description,average_rating) values (1,'AirSerbia',1,'etihad uzo', 2.0);
 
 insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id) values (1,'1 januar', '2 januar', 120, 2000, 300, 1, 2, 1);
@@ -16,8 +19,6 @@ insert into rent_car_branch (id, name,address_id, rent_car_id) values (1,'Micin 
 
 insert into rent_car_menu_item (id, service_name, price, description) values (1,'Pranje kola', 200,'Opis pranja kola');
 
-insert into user (id, username, password, email, name, last_name, city, telephone_number, role) values (1,'DavidJuzniVetar', 'BugarskaBrena','melegi@gmail.com','David','Melegi','Zrenjanin','06334321',2);
-insert into user (id, username, password, email, name, last_name, city, telephone_number, role) values (2,'Rodja', 'rodja','rodja@gmail.com','Dusan','Radj','Zrenjanin','060123123',1);
 
 insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_branch_id, return_place_id)  values (1,2, 5,'Auto paja','A4','Audi',2010,true, 1, 1);
 

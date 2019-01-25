@@ -1,17 +1,9 @@
-package ftn.isa.model;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+package ftn.isa.dto;
 
 import ftn.isa.enums.Role;
 
-@Entity
-public class User {
+public class UserDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String username;
 	private String password;
@@ -21,33 +13,9 @@ public class User {
 	private String city;
 	private String telephoneNumber;
 	private Role role; 
-	private boolean activatedAccount;
-	//private Object adminOf; //za sad ovako, napraviti mozda posebnu tabelu koja mapira admine na ono za sta su admini
+	//private Object adminOf;
 	
-	public User() {}
-	
-	public User(String username, String password, String email, String name, String lastName, String city,
-			String telephoneNumber, Role role, boolean activated) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.name = name;
-		this.lastName = lastName;
-		this.city = city;
-		this.telephoneNumber = telephoneNumber;
-		this.role = role;
-		this.activatedAccount = activated;
-		//this.adminOf = null; // za sad
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
+	public UserDTO() {}
 
 	public Long getId() {
 		return id;
@@ -112,6 +80,14 @@ public class User {
 	public void setTelephoneNumber(String telephoneNumber) {
 		this.telephoneNumber = telephoneNumber;
 	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 /*
 	public Object getAdminOf() {
 		return adminOf;
@@ -119,13 +95,8 @@ public class User {
 
 	public void setAdminOf(Object adminOf) {
 		this.adminOf = adminOf;
-	}*/
-
-	public boolean isActivatedAccount() {
-		return activatedAccount;
 	}
-
-	public void setActivatedAccount(boolean activatedAccount) {
-		this.activatedAccount = activatedAccount;
-	}
+	*/
+	
+	
 }

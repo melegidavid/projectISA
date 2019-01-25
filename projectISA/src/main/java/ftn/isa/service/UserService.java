@@ -26,6 +26,7 @@ public class UserService {
 	}
 	
 	public void addUser(User user) {
+		System.out.println("dodajeee");
 		userRepository.save(user);
 	}
 	
@@ -37,5 +38,16 @@ public class UserService {
 		userRepository.save(user);
 	}
 	
+	
+	public boolean isRegistered(String username) {
+		User user = userRepository.findByUsername(username);
+		if(user != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// prilikom logvanja treba da je registrovan i da je aktiviran account
 	
 }

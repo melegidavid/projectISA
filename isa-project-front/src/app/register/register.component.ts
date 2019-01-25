@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from '../../../node_modules/rxjs';
+import { UserDTO } from '../dto/user.model';
+import { UserService } from '../user.service';
+
 
 @Component({
   selector: 'app-register',
@@ -7,9 +12,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  user : UserDTO = new UserDTO();
 
-  ngOnInit() {
+
+  constructor(private http: HttpClient, private userService : UserService) { }
+
+  ngOnInit() { 
+    
+   }
+
+  registerUser() {
+    this.userService.createUser(this.user);
+    console.log('usao u register');
+    this.user = new UserDTO();
   }
+ 
+  onSubmit() {
+    //this.submitted = true;
+    console.log('usao u submit');
+    this.registerUser();
+  }
+
+
 
 }
