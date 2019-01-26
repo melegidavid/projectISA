@@ -15,7 +15,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { RentCarVehicleComponent } from './rent-car-vehicle/rent-car-vehicle.component';
 import { RentCarEditComponent } from './rent-car-edit/rent-car-edit.component';
 import { UserService} from './user.service'
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
+import { AllAvioCompaniesComponent } from './all-avio-companies/all-avio-companies.component';
+import { HotelProfileComponent } from './hotel-profile/hotel-profile.component';
+import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company-profile.component'
 
 
 @NgModule({
@@ -30,7 +33,10 @@ import { FormsModule } from '@angular/forms'
     RentCarSearchComponent,
     UserProfileComponent,
     RentCarVehicleComponent,
-    RentCarEditComponent
+    RentCarEditComponent,
+    AllAvioCompaniesComponent,
+    HotelProfileComponent,
+    AvioCompanyProfileComponent
   ],
   imports: [
     BrowserModule,

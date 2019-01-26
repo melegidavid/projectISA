@@ -1,57 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from '../../../node_modules/rxjs';
 import { HttpClient } from '@angular/common/http';
-
-class Hotel {
-  id: string;
-  name: string;
-  address: Address;
-  description: string;
-}
-
-class Address {
-  country: string;
-  city: string;
-  postalCode: number;
-  street: string;
-  number: number;
-}
+import { Hotel } from '../dto/hotel.model';
+import { HotelsService } from './hotels.service';
 
 @Component({
   selector: 'app-all-hotels',
   templateUrl: './all-hotels.component.html',
-  styleUrls: ['./all-hotels.component.css']
+  styleUrls: ['./all-hotels.component.css'],
+  providers: [HotelsService]
 })
+
 export class AllHotelsComponent implements OnInit {
   
-  hotelsObservable : Observable<Hotel[]>;
-  hotels: any;
+  hotels : Hotel[] = [];
   hotel: Hotel;
-  //response: any;
-
-  constructor(private http: HttpClient) {
-
-   }
-
+  
+  constructor(private http: HttpClient, private hotelsService: HotelsService) {
+  }
+  
   ngOnInit() {
-    this.http.get("http://localhost:9004/hotels")
-    .subscribe((data) => {
-      this.hotels = data; //promeniti da se umesto tipa any prima bas tip hotel.
-    })
-
-    this.getHotel().subscribe(data => {
-      this.hotel = data;
-      console.log(data);
-      console.log(this.hotel);
+    this.getHotels().subscribe(data => {
+      this.hotels = data;
     });
-
   }
 
-  getHotels() : Observable<Hotel[]> {
-    return this.http.get<Hotel[]>("http://localhost:9004/hotels", {responseType: 'json'})
-  }
-
-  getHotel() : Observable<Hotel>{
-    return this.http.get<Hotel>("http://localhost:9004/hotels/1", {responseType: 'json'});
+  public getHotels(): Observable<Hotel[]> {
+    return this.hotelsService.getHotels();
   }
 }

@@ -27,6 +27,8 @@ public class HotelRoom {
 	private Long id;
 	private String number;
 	private boolean free;
+	private String description;
+	private double price;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Hotel hotel;
@@ -98,5 +100,21 @@ public class HotelRoom {
 	public void setReseravations(List<Reservation> reseravations) {
 		this.reseravations = reseravations;
 	}
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+		
 }

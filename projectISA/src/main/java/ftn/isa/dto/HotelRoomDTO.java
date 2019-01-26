@@ -8,6 +8,8 @@ public class HotelRoomDTO {
 	private String number;
 	private boolean free;
 	private HotelDTO hotel;
+	private String description;
+	private double price;
 	
 	public HotelRoomDTO() {
 		
@@ -18,6 +20,8 @@ public class HotelRoomDTO {
 		number = hotelRoom.getNumber();
 		free = hotelRoom.isFree();
 		hotel = new HotelDTO(hotelRoom.getHotel());
+		description = hotelRoom.getDescription();
+		price = hotelRoom.getPrice();
 	}
 
 	public Long getId() {
@@ -50,5 +54,21 @@ public class HotelRoomDTO {
 
 	public void setHotel(HotelDTO hotel) {
 		this.hotel = hotel;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 }

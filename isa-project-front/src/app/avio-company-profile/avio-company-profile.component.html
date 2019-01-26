@@ -1,0 +1,138 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="container emp-profile">
+  <form method="post">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="profile-img">
+          <img src="https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg" alt="" />
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="profile-head">
+          <h3 *ngIf="avioCompany">
+            {{avioCompany.name}}
+          </h3>
+          <h6 *ngIf="avioCompany">
+            {{avioCompany.address.street + ' '}} {{avioCompany.address.number}}
+          </h6>
+          <h6 *ngIf="avioCompany">
+            {{avioCompany.address.city + ', '}} {{avioCompany.address.country}}
+          </h6>
+          <p class="proile-rating">Prosecna ocena :
+            <span>8/10</span>
+          </p>
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cenovnik</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Filijale</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button class="profile-edit-btn" name="btnAddMore" routerLink="/rentACar/edit">Edit Profile</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="profile-work">
+          <h3>Description</h3>
+          <p *ngIf="avioCompany">{{avioCompany.description}}</p>
+          <br/>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="tab-content profile-tab" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row">
+              <div class="col-md-6">
+                <label>Usluga 1</label>
+              </div>
+              <div class="col-md-6">
+                <p>Cena usluge 1</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Usluga 2</label>
+              </div>
+              <div class="col-md-6">
+                <p>Cena usluge 2</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Usluga 3</label>
+              </div>
+              <div class="col-md-6">
+                <p>Cena usluge 3</p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="row">
+              <div class="col-md-6">
+                <label>Lokacija 1</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Lokacija 2</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label>Lokacija 3...</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- <p class="lead">
+            <button class="btn btn-outline-secondary btn-lg" routerLink="/rentACar/vehicles">Lista vozila</button>
+          </p> -->
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="container-fluid padding">
+    <div class="row welcome text-centre">
+      <div class="col-12">
+        <h1 class="display-4">Flights</h1>
+        <hr>
+        <div class="col-12">
+          <p class="lead">List of all flights</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="ads">
+    <!-- Category Card -->
+    <div class="col-md-4" *ngFor="let room of rooms">
+      <div class="card rounded">
+        <div class="card-image">
+          <span class="card-notify-badge">{{room.price}}e</span>
+          <!-- <span class="card-notify-year">yearproduced</span> -->
+          <img class="img-fluid" src="https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg" alt="Alternate Text" />
+        </div>
+        <div class="card-image-overlay m-auto">
+          <span class="card-detail-badge" *ngIf="room.free">Free for reservation</span>
+        </div>
+        <div class="card-body text-center">
+          <div class="ad-title m-auto">
+            <h5>Room {{room.number}}</h5>
+          </div>
+          <a class="ad-btn" href="#">Rezervisi</a>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>

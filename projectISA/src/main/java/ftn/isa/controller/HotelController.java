@@ -166,6 +166,8 @@ public class HotelController {
 		room.setNumber(roomDTO.getNumber());
 		room.setFree(roomDTO.isFree());
 		room.setHotel(hotel);
+		room.setDescription(roomDTO.getDescription());
+		room.setPrice(roomDTO.getPrice());
 		
 		room = hotelRoomService.saveHotelRoom(room);
 		
@@ -185,6 +187,8 @@ public class HotelController {
 		room.setNumber(roomDTO.getNumber());
 		room.setFree(roomDTO.isFree());
 		room.setHotel(hotel);
+		room.setDescription(roomDTO.getDescription());
+		room.setPrice(roomDTO.getPrice());
 		
 		room = hotelRoomService.updateHotelRoom(room);
 		

@@ -22,7 +22,7 @@ public class HotelService {
 	}
 	
 	public Hotel findHotel(Long id) {
-		return hotelRepository.getOne(id);
+		return hotelRepository.getOne(id); 
 	}
 	
 	public Hotel saveHotel(Hotel hotel) {

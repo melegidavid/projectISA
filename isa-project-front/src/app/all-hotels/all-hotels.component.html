@@ -46,7 +46,7 @@
     <div class="col-md-8">
       <div *ngFor="let hotel of hotels">
         <div class="jumbotron jumbo-hotel">
-          <h1 class="display-4"> {{hotel.name}} </h1>
+          <h1 class="display-4"> {{hotel.name}} {{hotel.id}} </h1>
           <hr>
           <p class="lead"> {{hotel.addressDTO.country + ','}} 
             {{hotel.addressDTO.city}} </p>
@@ -54,10 +54,13 @@
                {{hotel.addressDTO.number}}  
           </p>
           <p class="lead">
-              <a class="btn btn-outline-secondary btn-lg"  role="button">See more</a>
+              <a [routerLink]="['/hotels', hotel.id]" class="btn btn-outline-secondary btn-lg" role="button">See more</a>
+              
             </p>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<router-outlet></router-outlet>

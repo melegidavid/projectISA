@@ -1,30 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router} from '@angular/router'
+import { RentACar } from '../dto/rent-a-car.model';
+import { Observable } from '../../../node_modules/rxjs';
+import { RentACarService } from './rent-a-car.service';
 
 @Component({
   selector: 'app-all-rent-a-cars',
   templateUrl: './all-rent-a-cars.component.html',
-  styleUrls: ['./all-rent-a-cars.component.css']
+  styleUrls: ['./all-rent-a-cars.component.css'],
+  providers: [RentACarService]
 })
+
 export class AllRentACarsComponent implements OnInit {
 
-  rentACars: any;
+  rentACars: RentACar[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private rentACarSevice: RentACarService) {
        this.router = router; 
    }
 
   ngOnInit() {
-    this.http.get("http://localhost:9004/rent_a_cars/all")
-    .subscribe((data) => {
+    this.getRentACars().subscribe((data) => {
       this.rentACars = data;
-      console.log(this.rentACars);
-    })
+    });
+  }
 
-    
-
-
+  public getRentACars(): Observable<RentACar[]> {
+    return this.rentACarSevice.getRentACars();
   }
 
 }

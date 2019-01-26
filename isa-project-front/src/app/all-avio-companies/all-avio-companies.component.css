@@ -1,0 +1,30 @@
+.jumbo {
+    background-image: url("https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg");
+    height: 30em;
+    background-size: 100%, 100%;
+    min-height: 400px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.padding{
+    padding-bottom: 2rem;
+}
+
+.welcome {
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.welcome hr {
+    border-top: 2px solid #b4b4b4;
+    width: 95%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.jumbo-hotel  {
+    background-color: #faddff;
+}

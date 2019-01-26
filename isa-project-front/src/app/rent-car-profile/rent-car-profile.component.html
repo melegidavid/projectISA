@@ -4,97 +4,100 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <div class="container emp-profile">
-            <form method="post">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="profile-img">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="profile-head">
-                                    <h5>
-                                        Naziv rent a car servisa
-                                    </h5>
-                                    <h6>
-                                        Adresa rent-a-car servisa
-                                    </h6>
-                                    <p class="proile-rating">Prosecna ocena : <span>8/10</span></p>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cenovnik</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Filijale</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="profile-edit-btn" name="btnAddMore" routerLink="/rentACar/edit">Edit Profile</button>
-                    </div>
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="http://s1.1zoom.me/b5751/555/Alfa_Romeo_2017_Stelvio_Quadrifoglio_Worldwide_Red_539851_1920x1080.jpg" alt=""/>
+
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="profile-work">
-                            <p>Promotivni opis</p>
-                            <a href="">Opis</a><br/>
-                            <p>Adresa</p>
-                            <a href="">neka adresa</a><br/>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="tab-content profile-tab" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Usluga 1</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Cena usluge 1</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Usluga 2</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Cena usluge 2</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Usluga 3</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Cena usluge 3</p>
-                                            </div>
-                                        </div>
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Lokacija 1</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Lokacija 2</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Lokacija 3...</label>
-                                            </div>
-                                        </div>
-                            </div>
-                            
-                            <p class="lead">
-                                    <button class="btn btn-outline-secondary btn-lg" routerLink="/rentACar/vehicles">Lista vozila</button>
-                            </p> 
-                        </div>
-                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5 *ngIf="rentACar">
+                        {{rentACar.name}}
+                    </h5>
+                    <h6 *ngIf="rentACar">
+                        {{rentACar.addressDTO.street + ' '}} {{rentACar.addressDTO.number}}
+                    </h6>
+                    <h6 *ngIf="rentACar">
+                        {{rentACar.addressDTO.city + ', '}} {{rentACar.addressDTO.country}}
+                    </h6>
+                    <p class="proile-rating">Prosecna ocena :
+                        <span>8/10</span>
+                    </p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cenovnik</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Filijale</a>
+                        </li>
+                    </ul>
                 </div>
-            </form>           
+            </div>
+            <div class="col-md-2">
+                <button class="profile-edit-btn" name="btnAddMore" routerLink="/rentACar/edit">Edit Profile</button>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-work">
+                    <h3>Description</h3>
+                    <p *ngIf="rentACar">{{rentACar.description}}</p>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Usluga 1</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Cena usluge 1</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Usluga 2</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Cena usluge 2</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Usluga 3</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Cena usluge 3</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Lokacija 1</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Lokacija 2</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Lokacija 3...</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="lead">
+                        <button class="btn btn-outline-secondary btn-lg" routerLink="/rentACar/vehicles">Lista vozila</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

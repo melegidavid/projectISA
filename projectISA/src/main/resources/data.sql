@@ -11,7 +11,14 @@ insert into hotel (id, name, address_id, description) values (2,'Hotel Vojvodina
 
 insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (1,'Cistimo krevete', 99.99, 'A mozete i sami',1);
 
-insert into hotel_room (id, number, free, hotel_id) values (1,'106', true,1);
+insert into hotel_room (id, number, free, hotel_id, description, price) values (1,'106', true, 1, 'opis prve sobe', 123.99);
+insert into hotel_room (id, number, free, hotel_id, description, price) values (2,'107', true, 1, 'opis druge sobe', 100.00);
+insert into hotel_room (id, number, free, hotel_id, description, price) values (3,'108', true, 1, 'opis trece sobe', 149.99);
+
+insert into hotel_room (id, number, free, hotel_id, description, price) values (4,'206', true, 2, 'opis prve sobe', 123.00);
+insert into hotel_room (id, number, free, hotel_id, description, price) values (5,'207', true, 2, 'opis druge sobe', 250.00);
+insert into hotel_room (id, number, free, hotel_id, description, price) values (6,'208', true, 2, 'opis trece sobe', 150.00);
+insert into hotel_room (id, number, free, hotel_id, description, price) values (7,'208', true, 2, 'opis cetvrte sobe', 150.00);
 
 insert into rent_car (id, name, address_id, description) values (1,'Mica rentakar', 1, 'Imamo sve.');
 
