@@ -15,12 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ftn.isa.dto.RentCarDTO;
 import ftn.isa.dto.RentCarMenuItemDTO;
+import ftn.isa.dto.VehicleDTO;
+import ftn.isa.enums.VehicleType;
 import ftn.isa.model.Address;
 import ftn.isa.model.RentCar;
+import ftn.isa.model.RentCarBranch;
 import ftn.isa.model.RentCarMenuItem;
+import ftn.isa.model.Vehicle;
 import ftn.isa.service.AddressService;
+import ftn.isa.service.RentCarBranchService;
 import ftn.isa.service.RentCarMenuItemService;
 import ftn.isa.service.RentCarService;
+import ftn.isa.service.VehicleService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -36,6 +42,11 @@ public class RentCarController {
 	@Autowired
 	private RentCarMenuItemService menuItemService;
 	
+	@Autowired
+	private VehicleService vehicleService;
+	
+	@Autowired 
+	private RentCarBranchService branchService;
 	
 	@RequestMapping(value="/all", method = RequestMethod.GET)
 	public ResponseEntity<List<RentCarDTO>> getAllRentCars() {
@@ -213,5 +224,54 @@ public class RentCarController {
 		return new ResponseEntity<>(HttpStatus.OK);	
 	}
 
+	@RequestMapping(value="/{idRentCar}/vehicles", method=RequestMethod.GET) 
+	public ResponseEntity<List<VehicleDTO>> getRentCarVehicles(@PathVariable("idRentCar") Long id) {
+		RentCar rentCar = rentCarService.findOne(id);
+		
+		if(rentCar == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<Vehicle> vehicles = rentCar.getVehicles();
+		
+		if(vehicles.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<VehicleDTO> vehiclesDTO = new ArrayList<VehicleDTO>();
+		for(Vehicle v: vehicles) {
+			vehiclesDTO.add(new VehicleDTO(v));
+		}
+		
+		return new ResponseEntity<>(vehiclesDTO, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/{idRentCar}/vehicles", method=RequestMethod.POST) 
+	public ResponseEntity<VehicleDTO> saveRentCarMenuItem(@PathVariable Long idRentCar , @RequestBody VehicleDTO vehicleDTO) {
+		Vehicle vehicle = new Vehicle();
+		
+		RentCarBranch rentCarBranch = branchService.findOne(vehicleDTO.getRentCarBranch().getId());
+		RentCarBranch returnPlace = branchService.findOne(vehicleDTO.getReturnPlace().getId());
+		RentCar rentCar = rentCarService.findOne(vehicleDTO.getRentCar().getId());
+		
+		if(rentCarBranch == null || returnPlace == null || rentCar == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		vehicle.setRentCarBranch(rentCarBranch);
+		vehicle.setReturnPlace(returnPlace);
+		vehicle.setRentCar(rentCar);
+		vehicle.setFree(vehicleDTO.isFree());
+		vehicle.setMark(vehicleDTO.getMark());
+		vehicle.setModel(vehicleDTO.getModel());
+		vehicle.setName(vehicleDTO.getName());
+		vehicle.setSeatsNumber(vehicleDTO.getSeatsNumber());
+		vehicle.setType(vehicleDTO.getType());
+		vehicle.setYearProduced(vehicleDTO.getYearProduced());
+		
+		vehicle = vehicleService.save(vehicle);
+		
+		return new ResponseEntity<>(new VehicleDTO(vehicle), HttpStatus.CREATED);
+	}
 	
 }

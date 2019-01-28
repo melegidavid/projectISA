@@ -8,8 +8,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="http://s1.1zoom.me/b5751/555/Alfa_Romeo_2017_Stelvio_Quadrifoglio_Worldwide_Red_539851_1920x1080.jpg" alt=""/>
-
+                    <img src="http://s1.1zoom.me/b5751/555/Alfa_Romeo_2017_Stelvio_Quadrifoglio_Worldwide_Red_539851_1920x1080.jpg" alt="" />
                 </div>
             </div>
             <div class="col-md-6">
@@ -50,54 +49,72 @@
             <div class="col-md-8">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="row">
+                        <div class="row" *ngFor="let item of menu">
                             <div class="col-md-6">
-                                <label>Usluga 1</label>
+                                <label>{{item.serviceName}}</label>
                             </div>
                             <div class="col-md-6">
-                                <p>Cena usluge 1</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Usluga 2</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Cena usluge 2</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Usluga 3</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Cena usluge 3</p>
+                                <p>{{item.price}}e</p>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row">
+                        <div class="row" *ngFor="let branch of branches">
                             <div class="col-md-6">
-                                <label>Lokacija 1</label>
+                                <label>{{branch.name}}</label>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
-                                <label>Lokacija 2</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Lokacija 3...</label>
+                                <p>{{branch.addressDTO.street + ' '}} {{branch.addressDTO.number + ', '}} {{branch.addressDTO.city
+                                    + ', '}} {{branch.addressDTO.country}} </p>
                             </div>
                         </div>
                     </div>
-
-                    <p class="lead">
-                        <button class="btn btn-outline-secondary btn-lg" routerLink="/rentACar/vehicles">Lista vozila</button>
-                    </p>
                 </div>
             </div>
         </div>
     </form>
+    <div class="container-fluid padding">
+        <div class="row welcome text-centre">
+            <div class="col-12">
+                <h1 class="display-4">Vehicles</h1>
+                <hr>
+                <div class="col-12">
+                    <p class="lead">List of all vehicles</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="ads">
+        <!-- Category Card -->
+        <div class="col-md-4" *ngFor="let vehicle of vehicles">
+            <div class="card rounded">
+                <div class="card-image">
+                    <span class="card-notify-badge">{{vehicle.yearProduced}}</span>
+                    <!-- <span class="card-notify-year">yearproduced</span> -->
+                    <img class="img-fluid" *ngIf="vehicle.type === 'CAR'" src="images/carVehicleType2.jpg" alt="Alternate Text" />
+                    <img class="img-fluid" *ngIf="vehicle.type === 'BIKE'" src="images/bikeVehicleType2.jpg" alt="Alternate Text" />
+                    <img class="img-fluid" *ngIf="vehicle.type === 'QUAD'" src="images/quadVehicleType.jpg" alt="Alternate Text" />
+                </div>
+                <div class="card-image-overlay m-auto">
+                    <span class="card-detail-badge" *ngIf="vehicle.free">Free for reservation</span>
+                </div>
+                <div class="card-body text-center">
+                    <div class="ad-title m-auto">
+                        <h5>{{vehicle.mark + ' '}} {{vehicle.model}}</h5>
+                    </div>
+                    <a class="ad-btn" href="#">Rezervisi</a>
+                </div>
+                <div class="card-body">
+                    <!-- <input type="date"> -->
+                    Branch: {{vehicle.rentCarBranch.name}}
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+
+
+
 </div>

@@ -39,6 +39,9 @@ public class RentCar {
 	@OneToMany(mappedBy = "rentCar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<RentCarBranch> branches  = new ArrayList<>(); 
 	
+	@OneToMany(mappedBy = "rentCar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Vehicle> vehicles = new ArrayList<>();
+	
 	@ElementCollection
     @MapKeyColumn(name="user", unique = true, nullable = false)
     @Column(name="rate", nullable = false)
@@ -108,4 +111,13 @@ public class RentCar {
 	public void setBranches(List<RentCarBranch> branches) {
 		this.branches = branches;
 	}
+
+	public List<Vehicle> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicles(List<Vehicle> vehicles) {
+		this.vehicles = vehicles;
+	}
+	
 }

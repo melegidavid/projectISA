@@ -24,19 +24,24 @@
       <form>
         <div class="form-group">
           <label for="name1">Name:</label>
-          <input type="text" class="form-control" id="name1" placeholder="Enter name"> 
+          <input type="text" class="form-control" id="name1" placeholder="Enter name">
 
           <label for="country1">Country</label>
           <input type="text" class="form-control" id="country1" placeholder="Enter country">
 
           <label for="city1">City</label>
           <input type="text" class="form-control" id="city1" placeholder="Eneter city">
-          
+
           <label for="rooms1">Rooms</label>
           <input class="form-control" type="number" value="1" id="rooms1">
 
           <label for="guests1">Guests</label>
           <input class="form-control" type="number" value="1" id="guests1">
+
+          <label for="price1">Price</label>
+          <input type="range" class="custom-range" id="customRange" name="price1">
+         
+          
           <hr>
           <button type="submit" class="btn btn-primary">Search</button>
         </div>
@@ -48,15 +53,13 @@
         <div class="jumbotron jumbo-hotel">
           <h1 class="display-4"> {{hotel.name}} {{hotel.id}} </h1>
           <hr>
-          <p class="lead"> {{hotel.addressDTO.country + ','}} 
-            {{hotel.addressDTO.city}} </p>
-          <p class="lead"> {{hotel.addressDTO.street}}
-               {{hotel.addressDTO.number}}  
+          <p class="lead"> {{hotel.addressDTO.country + ','}} {{hotel.addressDTO.city}} </p>
+          <p class="lead"> {{hotel.addressDTO.street}} {{hotel.addressDTO.number}}
           </p>
           <p class="lead">
-              <a [routerLink]="['/hotels', hotel.id]" class="btn btn-outline-secondary btn-lg" role="button">See more</a>
-              
-            </p>
+            <a [routerLink]="['/hotels', hotel.id]" class="btn btn-outline-secondary btn-lg" role="button">See more</a>
+
+          </p>
         </div>
       </div>
     </div>

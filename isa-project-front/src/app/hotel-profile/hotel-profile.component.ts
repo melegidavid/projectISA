@@ -4,6 +4,7 @@ import { Hotel } from '../dto/hotel.model';
 import { Router, ActivatedRoute, ParamMap} from '@angular/router';
 import { Observable } from '../../../node_modules/rxjs';
 import { HotelRoom } from '../dto/hotel-room.model';
+import { HotelMenuItem } from '../dto/hotel-menu-item.model';
 
 @Component({
   selector: 'app-hotel-profile',
@@ -15,6 +16,7 @@ export class HotelProfileComponent implements OnInit {
 
   hotel: Hotel;
   rooms: HotelRoom[] = [];
+  menu : HotelMenuItem[] = [];
   private sub: any;
   id: number;
 
@@ -43,6 +45,12 @@ export class HotelProfileComponent implements OnInit {
       }
     });
 
+    this.getHotelMenu(this.id).subscribe(data => {
+      if(data != undefined) {
+        this.menu = data;
+      }
+    });
+
     console.log(this.hotel); //ISPISUJE UNDEFINED, ZASTO???
   }
 
@@ -51,6 +59,11 @@ export class HotelProfileComponent implements OnInit {
   }
 
   public getHotelRooms(id: number | string) : Observable<HotelRoom[]> {
-    return this.hotelService.getHotelRooms(this.id);
+    return this.hotelService.getHotelRooms(id);
   }
+
+  public getHotelMenu(id: number | string) : Observable<HotelMenuItem[]> {
+    return this.hotelService.getHotelMenu(id);
+  }
+
 }

@@ -24,6 +24,8 @@ public class RentCarBranchDTO {
 	public RentCarBranchDTO(RentCarBranch branch) {
 		this.id = branch.getId();
 		this.name = branch.getName();
+		this.addressDTO = new AddressDTO(branch.getAddress());
+		this.rentCarDTO = new RentCarDTO(branch.getRentCar());
 	}
 
 	public Long getId() {

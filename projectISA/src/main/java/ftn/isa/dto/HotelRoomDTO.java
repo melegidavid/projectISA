@@ -10,6 +10,7 @@ public class HotelRoomDTO {
 	private HotelDTO hotel;
 	private String description;
 	private double price;
+	private int bedNumber;
 	
 	public HotelRoomDTO() {
 		
@@ -22,6 +23,7 @@ public class HotelRoomDTO {
 		hotel = new HotelDTO(hotelRoom.getHotel());
 		description = hotelRoom.getDescription();
 		price = hotelRoom.getPrice();
+		bedNumber = hotelRoom.getBedNumber();
 	}
 
 	public Long getId() {
@@ -70,5 +72,13 @@ public class HotelRoomDTO {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public int getBedNumber() {
+		return bedNumber;
+	}
+
+	public void setBedNumber(int bedNumber) {
+		this.bedNumber = bedNumber;
 	}
 }

@@ -16,6 +16,7 @@ public class VehicleDTO {
 	
 	private RentCarBranchDTO returnPlace;
 	private RentCarBranchDTO rentCarBranch;
+	private RentCarDTO rentCar;
 	
 	public VehicleDTO() {}
 	
@@ -31,6 +32,7 @@ public class VehicleDTO {
 		
 		this.rentCarBranch = new RentCarBranchDTO(vehicle.getRentCarBranch());
 		this.returnPlace = new RentCarBranchDTO(vehicle.getReturnPlace());
+		this.rentCar = new RentCarDTO(vehicle.getRentCar());
 	}
 
 	public Long getId() {
@@ -112,6 +114,12 @@ public class VehicleDTO {
 	public void setRentCarBranch(RentCarBranchDTO rentCarBranch) {
 		this.rentCarBranch = rentCarBranch;
 	}
-	
 
+	public RentCarDTO getRentCar() {
+		return rentCar;
+	}
+
+	public void setRentCar(RentCarDTO rentCar) {
+		this.rentCar = rentCar;
+	}
 }

@@ -18,7 +18,7 @@ import { UserService} from './user.service'
 import { FormsModule } from '@angular/forms';
 import { AllAvioCompaniesComponent } from './all-avio-companies/all-avio-companies.component';
 import { HotelProfileComponent } from './hotel-profile/hotel-profile.component';
-import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company-profile.component'
+import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company-profile.component';
 
 
 @NgModule({

@@ -7,4 +7,5 @@ export class HotelRoom {
     hotel: Hotel;
     description: string;
     price: number;
+    bedNumber: number;
 }

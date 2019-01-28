@@ -41,6 +41,9 @@ public class Vehicle {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private RentCarBranch rentCarBranch;
 	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private RentCar rentCar;
+	
 	@ElementCollection
     @MapKeyColumn(name="user", unique = true, nullable = false)
     @Column(name="rate", nullable = false)
@@ -55,7 +58,7 @@ public class Vehicle {
 	}
 
 	public Vehicle(VehicleType type, int seatsNumber, String name, String mark, String model, int yearProduced,
-			boolean free, RentCarBranch returnPlace) {
+			boolean free, RentCarBranch returnPlace, RentCar rentCar) {
 		super();
 		this.type = type;
 		this.seatsNumber = seatsNumber;
@@ -65,6 +68,7 @@ public class Vehicle {
 		this.yearProduced = yearProduced;
 		this.free = free;
 		this.returnPlace = returnPlace;
+		this.rentCar = rentCar;
 	}
 
 	public Long getId() {
@@ -161,5 +165,13 @@ public class Vehicle {
 
 	public void setRentCarBranch(RentCarBranch rentCarBranch) {
 		this.rentCarBranch = rentCarBranch;
+	}
+
+	public RentCar getRentCar() {
+		return rentCar;
+	}
+
+	public void setRentCar(RentCar rentCar) {
+		this.rentCar = rentCar;
 	}
 }

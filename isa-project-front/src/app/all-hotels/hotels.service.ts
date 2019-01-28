@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Hotel } from '../dto/hotel.model';
 import { Observable } from '../../../node_modules/rxjs';
 import { HotelRoom } from '../dto/hotel-room.model';
+import { HotelMenuItem } from '../dto/hotel-menu-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,10 @@ export class HotelsService {
 
   getHotelRooms(id: number | string): Observable<HotelRoom[]>{
     return this.http.get<HotelRoom[]>("http://localhost:9004/hotels/" + id + "/rooms");
+  }
+
+  getHotelMenu(id: number | string) : Observable<HotelMenuItem[]> {
+    return this.http.get<HotelMenuItem[]>("http://localhost:9004/hotels/" + id + "/menu");
   }
 
 }
