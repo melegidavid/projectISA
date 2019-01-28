@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'isa-project-front';
+  
+  userLogged : boolean = false;
+
+  constructor(private http: HttpClient, private userService: UserService) { }
+
+  ngOnInit() {
+  }
+
+  logOut() {
+    console.log('usao u logout');
+    this.userService.logOut();
+    console.log('ostalo ' + localStorage.length)
+  }
+
 }

@@ -23,13 +23,11 @@ export class RegisterComponent implements OnInit {
 
   registerUser() {
     this.userService.createUser(this.user);
-    console.log('usao u register');
     this.user = new UserDTO();
   }
  
   onSubmit() {
     //this.submitted = true;
-    console.log('usao u submit');
     this.registerUser();
   }
 

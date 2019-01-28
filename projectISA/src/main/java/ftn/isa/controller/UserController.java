@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,15 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ftn.isa.dto.UserDTO;
 import ftn.isa.model.User;
+import ftn.isa.service.AuthorityService;
 import ftn.isa.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value="/users")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AuthorityService authorityService;
 	
 	
 	@RequestMapping(value="/all",method = RequestMethod.GET)
@@ -47,8 +50,13 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+		userDTO.toString();
+		
 		User user = new User(userDTO.getUsername(),userDTO.getPassword(),userDTO.getEmail(),userDTO.getName(),userDTO.getLastName(),userDTO.getCity(),userDTO.getTelephoneNumber(),userDTO.getRole(), false);
 		user.setActivatedAccount(true); // posle brisanje ovog, pa preko maila
+
+		user.toString();
+		user.getAuthorities().add(authorityService.findOne((long) 1));
 		userService.addUser(user);
 		
 		return new ResponseEntity<>(HttpStatus.OK);

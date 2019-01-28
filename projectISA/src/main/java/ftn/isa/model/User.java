@@ -1,15 +1,35 @@
 package ftn.isa.model;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import org.joda.time.DateTime;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ftn.isa.enums.Role;
 
 @Entity
-public class User {
+public class User implements UserDetails {
 
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -22,7 +42,21 @@ public class User {
 	private String telephoneNumber;
 	private Role role; 
 	private boolean activatedAccount;
+	
 	//private Object adminOf; //za sad ovako, napraviti mozda posebnu tabelu koja mapira admine na ono za sta su admini
+	
+	@Column(name = "last_password_reset_date")
+    private Timestamp lastPasswordResetDate;
+	
+	private boolean enabled;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_authority",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
+    
+	
 	
 	public User() {}
 	
@@ -39,6 +73,10 @@ public class User {
 		this.role = role;
 		this.activatedAccount = activated;
 		//this.adminOf = null; // za sad
+		
+		this.enabled = true;
+		this.lastPasswordResetDate = Timestamp.valueOf(LocalDateTime.now());
+		this.authorities = new ArrayList<Authority>();
 	}
 
 	public Role getRole() {
@@ -70,7 +108,26 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		Timestamp now = new Timestamp(DateTime.now().getMillis());
+        this.setLastPasswordResetDate( now );
+        this.password = password;
+	}
+	
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    public List<Authority> getAuthorities() {
+        return this.authorities;
+    }
+    
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+	public Timestamp getLastPasswordResetDate() {
+		return lastPasswordResetDate;
 	}
 
 	public String getEmail() {
@@ -128,4 +185,35 @@ public class User {
 	public void setActivatedAccount(boolean activatedAccount) {
 		this.activatedAccount = activatedAccount;
 	}
+
+	
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+	
+	
+	@JsonIgnore
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@JsonIgnore
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	
+	@JsonIgnore
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	
 }
