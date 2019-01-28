@@ -1,5 +1,12 @@
-insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account) values (1,'DavidJuzniVetar', 'BugarskaBrena','melegi@gmail.com','David','Melegi','Zrenjanin','06334321',2, true);
-insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account) values (2,'Rodja', 'rodja','rodja@gmail.com','Dusan','Radj','Zrenjanin','060123123',1, true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account,last_password_reset_date,enabled) values (21,'DavidJuzniVetar', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','melegi@gmail.com','David','Melegi','Zrenjanin','06334321',2, true,'2017-08-19 12:17:55',true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account,last_password_reset_date,enabled) values (22,'Rodja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','rodja@gmail.com','Dusan','Radj','Zrenjanin','060123123',1, true,'2017-08-19 12:17:55',true);
+
+insert into authority (id, name) values (1, 'REGISTERED_USER');
+insert into authority (id, name) values (2, 'SERVICE_ADMIN');
+
+insert into user_authority (user_id, authority_id) VALUES (21, 1);
+insert into user_authority (user_id, authority_id) VALUES (22, 1);
+insert into user_authority (user_id, authority_id) VALUES (22, 2);
 
 insert into avio_company (id,name,address_id,description,average_rating) values (1,'AirSerbia',1,'etihad uzo', 2.0);
 
