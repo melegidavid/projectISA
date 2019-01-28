@@ -16,6 +16,7 @@ public class AvioFlightDTO {
 	}
 	
 	public AvioFlightDTO(AvioFlight avioFlight) {
+		this.id = avioFlight.getId();
 		this.dateTimeStart = avioFlight.getDateTimeStart();
 		this.dateTimeFinish = avioFlight.getDateTimeFinish();
 		this.flightDuration = avioFlight.getFlightDuration();

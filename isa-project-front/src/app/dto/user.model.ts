@@ -3,8 +3,8 @@ export class UserDTO {
     password : string;
     email : string;
     name : string;
-    lastname : string;
+    lastName : string;
     city : string;
-    telephone : string;
+    telephoneNumber : string;
     role : string;
 }

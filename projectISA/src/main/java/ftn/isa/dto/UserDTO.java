@@ -1,6 +1,7 @@
 package ftn.isa.dto;
 
 import ftn.isa.enums.Role;
+import ftn.isa.model.User;
 
 public class UserDTO {
 
@@ -16,6 +17,18 @@ public class UserDTO {
 	//private Object adminOf;
 	
 	public UserDTO() {}
+	
+	public UserDTO(User user) {
+		this.id = user.getId();
+		this.username = user.getUsername();
+		this.password = user.getPassword();
+		this.email = user.getEmail();
+		this.name = user.getName();
+		this.lastName = user.getLastName();
+		this.city = user.getCity();
+		this.telephoneNumber = user.getTelephoneNumber();
+		this.role = user.getRole();
+	}
 
 	public Long getId() {
 		return id;
