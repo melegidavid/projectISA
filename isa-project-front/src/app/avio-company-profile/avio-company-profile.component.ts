@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
 import { AvioCompany } from '../dto/avio-company.model';
 import { Observable } from '../../../node_modules/rxjs';
 import { UserService } from '../user.service';
+import { AvioFlight } from '../dto/avio-flight.model';
 
 @Component({
   selector: 'app-avio-company-profile',
@@ -15,6 +16,7 @@ export class AvioCompanyProfileComponent implements OnInit {
   len: number;
   username: string;
   avioCompany: AvioCompany;
+  flights: AvioFlight[] = [];
   sub: any;
   id: number;
   
@@ -37,10 +39,18 @@ export class AvioCompanyProfileComponent implements OnInit {
     this.getAvioCompany(this.id).subscribe(data => {
       this.avioCompany = data;
     });
+
+    this.getAvioFlights(this.id).subscribe(data => {
+      this.flights = data;
+    });
   }
 
   public getAvioCompany(id: number | string): Observable<AvioCompany> {
     return this.avioCompaniesService.getAvioCompany(id);
+  }
+
+  public getAvioFlights(id: number | string): Observable<AvioFlight[]> {
+    return this.avioCompaniesService.getAvioFlights(id);
   }
 
   logOut() {

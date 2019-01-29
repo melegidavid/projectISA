@@ -160,7 +160,8 @@
         <div class="card-image">
           <span class="card-notify-badge">{{room.price}}e</span>
           <!-- <span class="card-notify-year">yearproduced</span> -->
-          <img class="img-fluid" src="https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg" alt="Alternate Text" />
+          <img class="img-fluid" src="https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg"
+            alt="Alternate Text" />
         </div>
         <div class="card-image-overlay m-auto">
           <span class="card-detail-badge" *ngIf="room.free">Free for reservation</span>
@@ -175,4 +176,29 @@
       <hr>
     </div>
   </div>
+
+  <div class="container-fluid">
+    <div *ngFor="let flight of flights">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-md-4">
+            <h4>{{flight.startLocation.city + ' - '}} {{flight.endLocation.city}}</h4>
+            <hr>
+            <h5> {{flight.dateTimeStart + ' - '}} {{flight.dateTimeFinish}}</h5>
+          </div>
+          <div class="col-md-4">
+            <h4>Distance: {{flight.flightDistance}}km</h4>
+            <hr>
+            <h5>Duration: {{flight.flightDuration}}h</h5>
+          </div>
+          <div class="col-md-4">
+            <h4 class="display-5">{{flight.price}}e</h4>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
 </div>
