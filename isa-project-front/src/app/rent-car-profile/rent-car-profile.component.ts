@@ -6,6 +6,7 @@ import { Observable } from '../../../node_modules/rxjs';
 import { RentACarMenuItem } from '../dto/rent-a-car-menu-item.model';
 import { RentACarBranch } from '../dto/rent-a-car-branch.model';
 import { Vehicle } from '../dto/vehicle.model';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-rent-car-profile',
@@ -22,16 +23,23 @@ export class RentCarProfileComponent implements OnInit {
   vehicles: Vehicle[] = [];
   private sub: any;
   id: number;
+  len: number;
+  username: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private rentACarService : RentACarService
+    private rentACarService : RentACarService,
+    private userService: UserService
   ) { 
     this.router = router;
   }
 
   ngOnInit() {
+    this.len = localStorage.length;
+    this.username = localStorage.getItem('username');
+    console.log(localStorage);
+
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
       this.id = + params['id'];
     });
@@ -69,4 +77,13 @@ export class RentCarProfileComponent implements OnInit {
   public getVehicles(id: number | string) : Observable<Vehicle[]> {
     return this.rentACarService.getVehicles(id);
   }
+
+  logOut() {
+    console.log('usao u logout');
+    this.userService.logOut();
+    
+    console.log('ostalo ' + localStorage.length);
+    this.ngOnInit();
+  }
+
 }

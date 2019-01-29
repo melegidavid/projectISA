@@ -1,60 +1,103 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 <!------ Include the above in your HEAD tag ---------->
+
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="/home">
+        <img src="images/travel.png">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" routerLink="/home">Home</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/hotels">Hotels</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" routerLink="/register">Register</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" routerLink="/auth/login">Login</a>
+          </li>
+          <!-- <li class="nav-item ">
+            <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" *ngIf="len > 0">{{username}}</a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
 
 
 <div class="container register">
-                <div class="row">
-                    <div class="col-md-3 register-left">
-                        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
-                        <h3>Welcome</h3>
-                        <p>Register now by filling all required field, and get started!</p>
-                    </div>
-                    <form (ngSubmit)="onSubmit()">
-                    <div class="col-md-9 register-right">
-                        
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <h3 class="register-heading">Register</h3>
-                                <div class="row register-form">
-                                    
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" [(ngModel)]="user.name" name="name" placeholder="First Name *" value="" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" [(ngModel)]="user.lastName" name="lastname" placeholder="Last Name *" value="" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="Password *" value="" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control"  placeholder="Confirm Password *" value="" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="Your Email *" value="" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" [(ngModel)]="user.telephoneNumber" name="telephone" placeholder="Your Phone *" value="" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="txtCity" class="form-control" [(ngModel)]="user.city" name="city" placeholder="Your City *" value="" />
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text"  class="form-control" [(ngModel)]="user.username" name="username" placeholder="Username *" value="" />
-                                        </div>
-                                        <input type="submit" class="btnRegister"  value="Register"/>
-                                    </div>
-                                    
+    <div class="row">
+        <div class="col-md-3 register-left">
+            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+            <h3>Welcome</h3>
+            <p>Register now by filling all required field, and get started!</p>
+        </div>
+        <form (ngSubmit)="onSubmit()">
+            <div class="col-md-9 register-right">
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <h3 class="register-heading">Register</h3>
+                        <div class="row register-form">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="user.name" name="name" placeholder="First Name *" value="" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="user.lastName" name="lastname" placeholder="Last Name *" value="" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="Password *" value=""
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Confirm Password *" value="" />
                                 </div>
                             </div>
-                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="Your Email *" value="" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" [(ngModel)]="user.telephoneNumber"
+                                        name="telephone" placeholder="Your Phone *" value="" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="txtCity" class="form-control" [(ngModel)]="user.city" name="city" placeholder="Your City *" value=""
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="user.username" name="username" placeholder="Username *" value="" />
+                                </div>
+                                <input type="submit" class="btnRegister" value="Register" />
+                            </div>
+
                         </div>
                     </div>
-                    </form>
-                </div>
 
+                </div>
             </div>
+        </form>
+    </div>
+
+</div>

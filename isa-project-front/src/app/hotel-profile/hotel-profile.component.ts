@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, ParamMap} from '@angular/router';
 import { Observable } from '../../../node_modules/rxjs';
 import { HotelRoom } from '../dto/hotel-room.model';
 import { HotelMenuItem } from '../dto/hotel-menu-item.model';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-hotel-profile',
@@ -19,16 +20,23 @@ export class HotelProfileComponent implements OnInit {
   menu : HotelMenuItem[] = [];
   private sub: any;
   id: number;
+  len: number;
+  username: string;
 
   constructor(
     private hotelService: HotelsService, 
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private userService: UserService) {
 
     this.router = router;
   }
 
   ngOnInit() {
+    this.len = localStorage.length;
+    this.username = localStorage.getItem('username');
+    console.log(localStorage);
+
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
       this.id = + params['id'];
     });
@@ -64,6 +72,14 @@ export class HotelProfileComponent implements OnInit {
 
   public getHotelMenu(id: number | string) : Observable<HotelMenuItem[]> {
     return this.hotelService.getHotelMenu(id);
+  }
+
+  logOut() {
+    console.log('usao u logout');
+    this.userService.logOut();
+    
+    console.log('ostalo ' + localStorage.length);
+    this.ngOnInit();
   }
 
 }

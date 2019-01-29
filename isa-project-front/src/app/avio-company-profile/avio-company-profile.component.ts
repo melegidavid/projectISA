@@ -3,6 +3,7 @@ import { AvioCompaniesService } from '../all-avio-companies/avio-companies.servi
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
 import { AvioCompany } from '../dto/avio-company.model';
 import { Observable } from '../../../node_modules/rxjs';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-avio-company-profile',
@@ -11,17 +12,24 @@ import { Observable } from '../../../node_modules/rxjs';
 })
 export class AvioCompanyProfileComponent implements OnInit {
 
+  len: number;
+  username: string;
   avioCompany: AvioCompany;
   sub: any;
   id: number;
   
   constructor(private avioCompaniesService: AvioCompaniesService, 
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private userService: UserService) {
       this.router = router;
     }
 
   ngOnInit() {
+    this.len = localStorage.length;
+    this.username = localStorage.getItem('username');
+    console.log(localStorage);
+
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
       this.id = + params['id'];
     });
@@ -35,4 +43,11 @@ export class AvioCompanyProfileComponent implements OnInit {
     return this.avioCompaniesService.getAvioCompany(id);
   }
 
+  logOut() {
+    console.log('usao u logout');
+    this.userService.logOut();
+    
+    console.log('ostalo ' + localStorage.length);
+    this.ngOnInit();
+  }
 }

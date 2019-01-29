@@ -27,12 +27,13 @@ const routes: Routes = [
     path: 'rentACar', 
     component: AllRentACarsComponent, 
     children : [
-      {path: ':id', component: RentCarProfileComponent},
+      //{path: ':id', component: RentCarProfileComponent},
       {path: 'search', component: RentCarSearchComponent},
       {path: 'admin', component: UserProfileComponent},
-      {path: 'vehicles', component: RentCarVehicleComponent},
+      //{path: 'vehicles', component: RentCarVehicleComponent},
       {path: 'edit', component: RentCarEditComponent}
   ]},
+  { path: 'rentACar/:id', component: RentCarProfileComponent},
   { path: 'avioCompanies', component: AllAvioCompaniesComponent},
   { path: 'avioCompanies/:id', component: AvioCompanyProfileComponent}
 ];

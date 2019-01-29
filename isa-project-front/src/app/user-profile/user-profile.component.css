@@ -33,3 +33,19 @@ body{
         .image-container:hover .middle {
             opacity: 1;
         }
+
+        .navbar {
+            padding: .8rem;
+        }
+        
+        .navbar-nav li {
+            padding-right: 20px;
+        }
+        
+        .nav-link {
+            font-size: 1.3em;
+        }
+        
+        .active {
+            font-size: 1.2em;
+        }

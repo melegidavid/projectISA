@@ -35,6 +35,7 @@ export class UserService {
 
   logOut() {
     localStorage.removeItem('userToken');
+    localStorage.removeItem('username');
     //localStorage.removeItem('userRoles');
   }
 
