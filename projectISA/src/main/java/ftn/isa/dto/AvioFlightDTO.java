@@ -10,6 +10,9 @@ public class AvioFlightDTO {
 	private double flightDuration;
 	private double flightDistance;
 	private double price;
+	private AddressDTO startLocation;
+	private AddressDTO endLocation;
+	
 	
 	public AvioFlightDTO() {
 	
@@ -22,6 +25,8 @@ public class AvioFlightDTO {
 		this.flightDuration = avioFlight.getFlightDuration();
 		this.flightDistance = avioFlight.getFlightDistance();
 		this.price = avioFlight.getPrice();
+		this.startLocation = new AddressDTO(avioFlight.getStartLocation());
+		this.endLocation = new AddressDTO(avioFlight.getEndLocation());
 	}
 
 	public Long getId() {
@@ -70,5 +75,21 @@ public class AvioFlightDTO {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public AddressDTO getStartLocation() {
+		return startLocation;
+	}
+
+	public void setStartLocation(AddressDTO startLocation) {
+		this.startLocation = startLocation;
+	}
+
+	public AddressDTO getEndLocation() {
+		return endLocation;
+	}
+
+	public void setEndLocation(AddressDTO endLocation) {
+		this.endLocation = endLocation;
 	}
 }

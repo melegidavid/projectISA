@@ -26,7 +26,7 @@ import ftn.isa.service.HotelRoomService;
 import ftn.isa.service.HotelService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200") 
+//@CrossOrigin(origins = "http://localhost:4200") 
 @RequestMapping(value="/hotels")
 public class HotelController {
 

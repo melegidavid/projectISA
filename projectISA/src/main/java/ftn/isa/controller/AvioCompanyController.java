@@ -2,6 +2,7 @@ package ftn.isa.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import ftn.isa.service.AvioCompanyService;
 import ftn.isa.service.AvioFlightService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/avio_companies")
 public class AvioCompanyController {
 
@@ -112,6 +113,8 @@ public class AvioCompanyController {
 		if (avioCompany == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		
+		Set<Address> destinations = avioCompany.getDestinations();
 		List<AvioFlight> flights = avioCompany.getFlights();
 
 		if (flights.isEmpty()) {
@@ -120,11 +123,17 @@ public class AvioCompanyController {
 
 		List<AvioFlightDTO> flightsDTO = new ArrayList<AvioFlightDTO>();
 
-		for (AvioFlight avioFlight : flights) {
-			flightsDTO.add(new AvioFlightDTO(avioFlight));
+		if(destinations.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);			
+		}else {
+			for (AvioFlight avioFlight : flights) {
+				//provera da li destinacije te avio kompanije sadrze polaznu i krajnju tacku leta
+				if(destinations.contains(avioFlight.getStartLocation()) && destinations.contains(avioFlight.getEndLocation())) {
+					flightsDTO.add(new AvioFlightDTO(avioFlight));		
+				}
+			}
+			return new ResponseEntity<>(flightsDTO, HttpStatus.OK);
 		}
-
-		return new ResponseEntity<>(flightsDTO, HttpStatus.OK);
 	}
 
 	

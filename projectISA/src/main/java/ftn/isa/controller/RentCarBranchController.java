@@ -22,7 +22,7 @@ import ftn.isa.service.RentCarBranchService;
 import ftn.isa.service.RentCarService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200") 
+//@CrossOrigin(origins = "http://localhost:4200") 
 @RequestMapping(value = "rent_car_branches")
 public class RentCarBranchController {
 	

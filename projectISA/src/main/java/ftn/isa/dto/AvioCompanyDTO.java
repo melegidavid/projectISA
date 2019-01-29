@@ -1,5 +1,10 @@
 package ftn.isa.dto;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import ftn.isa.model.Address;
 import ftn.isa.model.AvioCompany;
 
 public class AvioCompanyDTO {
@@ -9,17 +14,22 @@ public class AvioCompanyDTO {
 	private AddressDTO address;
 	private String description;
 	private double averageRating;
-	
+	private Set<AddressDTO> destinations;
 	public AvioCompanyDTO() {
 		
 	}
 	
 	public AvioCompanyDTO(AvioCompany avioCompany) {
+		this.destinations = new HashSet<AddressDTO>();
 		this.id = avioCompany.getId();
 		this.name = avioCompany.getName();
 		this.address = new AddressDTO(avioCompany.getAddress());
 		this.description = avioCompany.getDescription();
 		this.averageRating = avioCompany.getAverageRating();
+		
+		for(Address address : avioCompany.getDestinations()) {
+			this.destinations.add(new AddressDTO(address));
+		}
 	}
 
 

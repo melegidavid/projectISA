@@ -11,7 +11,12 @@ insert into user_authority (user_id, authority_id) VALUES (22, 2);
 insert into avio_company (id,name,address_id,description,average_rating) values (1,'AirSerbia',1,'etihad uzo', 2.0);
 
 insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id) values (1,'1 januar', '2 januar', 120, 2000, 300, 1, 2, 1);
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id) values (2,'1 jun', '3 jun', 111, 3500, 350, 2, 3, 1);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id) values (2,'1 jun', '3 jun', 111, 3500, 350, 2, 1, 1);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id) values (3,'1 jun', '3 jun', 111, 3500, 350, 3, 3, 1);
+
+insert into destinations (avio_company_id, address_id) values (1, 1);
+insert into destinations (avio_company_id, address_id) values (1, 2);
+
 
 insert into hotel (id, name, address_id, description) values (1,'Hotel Park', 1, 'Imamo i kladionicu');
 insert into hotel (id, name, address_id, description) values (2,'Hotel Vojvodina', 2, 'Nemamo ni kladionicu');
@@ -41,3 +46,4 @@ insert into vehicle (id, type, seats_number, name, mark, model, year_produced, f
 
 insert into address(id, country, city, postal_code, street, number) values (1,'Srbija', 'Beograd',11000, 'Juzni Bulevar', 2);
 insert into address(id, country, city, postal_code, street, number) values (2,'Srbija', 'Novi Sad',21000, 'Ulica neka', 23);
+insert into address(id, country, city, postal_code, street, number) values (3,'Srbija', 'Novi Sad',21000, 'Ulica neka', 33);
