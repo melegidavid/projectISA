@@ -24,7 +24,6 @@ export class UserService {
     this.http.post(`${this.baseUrl}` + `/register`, user)
     .subscribe((data) => {
       console.log(data);
-      console.log('aaaa');
     })
   }
 
@@ -36,7 +35,8 @@ export class UserService {
   logOut() {
     localStorage.removeItem('userToken');
     localStorage.removeItem('username');
-    //localStorage.removeItem('userRoles');
+    
+    //this.http.post<TokenState>(`http://localhost:9004/auth/logout`, this.headers);
   }
 
 

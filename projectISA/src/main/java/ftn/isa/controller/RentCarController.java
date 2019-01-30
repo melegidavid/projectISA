@@ -1,12 +1,13 @@
 package ftn.isa.controller;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ftn.isa.dto.RentCarDTO;
 import ftn.isa.dto.RentCarMenuItemDTO;
+import ftn.isa.dto.RentCarSearchDTO;
 import ftn.isa.dto.VehicleDTO;
-import ftn.isa.enums.VehicleType;
 import ftn.isa.model.Address;
 import ftn.isa.model.RentCar;
 import ftn.isa.model.RentCarBranch;
@@ -29,7 +30,6 @@ import ftn.isa.service.RentCarService;
 import ftn.isa.service.VehicleService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value="/rent_a_cars")
 public class RentCarController {
 
@@ -56,6 +56,22 @@ public class RentCarController {
 		
 		for (RentCar r : rentCars) {
 			rentCarsDTO.add(new RentCarDTO(r));
+		}
+		
+		return new ResponseEntity<>(rentCarsDTO, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/search", method = RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<List<RentCarDTO>> searchRentCars(@RequestBody RentCarSearchDTO params) {
+		
+		List<RentCar> searchResult = rentCarService.search(params, this.addressService);
+		List<RentCarDTO> rentCarsDTO = new ArrayList<>();
+		
+		if(!searchResult.isEmpty()) {
+		
+			for (RentCar r : searchResult) {
+				rentCarsDTO.add(new RentCarDTO(r));
+			}	
 		}
 		
 		return new ResponseEntity<>(rentCarsDTO, HttpStatus.OK);

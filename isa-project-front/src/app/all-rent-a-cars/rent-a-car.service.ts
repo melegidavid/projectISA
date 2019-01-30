@@ -5,6 +5,7 @@ import { RentACar } from '../dto/rent-a-car.model';
 import { RentACarMenuItem } from '../dto/rent-a-car-menu-item.model';
 import { RentACarBranch } from '../dto/rent-a-car-branch.model';
 import { Vehicle } from '../dto/vehicle.model';
+import { RentACarSearchDTO } from '../dto/rent-a-car-search';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,11 @@ export class RentACarService {
 
   getRentACars() : Observable<RentACar[]> {
     return this.http.get<RentACar[]>("http://localhost:9004/rent_a_cars/all", {responseType: 'json'});
+  }
+
+  searchRentACars(searchValues : RentACarSearchDTO) : Observable<RentACar[]> {
+    console.log('usao u rentcar servis');
+    return this.http.post<RentACar[]>("http://localhost:9004/rent_a_cars/search", searchValues, {responseType: 'json'});
   }
 
   getRentACar(id: number | string) : Observable<RentACar> {

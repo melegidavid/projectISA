@@ -62,24 +62,34 @@
     <div class="col-md-4">
       <h1>Search</h1>
       <hr>
-      <form>
+      <form (ngSubmit)="search()"> 
         <div class="form-group">
-          <label for="name1">Name:</label>
-          <input type="text" class="form-control" id="name1" placeholder="Enter name">
+          <label for="name1">Name of rent-a-car service:</label>
+          <input type="text" class="form-control" [(ngModel)] = "name" name="n0" placeholder="Enter name here...">
 
-          <label for="country1">Country</label>
-          <input type="text" class="form-control" id="country1" placeholder="Enter country">
+          <label for="country1">Start date</label>
+          <input type="text" class="form-control" [(ngModel)] = "start" name="n1" placeholder="Enter here...">
+
+          <label for="city1">End date</label>
+          <input type="text" class="form-control" [(ngModel)] = "end" name="n2" placeholder="Enter here...">
+
+          <label for="city1">Country</label>
+          <input type="text" class="form-control" [(ngModel)] = "address.country" name="n3" placeholder="Enter here...">
 
           <label for="city1">City</label>
-          <input type="text" class="form-control" id="city1" placeholder="Eneter city">
+          <input type="text" class="form-control" [(ngModel)] = "address.city" name="n4" placeholder="Enter here...">
 
-          <label for="rooms1">Rooms</label>
-          <input class="form-control" type="number" value="1" id="rooms1">
+          <label for="city1">Street</label>
+          <input type="text" class="form-control" [(ngModel)] = "address.street" name="n5" placeholder="Enter here...">
 
-          <label for="guests1">Guests</label>
-          <input class="form-control" type="number" value="1" id="guests1">
+          <label for="city1">Number</label>
+          <input type="number" class="form-control" min="0" [(ngModel)] = "address.number" name="n6" placeholder="Enter here...">
+
           <hr>
+
           <button type="submit" class="btn btn-primary">Search</button>
+          <div class="padding"></div>
+          <button type="button" (click) = "restore()" class="btn btn-primary">Restore</button>
         </div>
       </form>
     </div>

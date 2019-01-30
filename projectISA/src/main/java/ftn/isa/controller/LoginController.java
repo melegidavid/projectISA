@@ -67,15 +67,16 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
-	public ResponseEntity<?> logout(@RequestBody LoginRequest loginRequest, HttpServletResponse response) throws AuthenticationException, IOException {
+	public ResponseEntity<Void> logout(HttpServletResponse response) {
 
-		// Vrati token kao odgovor na uspesno autentifikaciju
+		SecurityContextHolder.clearContext();
+		
 		return null;
 	}
 
 	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
 	public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request) {
-
+        
 		String token = tokenUtils.getToken(request);
 		String username = this.tokenUtils.getUsernameFromToken(token);
 	    User user = (User) this.userService.loadUserByUsername(username);
