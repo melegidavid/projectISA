@@ -17,12 +17,12 @@ public class Friendship {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(referencedColumnName="id", nullable = false)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id", nullable= false)
 	private User user1;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(referencedColumnName="id", nullable = false)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName="id", nullable= false)
 	private User user2;
 	private boolean accepted; 
 	

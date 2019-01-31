@@ -20,8 +20,16 @@ public class FriendshipService {
 		friendshipRepository.findAll().forEach(list::add);
 		return list;
 	}
+	
+	public void saveFriendship(Friendship friendship) {
+		friendshipRepository.save(friendship);
+	}
+	
+	public void updateFriendship(Friendship friendship) {
+		friendshipRepository.save(friendship);		
+	}
 
-	public void removeFriendship(Friendship friendship) {
-		friendshipRepository.delete(friendship);
+	public void removeFriendship(Long id) {
+		friendshipRepository.deleteById(id);
 	}
 }

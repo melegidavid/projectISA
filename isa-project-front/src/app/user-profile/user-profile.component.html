@@ -8,63 +8,91 @@
 
 <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" routerLink="/home">
-        <img src="images/travel.png">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/home">Home</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/hotels">Hotels</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/rentACar">Rent a car</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" *ngIf="len > 0">{{username}}</a>
-          </li>
-        </ul>
-      </div>
+        <a class="navbar-brand" routerLink="/home">
+            <img src="images/travel.png">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/home">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/hotels">Hotels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" [routerLink]="['/users', username]" *ngIf="len > 0">{{username}}</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </nav>
-  
+</nav>
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-12">
+
+<div class="container-fluid padding">
+    <div class="row padding">
+        <div class="col-md-4">
+            <div class="left">
+                <div id="search">
+                    <input #search type="search" [(ngModel)]="firstNameText" [(ngModel)]="lastNameText" [placeholder]="filled?'Search':''"
+                        [ngClass]="{'filled':filled}" (click)="filled=true" >
+
+                    <button type="button" class="close" *ngIf="filled" (click)="search.value='';filled=false; firstNameText=''; lastNameText=''">X</button>
+                </div>
+                <br>
+                <div *ngIf="filled">
+                    <div *ngFor="let user of usersToSearch | searchUserFirstName: firstNameText : lastNameText; let i=index;">
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h6 style="font-weight:bold;" *ngIf="user">{{user.name}}
+                                        {{user.lastName}}</h6>
+                                </div>
+                                <div class="col-sm-4">
+                                   <button>RADI</button>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
             <div class="card">
-
                 <div class="card-body">
                     <div class="card-title mb-4">
                         <div class="d-flex justify-content-start">
                             <div class="image-container">
-                                <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px"
+                                    class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="file" style="display: none;" id="profilePicture" name="file" />
                                 </div>
                             </div>
                             <div class="userData ml-3">
                                 <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">
-                                    <a href="javascript:void(0);">Admin username</a>
+                                    <a href="javascript:void(0);" *ngIf="user">{{user.name}}</a>
                                 </h2>
                                 <h6 class="d-block">
                                     <a href="javascript:void(0)">Admin</a> of SomeRentCar</h6>
@@ -76,11 +104,17 @@
                         <div class="col-12">
                             <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                    <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo"
+                                        role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices"
-                                        aria-selected="false">Connected Services</a>
+                                    <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices"
+                                        role="tab" aria-controls="connectedServices" aria-selected="false">Connected
+                                        Services</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="friends-tab" data-toggle="tab" href="#friends" role="tab"
+                                        aria-controls="friends" aria-selected="false">Friends</a>
                                 </li>
                             </ul>
                             <div class="tab-content ml-1" id="myTabContent">
@@ -88,40 +122,29 @@
 
                                     <div class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
-                                            <label style="font-weight:bold;">Username</label>
+                                            <label style="font-weight:bold;">Username:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            some username
+                                            <label *ngIf="user">{{user.username}}</label>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Name:</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            <label *ngIf="user">{{user.name}}</label>
                                         </div>
                                     </div>
                                     <hr />
 
                                     <div class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
-                                            <label style="font-weight:bold;">Password</label>
+                                            <label style="font-weight:bold;">Last Name:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            some password
-                                        </div>
-                                    </div>
-                                    <hr />
-
-                                    <div class="row">
-                                        <div class="col-sm-3 col-md-2 col-5">
-                                            <label style="font-weight:bold;">Name</label>
-                                        </div>
-                                        <div class="col-md-8 col-6">
-                                            Jamshaid
-                                        </div>
-                                    </div>
-                                    <hr />
-
-                                    <div class="row">
-                                        <div class="col-sm-3 col-md-2 col-5">
-                                            <label style="font-weight:bold;">Last Name</label>
-                                        </div>
-                                        <div class="col-md-8 col-6">
-                                            Kamran
+                                            <label *ngIf="user">{{user.lastName}}</label>
                                         </div>
                                     </div>
                                     <hr />
@@ -129,28 +152,28 @@
 
                                     <div class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
-                                            <label style="font-weight:bold;">E-Mail</label>
+                                            <label style="font-weight:bold;">E-Mail:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Some@gmail.com
+                                            <label *ngIf="user">{{user.email}}</label>
                                         </div>
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
-                                            <label style="font-weight:bold;">City</label>
+                                            <label style="font-weight:bold;">City:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Petrovgrad
+                                            <label *ngIf="user">{{user.city}}</label>
                                         </div>
                                     </div>
                                     <hr />
                                     <div class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
-                                            <label style="font-weight:bold;">Telephone number</label>
+                                            <label style="font-weight:bold;">Telephone number:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            0645681898
+                                            <label *ngIf="user">{{user.telephoneNumber}}</label>
                                         </div>
                                     </div>
                                     <hr />
@@ -159,13 +182,77 @@
                                 <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
                                     Facebook, Google, Twitter Account that are connected to this account
                                 </div>
+                                <div class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="friends-tab">
+                                    <div *ngFor="let friend of friends">
+                                        <div class="jumbotron">
+                                            <div class="sticky-top">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <h2 class="display-6" style="font-weight:bold;" *ngIf="friend">{{friend.id}}
+                                                            {{friend.username}}</h2>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="button" class="btn btn-outline-danger" (click)="removeFriend(user.id, friend.id)">Izbrisi</button>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <label style="font-weight:bold;">Ime:</label>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <label *ngIf="friend">{{friend.name}}</label>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <label style="font-weight:bold;">Email:</label>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <label *ngIf="friend">{{friend.email}}</label>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <label style="font-weight:bold;">Prezime:</label>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <label *ngIf="friend">{{friend.lastName}}</label>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <label style="font-weight:bold;">Telefon:</label>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <label *ngIf="friend">{{friend.telephoneNumber}}</label>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>

@@ -1,5 +1,9 @@
 insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account,last_password_reset_date,enabled) values (21,'DavidJuzniVetar', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','melegi@gmail.com','David','Melegi','Zrenjanin','06334321',2, true,'2017-08-19 12:17:55',true);
 insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account,last_password_reset_date,enabled) values (22,'Rodja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','rodja@gmail.com','Dusan','Radj','Zrenjanin','060123123',1, true,'2017-08-19 12:17:55',true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account,last_password_reset_date,enabled) values (23,'Kumara', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','kum@gmail.com','Aleksandar','Joksimovic','Leskovac','060123123',0, true,'2017-08-19 12:17:55',true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account,last_password_reset_date,enabled) values (24,'Pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','pera@gmail.com','Pera','Petrovic','Beograd','060123123',0, true,'2017-08-19 12:17:55',true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account,last_password_reset_date,enabled) values (25,'Zika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','zika@gmail.com','Zika','Zivkovic','Beograd','060123123',1, true,'2017-08-19 12:17:55',true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, role, activated_account,last_password_reset_date,enabled) values (26,'Laza', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','laza@gmail.com','Laza','Lazarevic','Beograd','060123123',1, true,'2017-08-19 12:17:55',true);
 
 insert into authority (id, name) values (1, 'REGISTERED_USER');
 insert into authority (id, name) values (2, 'SERVICE_ADMIN');
@@ -7,6 +11,43 @@ insert into authority (id, name) values (2, 'SERVICE_ADMIN');
 insert into user_authority (user_id, authority_id) VALUES (21, 1);
 insert into user_authority (user_id, authority_id) VALUES (22, 1);
 insert into user_authority (user_id, authority_id) VALUES (22, 2);
+
+insert into friendship (id, accepted, user1_id, user2_id) values (1, true, 21, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (2, true, 21, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (3, true, 21, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (4, true, 21, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (5, true, 21, 26);
+
+insert into friendship (id, accepted, user1_id, user2_id) values (6, true, 22, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (7, true, 22, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (8, true, 22, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (9, true, 22, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (10, true, 22, 26);
+
+insert into friendship (id, accepted, user1_id, user2_id) values (11, true, 23, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (12, true, 23, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (13, true, 23, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (14, true, 23, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (15, true, 23, 26);
+
+insert into friendship (id, accepted, user1_id, user2_id) values (16, true, 24, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (17, true, 24, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (18, true, 24, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (19, true, 24, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (20, true, 24, 26);
+
+insert into friendship (id, accepted, user1_id, user2_id) values (21, true, 25, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (22, true, 25, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (23, true, 25, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (24, true, 25, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (25, true, 25, 26);
+
+insert into friendship (id, accepted, user1_id, user2_id) values (26, true, 26, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (27, true, 26, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (28, true, 26, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (29, true, 26, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (30, true, 26, 25);
+
 
 insert into avio_company (id,name,address_id,description,average_rating) values (1,'AirSerbia',1,'etihad uzo', 2.0);
 

@@ -35,7 +35,8 @@ const routes: Routes = [
   ]},
   { path: 'rentACar/:id', component: RentCarProfileComponent},
   { path: 'avioCompanies', component: AllAvioCompaniesComponent},
-  { path: 'avioCompanies/:id', component: AvioCompanyProfileComponent}
+  { path: 'avioCompanies/:id', component: AvioCompanyProfileComponent},
+  { path: 'users/:username', component: UserProfileComponent}
 ];
 
 @NgModule({

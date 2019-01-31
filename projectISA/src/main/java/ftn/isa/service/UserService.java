@@ -77,6 +77,16 @@ public class UserService implements UserDetailsService {
 	    }
 	}
 	
+	//temp metoda za getovanje usera preko username
+	public User getUserByUsername(String username) {
+		User user = userRepository.findByUsername(username);
+		if(user == null) {
+			return null;
+		}else {
+			return user;
+		}
+	}
+	
 	// Funkcija pomocu koje korisnik menja svoju lozinku
 	public void changePassword(String oldPassword, String newPassword) {
 

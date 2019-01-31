@@ -19,6 +19,9 @@ import { FormsModule } from '@angular/forms';
 import { AllAvioCompaniesComponent } from './all-avio-companies/all-avio-companies.component';
 import { HotelProfileComponent } from './hotel-profile/hotel-profile.component';
 import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company-profile.component';
+import { SearchUserFirstNamePipe } from './pipes/search-user-first-name.pipe';
+
+
 
 
 @NgModule({
@@ -36,7 +39,8 @@ import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company
     RentCarEditComponent,
     AllAvioCompaniesComponent,
     HotelProfileComponent,
-    AvioCompanyProfileComponent
+    AvioCompanyProfileComponent,
+    SearchUserFirstNamePipe
   ],
   imports: [
     BrowserModule,
