@@ -3,7 +3,6 @@ package ftn.isa.model;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.joda.time.DateTime;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,8 +56,13 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
     
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<VehicleReservation> vehicleReservations = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<RoomReservation> roomReservations = new ArrayList<>();
 	
-	
+    
 	public User() {}
 	
 	public User(String username, String password, String email, String name, String lastName, String city,
@@ -213,6 +218,23 @@ public class User implements UserDetails {
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
+	}
+
+	
+	public List<VehicleReservation> getVehicleReservations() {
+		return vehicleReservations;
+	}
+
+	public void setVehicleReservations(List<VehicleReservation> vehicleReservations) {
+		this.vehicleReservations = vehicleReservations;
+	}
+
+	public List<RoomReservation> getRoomReservations() {
+		return roomReservations;
+	}
+
+	public void setRoomReservations(List<RoomReservation> roomReservations) {
+		this.roomReservations = roomReservations;
 	}
 
 	

@@ -40,8 +40,8 @@ public class HotelRoom {
 	@CollectionTable(name="hotel_room_rates", joinColumns=@JoinColumn(name="id"))
 	private Map<Long, Integer> rates = new HashMap<>(); 
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Reservation> reseravations = new ArrayList<>();
+	@OneToMany(mappedBy = "belongsToRoom",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<RoomReservation> reseravations = new ArrayList<>();
 	
 	public HotelRoom() {
 		
@@ -97,11 +97,11 @@ public class HotelRoom {
 		this.rates = rates;
 	}
 
-	public List<Reservation> getReseravations() {
+	public List<RoomReservation> getReseravations() {
 		return reseravations;
 	}
 
-	public void setReseravations(List<Reservation> reseravations) {
+	public void setReseravations(List<RoomReservation> reseravations) {
 		this.reseravations = reseravations;
 	}
 

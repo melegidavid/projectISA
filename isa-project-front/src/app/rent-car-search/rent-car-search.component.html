@@ -3,47 +3,6 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 <!------ Include the above in your HEAD tag ---------->
 
-<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/home">
-      <img src="images/travel.png">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/home">Home</a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/hotels">Hotels</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/rentACar">Rent a car</a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" *ngIf="len > 0">{{username}}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-
 <div class="container">
         <div class="row centered-form">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">

@@ -13,9 +13,6 @@ public class VehicleDTO {
 	private String model;
 	private int yearProduced;
 	private boolean free;
-	
-	private RentCarBranchDTO returnPlace;
-	private RentCarBranchDTO rentCarBranch;
 	private RentCarDTO rentCar;
 	
 	public VehicleDTO() {}
@@ -30,8 +27,6 @@ public class VehicleDTO {
 		this.yearProduced = vehicle.getYearProduced();
 		this.free = vehicle.isFree();
 		
-		this.rentCarBranch = new RentCarBranchDTO(vehicle.getRentCarBranch());
-		this.returnPlace = new RentCarBranchDTO(vehicle.getReturnPlace());
 		this.rentCar = new RentCarDTO(vehicle.getRentCar());
 	}
 
@@ -99,21 +94,7 @@ public class VehicleDTO {
 		this.free = free;
 	}
 
-	public RentCarBranchDTO getReturnPlace() {
-		return returnPlace;
-	}
-
-	public void setReturnPlace(RentCarBranchDTO returnPlace) {
-		this.returnPlace = returnPlace;
-	}
-
-	public RentCarBranchDTO getRentCarBranch() {
-		return rentCarBranch;
-	}
-
-	public void setRentCarBranch(RentCarBranchDTO rentCarBranch) {
-		this.rentCarBranch = rentCarBranch;
-	}
+	
 
 	public RentCarDTO getRentCar() {
 		return rentCar;

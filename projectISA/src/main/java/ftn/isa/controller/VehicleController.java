@@ -1,22 +1,30 @@
 package ftn.isa.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ftn.isa.dto.ReservationDTO;
 import ftn.isa.dto.VehicleDTO;
-import ftn.isa.model.RentCarBranch;
+import ftn.isa.dto.VehicleSearchDTO;
+import ftn.isa.model.RentCar;
+import ftn.isa.model.User;
 import ftn.isa.model.Vehicle;
+import ftn.isa.model.VehicleReservation;
 import ftn.isa.service.RentCarBranchService;
+import ftn.isa.service.RentCarService;
+import ftn.isa.service.UserService;
+import ftn.isa.service.VehicleReservationService;
 import ftn.isa.service.VehicleService;
 
 @RestController
@@ -29,6 +37,15 @@ public class VehicleController {
 	
 	@Autowired
 	private RentCarBranchService branchService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private VehicleReservationService reservationService;
+	
+	@Autowired
+	private RentCarService rentCarService;
 	
 	@RequestMapping(value="/all", method = RequestMethod.GET)
 	public ResponseEntity<List<VehicleDTO>> getAllVehicles() {
@@ -61,16 +78,6 @@ public class VehicleController {
 		
 		Vehicle vehicle = new Vehicle();
 		
-		RentCarBranch rentCarBranch = branchService.findOne(vehicleDTO.getRentCarBranch().getId());
-		RentCarBranch returnPlace = branchService.findOne(vehicleDTO.getReturnPlace().getId());
-		
-		
-		if(rentCarBranch == null || returnPlace == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		vehicle.setRentCarBranch(rentCarBranch);
-		vehicle.setReturnPlace(returnPlace);
 		vehicle.setFree(vehicleDTO.isFree());
 		vehicle.setMark(vehicleDTO.getMark());
 		vehicle.setModel(vehicleDTO.getModel());
@@ -118,6 +125,42 @@ public class VehicleController {
 		} else {		
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	
+	@RequestMapping(value="/reserveVehicle", method=RequestMethod.POST)
+	public ResponseEntity<Void> reserveVehicle(@RequestBody ReservationDTO reservationDTO){
+		
+		User user = (User) userService.loadUserByUsername(reservationDTO.getUsername());
+		System.out.println("Nadjen korisnik " + user.getUsername());
+		
+		VehicleReservation vr = new VehicleReservation();
+		
+		vr.setBelongsToVehicle(vehicleService.findOne(reservationDTO.getId()));
+		vr.setUser(user);
+		vr.setStartReservation(Date.valueOf(LocalDate.now()));
+		vr.setEndReseravtion(Date.valueOf(LocalDate.now()));
+		vr.setTakePlace(branchService.findOne(reservationDTO.getTakePlaceId()));
+		vr.setReturnPlace(branchService.findOne(reservationDTO.getReturnPlaceId()));
+	
+		reservationService.save(vr);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/searchVehicles", method=RequestMethod.POST)
+	public ResponseEntity<List<VehicleDTO>> searchVehicles(@RequestBody VehicleSearchDTO params){
+		
+		RentCar rentCar = rentCarService.findOne(params.getIdRentCar());
+		
+		List<Vehicle> searchResult = vehicleService.search(rentCar, params);
+		List<VehicleDTO> returnList = new ArrayList<>();
+		
+		for(Vehicle v : searchResult) {
+			returnList.add(new VehicleDTO(v));
+		}
+		
+		return new ResponseEntity<>(returnList,HttpStatus.OK);
 	}
 
 }

@@ -36,12 +36,6 @@ public class Vehicle {
 	private boolean free;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private RentCarBranch returnPlace;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private RentCarBranch rentCarBranch;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private RentCar rentCar;
 	
 	@ElementCollection
@@ -50,8 +44,8 @@ public class Vehicle {
 	@CollectionTable(name="vehicle_rates", joinColumns=@JoinColumn(name="id"))
 	private Map<Long, Integer> rates = new HashMap<>(); 
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Reservation> reseravations = new ArrayList<>();
+	@OneToMany(mappedBy = "belongsToVehicle",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<VehicleReservation> reseravations = new ArrayList<>();
 	
 	public Vehicle() {
 		
@@ -67,7 +61,6 @@ public class Vehicle {
 		this.model = model;
 		this.yearProduced = yearProduced;
 		this.free = free;
-		this.returnPlace = returnPlace;
 		this.rentCar = rentCar;
 	}
 
@@ -135,14 +128,6 @@ public class Vehicle {
 		this.free = free;
 	}
 
-	public RentCarBranch getReturnPlace() {
-		return returnPlace;
-	}
-
-	public void setReturnPlace(RentCarBranch returnPlace) {
-		this.returnPlace = returnPlace;
-	}
-
 	public Map<Long, Integer> getRates() {
 		return rates;
 	}
@@ -151,20 +136,12 @@ public class Vehicle {
 		this.rates = rates;
 	}
 
-	public List<Reservation> getReseravations() {
+	public List<VehicleReservation> getReseravations() {
 		return reseravations;
 	}
 
-	public void setReseravations(List<Reservation> reseravations) {
+	public void setReseravations(List<VehicleReservation> reseravations) {
 		this.reseravations = reseravations;
-	}
-
-	public RentCarBranch getRentCarBranch() {
-		return rentCarBranch;
-	}
-
-	public void setRentCarBranch(RentCarBranch rentCarBranch) {
-		this.rentCarBranch = rentCarBranch;
 	}
 
 	public RentCar getRentCar() {

@@ -81,9 +81,13 @@ insert into rent_car_branch (id, name, address_id, rent_car_id) values (1, 'Mici
 insert into rent_car_menu_item (id, service_name, price, description,rent_car_id) values (1,'Pranje kola', 200,'Opis pranja kola', 1);
 
 
-insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_branch_id, return_place_id, rent_car_id)  values (1, 0, 5, 'Auto paja', 'Audi', 'A4', 2010, true, 1, 1, 1);
-insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_branch_id, return_place_id, rent_car_id)  values (2, 1, 2, 'Auto paja', 'Aprilia', 'SR', 2010, true, 1, 1, 1);
-insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_branch_id, return_place_id, rent_car_id)  values (3, 2, 2, 'Auto paja', 'Suzuki', 'SX500', 2015, true, 1, 1, 1);
+insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_id)  values (1, 0, 5, 'Auto paja', 'Audi', 'A4', 2010, true, 1);
+insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_id)  values (2, 1, 2, 'Auto paja', 'Aprilia', 'SR', 2010, true, 1);
+insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_id)  values (3, 2, 2, 'Auto paja', 'Suzuki', 'SX500', 2015, true, 1);
+
+insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id)  values (101, '2019-01-21', '2019-01-15', 1, 1, 1, 21);
+insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id)  values (102, '2019-01-21', '2019-01-15', 2, 1, 1, 22);
+insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id)  values (103, '2019-02-15', '2019-02-01', 1, 1, 1, 22);
 
 insert into address(id, country, city, postal_code, street, number) values (1,'Srbija', 'Beograd',11000, 'Juzni Bulevar', 2);
 insert into address(id, country, city, postal_code, street, number) values (2,'Srbija', 'Novi Sad',21000, 'Ulica neka', 23);

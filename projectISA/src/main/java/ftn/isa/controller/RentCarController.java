@@ -266,16 +266,8 @@ public class RentCarController {
 	public ResponseEntity<VehicleDTO> saveRentCarMenuItem(@PathVariable Long idRentCar , @RequestBody VehicleDTO vehicleDTO) {
 		Vehicle vehicle = new Vehicle();
 		
-		RentCarBranch rentCarBranch = branchService.findOne(vehicleDTO.getRentCarBranch().getId());
-		RentCarBranch returnPlace = branchService.findOne(vehicleDTO.getReturnPlace().getId());
 		RentCar rentCar = rentCarService.findOne(vehicleDTO.getRentCar().getId());
 		
-		if(rentCarBranch == null || returnPlace == null || rentCar == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
-		vehicle.setRentCarBranch(rentCarBranch);
-		vehicle.setReturnPlace(returnPlace);
 		vehicle.setRentCar(rentCar);
 		vehicle.setFree(vehicleDTO.isFree());
 		vehicle.setMark(vehicleDTO.getMark());

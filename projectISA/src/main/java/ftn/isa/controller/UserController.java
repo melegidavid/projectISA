@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,11 +34,19 @@ public class UserController {
 	@Autowired
 	private FriendshipService friendshipService;
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public List<User> getUsers() {
-		return userService.getAllUsers();
+	public List<UserDTO> getUsers() {
+		
+		List<User> users = userService.getAllUsers();
+		List<UserDTO> userDTOs = new ArrayList<UserDTO>();
+		
+		for(User u : users) {
+			userDTOs.add(new UserDTO(u));
+		}
+		
+		
+		return userDTOs;
 	}
-
+	
 	// da bude za admina
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void addUser(@RequestBody User user) {
