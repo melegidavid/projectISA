@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 //import 'rxjs/Rx';
 import { TokenState } from './dto/tokenState.model';
 import { UserDTO } from './dto/user.model';
+import { AuthorityDTO } from './dto/authorityDTO.model';
 
 
 
@@ -85,6 +86,17 @@ export class UserService {
 
   deleteAll(): Observable<any> {
     return this.http.delete(`${this.baseUrl}` + `/delete`, { responseType: 'text' });
+  }
+
+  getRoles(username: string) : Observable<AuthorityDTO> {
+    return this.http.get<AuthorityDTO>("http://localhost:9004/auth/" + username + "/getRoles");
+  }
+
+  addUser(user : UserDTO) {
+    this.http.post<UserDTO>("http://localhost:9004/users/add", user)
+    .subscribe(data => {
+      
+    });
   }
 
 }

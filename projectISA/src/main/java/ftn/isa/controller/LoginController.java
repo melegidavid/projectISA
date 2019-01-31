@@ -2,6 +2,7 @@ package ftn.isa.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ftn.isa.auth.LoginRequest;
 import ftn.isa.auth.TokenUtils;
+import ftn.isa.dto.AuthorityDTO;
+import ftn.isa.model.Authority;
 import ftn.isa.model.User;
 import ftn.isa.model.UserTokenState;
 import ftn.isa.service.UserService;
@@ -107,5 +111,17 @@ public class LoginController {
 		public String newPassword;
 	}
 
+	@RequestMapping(value = "/{username}/getRoles", method = RequestMethod.GET)
+	public ResponseEntity<AuthorityDTO> getRoles(@PathVariable("username") String username) {
+		User user = (User) userService.loadUserByUsername(username);
+		
+		AuthorityDTO autoDTO = new AuthorityDTO(username);
+		List<Authority> authorities = user.getAuthorities();
+		for(Authority a: authorities) {
+			autoDTO.getAuthorities().add(a);
+		}
+		
+		return new ResponseEntity<>(autoDTO, HttpStatus.OK);
+	}
 	
 }

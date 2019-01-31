@@ -4,5 +4,5 @@ export class RentACar {
     id: number;
     name: string;
     description: string;
-    address: Address;
+    addressDTO: Address;
 }

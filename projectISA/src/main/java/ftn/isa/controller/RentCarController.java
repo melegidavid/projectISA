@@ -94,19 +94,28 @@ public class RentCarController {
 	public ResponseEntity<RentCarDTO> saveRentCar(@RequestBody RentCarDTO rentCarDTO){
 		
 		RentCar rentCar = new RentCar();
-		Address address = addressService.findOne(rentCarDTO.getAddressDTO().getId());
+//		Address address = addressService.findOne(rentCarDTO.getAddressDTO().getId());
+//		
+//		if(address == null) {
+//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		}
 		
-		if(address == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		Address address = new Address();
+		address.setCountry(rentCarDTO.getAddressDTO().getCountry());
+		address.setCity(rentCarDTO.getAddressDTO().getCity());
+		address.setPostalCode(rentCarDTO.getAddressDTO().getPostalCode());
+		address.setStreet(rentCarDTO.getAddressDTO().getStreet());
+		address.setNumber(rentCarDTO.getAddressDTO().getNumber());
 		
-		rentCar.setId(rentCarDTO.getId());
+		address = addressService.save(address);
+		
+		//rentCar.setId(rentCarDTO.getId());
 		rentCar.setName(rentCarDTO.getName());
 		rentCar.setDescription(rentCarDTO.getDescription());
 		rentCar.setAddress(address);
 		
 		rentCar = rentCarService.save(rentCar);
-		
+		System.out.println("auto dodat");
 		return new ResponseEntity<>(new RentCarDTO(rentCar), HttpStatus.CREATED);	
 	}
 	

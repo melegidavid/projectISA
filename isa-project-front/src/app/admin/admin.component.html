@@ -1,0 +1,202 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="images/travel.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hotels">Hotels</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" *ngIf="len > 0">{{username}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container emp-profile">
+  <form method="post">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="profile-img">
+          <img src="http://www.sclance.com/pngs/admin-png/admin_png_17260.png" alt="" />
+
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="profile-head">
+          <h3>
+            Admin {{username}}
+          </h3>
+        </div>
+      </div>
+    </div>
+  </form>
+  <section class="container py-4">
+    <div class="row">
+      <div class="col-md-12">
+
+        <ul id="tabsJustified" class="nav nav-tabs">
+          <li class="nav-item">
+            <a href="" data-target="#hotel1" data-toggle="tab" class="nav-link small text-uppercase active">Hotels</a>
+          </li>
+          <li class="nav-item">
+            <a href="" data-target="#avio1" data-toggle="tab" class="nav-link small text-uppercase">Avio companies</a>
+          </li>
+          <li class="nav-item">
+            <a href="" data-target="#car1" data-toggle="tab" class="nav-link small text-uppercase">Rent a cars</a>
+          </li>
+          <li class="nav-item">
+            <a href="" data-target="#admin1" data-toggle="tab" class="nav-link small text-uppercase">Admins</a>
+          </li>
+        </ul>
+        <br>
+        <div id="tabsJustifiedContent" class="tab-content">
+          <div id="avio1" class="tab-pane fade">
+              <form>
+                  <div class="form-group">
+                    <label for="name1">Name: *</label>
+                    <input type="text" class="form-control" [(ngModel)]="avio.name" name="avioName" value="" id="name1" placeholder="Enter name" required="true">
+          
+                    <label for="country1">Country</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.country" name="avioCountry" value="" id="country1" placeholder="Enter country">
+          
+                    <label for="city1">City</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.city" value="" name="avioCity" id="city1" placeholder="Enter city">
+                    
+                    <label for="postal1">Postal code</label>
+                    <input type="number" class="form-control" [(ngModel)]="address.postalCode" value="" name="avioPostalCode" id="postal1" placeholder="Enter postal code">
+                    
+                    <label for="street1">Street</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.street" value="" id="street1" name="avioStreet" placeholder="Enter street">
+
+                    <label for="number1">Number</label>
+                    <input type="number" class="form-control" [(ngModel)]="address.number" value="" id="number1" name="avioNumber" placeholder="Enter number">
+
+                    <label for="description1">Description</label>
+                    <input type="text" class="form-control" [(ngModel)]="avio.description" value="" id="description1" name="avioDescription" placeholder="Enter description">
+                    <hr>
+                    <button type="button" (click)="addAvioCompany()" class="btn btn-primary">Add avio company</button>
+                  </div>
+                </form>
+          </div>
+          <div id="hotel1" class="tab-pane fade active show">
+              <form>
+                  <div class="form-group">
+                    <label for="name1">Name: *</label>
+                    <input type="text" class="form-control" [(ngModel)]="hotel.name" name="hotelName"  id="name1" value="" placeholder="Enter name" required/>
+          
+                    <label for="country1">Country</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.country" name="hotelCountry" id="country1" value="" placeholder="Enter country"/>
+          
+                    <label for="city1">City</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.city" name="hotelCity" id="city1" value="" placeholder="Enter city"/>
+                    
+                    <label for="postal1">Postal code</label>
+                    <input type="number" class="form-control" [(ngModel)]="address.postalCode" name="hotelPostalCode" id="postal1" value="" placeholder="Enter postal code"/>
+                    
+                    <label for="street1">Street</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.street" name="hotelStreet" id="street1" value="" placeholder="Enter street"/>
+
+                    <label for="number1">Number</label>
+                    <input type="number" class="form-control" [(ngModel)]="address.number" name="hotelNumber" id="number1" value="" placeholder="Enter number"/>
+
+                    <label for="description1">Description</label>
+                    <input type="text" class="form-control" [(ngModel)]="hotel.description" name="hotelDescription" id="description1" value="" placeholder="Enter description"/>
+                    <hr>
+                    <button type="button" (click)="addHotel()" class="btn btn-primary">Add hotel</button>
+                  </div>
+                </form>
+          </div>
+          <div id="car1" class="tab-pane fade">
+              <form>
+                  <div class="form-group">
+                    <label for="name1">Name: *</label>
+                    <input type="text" class="form-control" [(ngModel)]="car.name" value="" name="carName" id="name1" placeholder="Enter name" required>
+          
+                    <label for="country1">Country</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.country" value="" name="carCountry" id="country1" placeholder="Enter country">
+          
+                    <label for="city1">City</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.city" value="" name="carCity" id="city1" placeholder="Enter city">
+                    
+                    <label for="postal1">Postal code</label>
+                    <input type="number" class="form-control" [(ngModel)]="address.postalCode" value="" name="carPostalCode" id="postal1" placeholder="Enter postal code">
+                    
+                    <label for="street1">Street</label>
+                    <input type="text" class="form-control" [(ngModel)]="address.street" value="" name="carStreet" id="street1" placeholder="Enter street">
+
+                    <label for="number1">Number</label>
+                    <input type="number" class="form-control" [(ngModel)]="address.number" value="" name="carNumber" id="number1" placeholder="Enter number">
+
+                    <label for="description1">Description</label>
+                    <input type="text" class="form-control" [(ngModel)]="car.description" value="" name="carDescription" id="description1" placeholder="Enter description">
+                    <hr>
+                    <button type="button" (click)="addRentACar()" class="btn btn-primary">Add rent a car</button>
+                  </div>
+                </form>
+          </div>
+          <div id="admin1" class="tab-pane fade">
+              <form>
+                  <div class="form-group">
+                    <label for="username1">Username: *</label>
+                    <input type="text" class="form-control" [(ngModel)]="admin.username" value="" name="adminUsername"  id="username1" placeholder="Enter username" required >
+          
+                    <label for="password1">Password: *</label>
+                    <input type="text" class="form-control" [(ngModel)]="admin.password" value="" name="adminPassword" id="password1" placeholder="Enter password" required>
+
+                    <label for="email1">Email: *</label>
+                    <input type="text" class="form-control" [(ngModel)]="admin.email" value="" name="adminEmail" id="email1" placeholder="Enter email" required>
+                    
+                    <label for="name1">Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="admin.name" value="" name="adminName" id="name1" placeholder="Enter name" required>
+                    
+                    <label for="lastName1">Last name</label>
+                    <input type="text" class="form-control" [(ngModel)]="admin.lastName" value="" name="adminLastName" id="lastName1" placeholder="Enter last name" required>
+
+                    <label for="city1">City</label>
+                    <input type="text" class="form-control" [(ngModel)]="admin.city" value="" id="city1" name="adminCity" placeholder="Enter city">
+
+                    <label for="number1">Telephone number</label>
+                    <input type="text" class="form-control" [(ngModel)]="admin.telephoneNumber" value="" name="adminTelephoneNumber" id="number1" placeholder="Enter telephone number">
+
+                    <label for="role1">Role: *</label>
+                    <select name="roles" class="form-control" [(ngModel)]="admin.role" id="role1" required>
+                      <option value="AVIO_COMPANY_ADMIN">Avio company admin</option>
+                      <option value="HOTEL_ADMIN">Hotel admin</option>
+                      <option value="RENT_CAR_ADMIN">Rent a car admin</option>
+                    </select>
+                    <hr>
+                    <button type="button" (click)="addAdmin()" class="btn btn-primary">Add admin</button>
+                  </div>
+                </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

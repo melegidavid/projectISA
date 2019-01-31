@@ -39,5 +39,12 @@ export class RentACarService {
     return this.http.get<Vehicle[]>("http://localhost:9004/rent_a_cars/" + id + "/vehicles", {responseType: 'json'});
   }
 
+  addRentACar(car: RentACar) {
+    console.log("usao u rent a car " + car.name);
+    this.http.post<RentACar>("http://localhost:9004/rent_a_cars/save", car)
+    .subscribe(data => {
+      
+    });
+  }
 
 }

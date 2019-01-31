@@ -70,18 +70,30 @@ public class HotelController {
 	
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<HotelDTO> addHotel(@RequestBody HotelDTO hotelDTO) {
+		System.out.println("USAO U DODAVANJE HOTELA");
 		Hotel hotel = new Hotel();
-		Address address = addressService.findOne(hotelDTO.getAddressDTO().getId());
+		//Address address = addressService.findOne(hotelDTO.getAddressDTO().getId());
 		
-		if(address == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+//		if(address == null) {
+//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		}
+		
+		Address address = new Address();
+		address.setCountry(hotelDTO.getAddressDTO().getCountry());
+		address.setCity(hotelDTO.getAddressDTO().getCity());
+		address.setPostalCode(hotelDTO.getAddressDTO().getNumber());
+		address.setStreet(hotelDTO.getAddressDTO().getStreet());
+		address.setNumber(hotelDTO.getAddressDTO().getNumber());
+		
+		address = addressService.save(address);
+		
 		
 		hotel.setName(hotelDTO.getName());
 		hotel.setDescription(hotelDTO.getDescription());
 		hotel.setAddress(address);
 		
 		hotel = hotelService.saveHotel(hotel);
+		System.out.println("HOTEL SACUVAN");
 		
 		return new ResponseEntity<>(new HotelDTO(hotel), HttpStatus.CREATED);
 	}

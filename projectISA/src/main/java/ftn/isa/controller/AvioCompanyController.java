@@ -62,11 +62,20 @@ public class AvioCompanyController {
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<AvioCompanyDTO> addAvioCompany(@RequestBody AvioCompanyDTO avioCompanyDTO) {
 		AvioCompany avioCompany = new AvioCompany();
-		Address address = addressService.findOne(avioCompanyDTO.getAddress().getId());
-
-		if (address == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+//		Address address = addressService.findOne(avioCompanyDTO.getAddress().getId());
+//
+//		if (address == null) {
+//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		}
+		Address address = new Address();
+		address.setCountry(avioCompanyDTO.getAddress().getCountry());
+		address.setCity(avioCompanyDTO.getAddress().getCity());
+		address.setPostalCode(avioCompanyDTO.getAddress().getPostalCode());
+		address.setStreet(avioCompanyDTO.getAddress().getStreet());
+		address.setNumber(avioCompanyDTO.getAddress().getNumber());
+		
+		address = addressService.save(address);
+		
 		avioCompany.setName(avioCompanyDTO.getName());
 		avioCompany.setDescription(avioCompanyDTO.getDescription());
 		avioCompany.setAddress(address);

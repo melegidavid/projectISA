@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() { 
     
-   }
+  }
 
   registerUser() {
     this.userService.createUser(this.user);

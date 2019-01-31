@@ -20,6 +20,7 @@ import { AllAvioCompaniesComponent } from './all-avio-companies/all-avio-compani
 import { HotelProfileComponent } from './hotel-profile/hotel-profile.component';
 import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company-profile.component';
 import { SearchUserFirstNamePipe } from './pipes/search-user-first-name.pipe';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -40,7 +41,8 @@ import { SearchUserFirstNamePipe } from './pipes/search-user-first-name.pipe';
     AllAvioCompaniesComponent,
     HotelProfileComponent,
     AvioCompanyProfileComponent,
-    SearchUserFirstNamePipe
+    SearchUserFirstNamePipe,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

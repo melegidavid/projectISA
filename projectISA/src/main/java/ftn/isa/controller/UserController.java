@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ftn.isa.dto.HotelDTO;
 import ftn.isa.dto.UserDTO;
 import ftn.isa.model.Friendship;
 import ftn.isa.model.User;
@@ -34,7 +35,7 @@ public class UserController {
 	@Autowired
 	private FriendshipService friendshipService;
 
-	public List<UserDTO> getUsers() {
+	public ResponseEntity<List<UserDTO>> getUsers() {
 		
 		List<User> users = userService.getAllUsers();
 		List<UserDTO> userDTOs = new ArrayList<UserDTO>();
@@ -43,15 +44,27 @@ public class UserController {
 			userDTOs.add(new UserDTO(u));
 		}
 		
-		
-		return userDTOs;
+		return new ResponseEntity<>(userDTOs, HttpStatus.OK);
 	}
 	
 	// da bude za admina
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addUser(@RequestBody User user) {
+	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO userDTO) {
 		// morace rugacije kad se priatelji uvedu, preko dto-a
+		User user = new User();
+		
+		user.setUsername(userDTO.getUsername());
+		user.setPassword(userDTO.getPassword());
+		user.setEmail(userDTO.getEmail());
+		user.setName(userDTO.getName());
+		user.setLastName(userDTO.getLastName());
+		user.setCity(userDTO.getCity());
+		user.setTelephoneNumber(userDTO.getTelephoneNumber());
+		user.setRole(userDTO.getRole());
+		
 		userService.addUser(user);
+		System.out.println("DODAO KORISNIKA");
+		return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

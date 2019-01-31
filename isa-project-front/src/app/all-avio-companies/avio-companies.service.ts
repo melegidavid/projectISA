@@ -23,4 +23,11 @@ export class AvioCompaniesService {
     return this.http.get<AvioFlight[]>("http://localhost:9004/avio_companies/" + id + "/flights", {responseType: 'json'});
   }
 
+  addAvioCompany(avioCompany: AvioCompany) {
+    this.http.post<AvioCompany>("http://localhost:9004/avio_companies", avioCompany)
+    .subscribe(data => {
+      
+    });
+  }
+
 }

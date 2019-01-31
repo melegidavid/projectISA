@@ -32,4 +32,13 @@ export class HotelsService {
     return this.http.get<HotelMenuItem[]>("http://localhost:9004/hotels/" + id + "/menu");
   }
 
+  addHotel(hotel: Hotel) {
+    console.log("pre dodavanja hotela");
+    this.http.post<Hotel>("http://localhost:9004/hotels", hotel)
+    .subscribe(data => {
+      
+    });
+    console.log("posle dodavanja hotela");
+  }
+
 }

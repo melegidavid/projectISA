@@ -13,6 +13,7 @@ import { AllRentACarsComponent } from './all-rent-a-cars/all-rent-a-cars.compone
 import { HotelProfileComponent } from './hotel-profile/hotel-profile.component';
 import { AllAvioCompaniesComponent } from './all-avio-companies/all-avio-companies.component';
 import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company-profile.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -36,7 +37,8 @@ const routes: Routes = [
   { path: 'rentACar/:id', component: RentCarProfileComponent},
   { path: 'avioCompanies', component: AllAvioCompaniesComponent},
   { path: 'avioCompanies/:id', component: AvioCompanyProfileComponent},
-  { path: 'users/:username', component: UserProfileComponent}
+  { path: 'users/:username', component: UserProfileComponent}, 
+  { path: 'admin', component: AdminComponent}
 ];
 
 @NgModule({
