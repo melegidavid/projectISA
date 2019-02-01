@@ -41,7 +41,6 @@ public class User implements UserDetails {
 	private String city;
 	private String telephoneNumber;
 	private Role role; 
-	private boolean activatedAccount;
 	
 	//private Object adminOf; //za sad ovako, napraviti mozda posebnu tabelu koja mapira admine na ono za sta su admini
 	
@@ -76,7 +75,6 @@ public class User implements UserDetails {
 		this.city = city;
 		this.telephoneNumber = telephoneNumber;
 		this.role = role;
-		this.activatedAccount = activated;
 		//this.adminOf = null; // za sad
 		
 		this.enabled = true;
@@ -182,15 +180,6 @@ public class User implements UserDetails {
 	public void setAdminOf(Object adminOf) {
 		this.adminOf = adminOf;
 	}*/
-
-	public boolean isActivatedAccount() {
-		return activatedAccount;
-	}
-
-	public void setActivatedAccount(boolean activatedAccount) {
-		this.activatedAccount = activatedAccount;
-	}
-
 	
 	@Override
 	public boolean isEnabled() {

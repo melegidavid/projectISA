@@ -13,7 +13,7 @@ import { UserService } from '../user.service';
 export class RegisterComponent implements OnInit {
 
   user : UserDTO = new UserDTO();
-
+  confPassword : string;
 
   constructor(private http: HttpClient, private userService : UserService) { }
 
@@ -22,8 +22,14 @@ export class RegisterComponent implements OnInit {
   }
 
   registerUser() {
-    this.userService.createUser(this.user);
-    this.user = new UserDTO();
+    if(!(this.confPassword === this.user.password)) {
+      alert("Password do not match");
+    } else {
+      this.userService.createUser(this.user);
+      alert("Go to your email to activate your account");
+      this.user = new UserDTO();
+      this.confPassword = "";
+    }
   }
  
   onSubmit() {

@@ -50,6 +50,10 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody LoginRequest loginRequest, HttpServletResponse resp) throws AuthenticationException, IOException {
 
+		if(!userService.isRegistered(loginRequest.getUsername())) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		final Authentication authentication = authenticationManager.authenticate
 				(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 

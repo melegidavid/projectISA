@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.isa.dto.UserDTO;
@@ -40,6 +41,7 @@ public class UserController {
 	private NotificationService mailService;
 
 
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<UserDTO>> getUsers() {
 		
 		List<User> users = userService.getAllUsers();
@@ -85,8 +87,7 @@ public class UserController {
 		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getName(),
 				userDTO.getLastName(), userDTO.getCity(), userDTO.getTelephoneNumber(), userDTO.getRole(), false);
 		
-		//user.setActivatedAccount(true); //posle brisanje ovog, pa preko maila
-		user.setActivatedAccount(false);
+		user.setEnabled(false);
 		user.getAuthorities().add(authorityService.findOne((long) 1));
 		userService.addUser(user);
 
@@ -100,20 +101,21 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/activate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> activateUser(@RequestBody UserDTO userDTO) {
-
-		boolean registered = userService.isRegistered(userDTO.getUsername());
-
+	@RequestMapping(value = "/activate/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Boolean> activateUser(@PathVariable("id") Long id) {
+		System.out.println("PROSLEDJEN ID JE: " + id);
+		User user = userService.findUser(id);
+		
+		boolean registered = userService.isRegistered(user.getUsername());
+		System.out.println("KORISNIK VEC REGISTROVAN? :" + registered);
 		if (!registered) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
 		}
-
-		User user = userService.findUser(userDTO.getId());
-		user.setActivatedAccount(true);
+		
+		user.setEnabled(true);
 		userService.updateUser(user);
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(true, HttpStatus.OK);
 	}
 
 	// temp metoda za getovanje usera preko username
