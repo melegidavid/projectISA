@@ -14,5 +14,6 @@ public class ProjectIsaApplication {
 		// TODO Auto-generated method stub
 		SpringApplication.run(ProjectIsaApplication.class, args);
 	}
+		
 }
 

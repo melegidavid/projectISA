@@ -1,3 +1,4 @@
+
 package ftn.isa.service;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class UserService implements UserDetailsService {
 	
 	public void addUser(User user) {
 		System.out.println("dodajeee");
+		user.setPassword(passwordEncoder.encode(user.getPassword())); //dodao za pass
 		userRepository.save(user);
 	}
 	

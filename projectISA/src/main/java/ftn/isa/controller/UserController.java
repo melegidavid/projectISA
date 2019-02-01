@@ -7,18 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ftn.isa.dto.HotelDTO;
 import ftn.isa.dto.UserDTO;
 import ftn.isa.model.Friendship;
 import ftn.isa.model.User;
 import ftn.isa.service.AuthorityService;
 import ftn.isa.service.FriendshipService;
+import ftn.isa.service.NotificationService;
 import ftn.isa.service.UserService;
 
 @RestController
@@ -34,6 +35,10 @@ public class UserController {
 
 	@Autowired
 	private FriendshipService friendshipService;
+	
+	@Autowired
+	private NotificationService mailService;
+
 
 	public ResponseEntity<List<UserDTO>> getUsers() {
 		
@@ -77,19 +82,24 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		userDTO.toString();
-
 		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getName(),
 				userDTO.getLastName(), userDTO.getCity(), userDTO.getTelephoneNumber(), userDTO.getRole(), false);
-		user.setActivatedAccount(true); // posle brisanje ovog, pa preko maila
-
-		user.toString();
+		
+		//user.setActivatedAccount(true); //posle brisanje ovog, pa preko maila
+		user.setActivatedAccount(false);
 		user.getAuthorities().add(authorityService.findOne((long) 1));
 		userService.addUser(user);
 
+		try {
+			mailService.sendNotification(user); //send mail	
+		} catch (MailException m) {
+			System.out.println("Neuspesno poslata poruka");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
+	
 	@RequestMapping(value = "/activate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> activateUser(@RequestBody UserDTO userDTO) {
 
