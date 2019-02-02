@@ -12,41 +12,41 @@ insert into user_authority (user_id, authority_id) VALUES (21, 1);
 insert into user_authority (user_id, authority_id) VALUES (22, 1);
 insert into user_authority (user_id, authority_id) VALUES (22, 2);
 
-insert into friendship (id, accepted, user1_id, user2_id) values (1, true, 21, 22);
-insert into friendship (id, accepted, user1_id, user2_id) values (2, true, 21, 23);
-insert into friendship (id, accepted, user1_id, user2_id) values (3, true, 21, 24);
-insert into friendship (id, accepted, user1_id, user2_id) values (4, true, 21, 25);
-insert into friendship (id, accepted, user1_id, user2_id) values (5, true, 21, 26);
+insert into friendship (id, accepted, user1_id, user2_id) values (21, true, 21, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (22, true, 21, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (23, true, 21, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (24, true, 21, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (25, true, 21, 26);
 
-insert into friendship (id, accepted, user1_id, user2_id) values (6, true, 22, 21);
-insert into friendship (id, accepted, user1_id, user2_id) values (7, true, 22, 23);
-insert into friendship (id, accepted, user1_id, user2_id) values (8, true, 22, 24);
-insert into friendship (id, accepted, user1_id, user2_id) values (9, true, 22, 25);
-insert into friendship (id, accepted, user1_id, user2_id) values (10, true, 22, 26);
+insert into friendship (id, accepted, user1_id, user2_id) values (26, true, 22, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (27, true, 22, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (28, true, 22, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (29, true, 22, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (30, true, 22, 26);
 
-insert into friendship (id, accepted, user1_id, user2_id) values (11, true, 23, 21);
-insert into friendship (id, accepted, user1_id, user2_id) values (12, true, 23, 22);
-insert into friendship (id, accepted, user1_id, user2_id) values (13, true, 23, 24);
-insert into friendship (id, accepted, user1_id, user2_id) values (14, true, 23, 25);
-insert into friendship (id, accepted, user1_id, user2_id) values (15, true, 23, 26);
+insert into friendship (id, accepted, user1_id, user2_id) values (31, true, 23, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (32, true, 23, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (33, true, 23, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (34, true, 23, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (35, true, 23, 26);
 
-insert into friendship (id, accepted, user1_id, user2_id) values (16, true, 24, 21);
-insert into friendship (id, accepted, user1_id, user2_id) values (17, true, 24, 22);
-insert into friendship (id, accepted, user1_id, user2_id) values (18, true, 24, 23);
-insert into friendship (id, accepted, user1_id, user2_id) values (19, true, 24, 25);
-insert into friendship (id, accepted, user1_id, user2_id) values (20, true, 24, 26);
+insert into friendship (id, accepted, user1_id, user2_id) values (36, true, 24, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (37, true, 24, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (38, true, 24, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (39, true, 24, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (40, true, 24, 26);
 
-insert into friendship (id, accepted, user1_id, user2_id) values (21, true, 25, 21);
-insert into friendship (id, accepted, user1_id, user2_id) values (22, true, 25, 22);
-insert into friendship (id, accepted, user1_id, user2_id) values (23, true, 25, 23);
-insert into friendship (id, accepted, user1_id, user2_id) values (24, true, 25, 24);
-insert into friendship (id, accepted, user1_id, user2_id) values (25, true, 25, 26);
+insert into friendship (id, accepted, user1_id, user2_id) values (41, true, 25, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (42, true, 25, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (43, true, 25, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (44, true, 25, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (45, true, 25, 26);
 
-insert into friendship (id, accepted, user1_id, user2_id) values (26, true, 26, 21);
-insert into friendship (id, accepted, user1_id, user2_id) values (27, true, 26, 22);
-insert into friendship (id, accepted, user1_id, user2_id) values (28, true, 26, 23);
-insert into friendship (id, accepted, user1_id, user2_id) values (29, true, 26, 24);
-insert into friendship (id, accepted, user1_id, user2_id) values (30, true, 26, 25);
+insert into friendship (id, accepted, user1_id, user2_id) values (46, true, 26, 21);
+insert into friendship (id, accepted, user1_id, user2_id) values (47, true, 26, 22);
+insert into friendship (id, accepted, user1_id, user2_id) values (48, true, 26, 23);
+insert into friendship (id, accepted, user1_id, user2_id) values (49, true, 26, 24);
+insert into friendship (id, accepted, user1_id, user2_id) values (50, true, 26, 25);
 
 
 insert into avio_company (id,name,address_id,description,average_rating) values (101,'AirSerbia',101,'etihad uzo', 2.0);

@@ -51,11 +51,14 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public void removeUser(User user) {
+		//user.setDeleted(true);
+		//userRepository.save(user);
+		
 		userRepository.delete(user);
 	}
 	
-	public void updateUser(User user) {
-		userRepository.save(user);
+	public User updateUser(User user) {
+		return userRepository.save(user);
 	}
 	
 	

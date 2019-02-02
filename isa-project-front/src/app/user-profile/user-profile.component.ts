@@ -28,6 +28,22 @@ export class UserProfileComponent implements OnInit {
 
   usersToSearch: UserDTO[] = [];
 
+  newFriend: UserDTO;
+  requests: UserDTO[] = [];
+  request: UserDTO;
+
+  edit: boolean = false;
+  changedUser: UserDTO; 
+
+  inputUsername: string;
+  inputName: string;
+  inputLastName: string;
+  inputEmail: string;
+  inputCity: string;
+  inputTelephoneNumber: string;
+
+
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute
@@ -40,10 +56,18 @@ export class UserProfileComponent implements OnInit {
     if (this.len > 0) {
       this.getUserByUsername(this.username).subscribe(data => {
         this.user = data;
+        this.changedUser = this.user;
+        this.inputUsername = this.user.username;
+        this.inputName = this.user.name;
+        this.inputLastName = this.user.lastName;
+        this.inputEmail = this.user.email;
+        this.inputCity = this.user.city;
+        this.inputTelephoneNumber = this.user.telephoneNumber;
       });
 
       this.getUserFriendsByUsername(this.username).subscribe(data => {
         this.friends = data;
+      
       });
 
       this.getUserList().subscribe(data => {
@@ -54,8 +78,22 @@ export class UserProfileComponent implements OnInit {
         this.usersToSearch = data;
       });
 
+      this.getUsersRequests(this.username).subscribe(data => {
+        this.requests = data;
+      });
+
     }
 
+  }
+
+  addFriend(newFriend: UserDTO) {
+    this.newFriend = newFriend;
+    this.userService.addFriend(this.user.id, this.newFriend).subscribe(data => {
+      this.getUsersToSearch(this.username).subscribe(data => {
+        this.usersToSearch = data;
+      });
+
+    });
   }
 
   removeFriend(id: number, idFriend: number) {
@@ -74,6 +112,60 @@ export class UserProfileComponent implements OnInit {
 
     });
 
+  }
+
+  acceptFriendship(idFriend: number) {
+    this.friendId = idFriend;
+    this.userService.acceptFriendship(this.user.id, this.friendId).subscribe(data => {
+      console.log(data);
+      this.getUsersRequests(this.username).subscribe(data => {
+        this.requests = data;
+      });
+
+      this.getUserFriendsByUsername(this.username).subscribe(data => {
+        this.friends = data;
+      });
+
+      this.getUsersToSearch(this.username).subscribe(data => {
+        this.usersToSearch = data;
+      });
+
+    })
+  }
+
+  declineFriendship(idFriend: number) {
+    this.friendId = idFriend;
+    this.userService.declineFriedship(this.id, this.friendId).subscribe(data => {
+      console.log(data);
+      this.getUsersRequests(this.username).subscribe(data => {
+        this.requests = data;
+      });
+    });
+  }
+
+  saveChangedData(){
+    this.changedUser.name = this.inputName;
+    this.changedUser.lastName = this.inputLastName;
+    this.changedUser.email = this.inputEmail;
+    this.changedUser.telephoneNumber = this.inputTelephoneNumber;
+    this.changedUser.city = this.inputCity;
+    
+    console.log(this.changedUser);
+    console.log(this.user);
+    this.edit = false;
+
+    this.userService.updateUser(this.user.id, this.changedUser).subscribe(data=>{
+      this.user = data;
+      console.log(this.user);
+    });
+  }
+  discardChangedData(){
+    this.inputName = this.changedUser.name;
+    this.inputLastName = this.changedUser.lastName;
+    this.inputEmail = this.changedUser.email;
+    this.inputTelephoneNumber = this.changedUser.telephoneNumber;
+    this.inputCity = this.changedUser.city;
+    this.edit = false;
   }
 
   logOut() {
@@ -99,4 +191,9 @@ export class UserProfileComponent implements OnInit {
   public getUsersToSearch(username: string): Observable<any> {
     return this.userService.getUsersForSearch(username);
   }
+
+  public getUsersRequests(username: string): Observable<any> {
+    return this.userService.getUsersRequest(username);
+  }
+
 }

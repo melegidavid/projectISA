@@ -47,45 +47,44 @@
     </div>
 </nav>
 
-
-
 <div class="container-fluid padding">
     <div class="row padding">
-        <div class="col-md-4">
-            <div class="left">
-                <div id="search">
-                    <input #search type="search" [(ngModel)]="firstNameText" [(ngModel)]="lastNameText" [placeholder]="filled?'Search':''"
-                        [ngClass]="{'filled':filled}" (click)="filled=true" >
+        <div style="widows: 50px;">
 
-                    <button type="button" class="close" *ngIf="filled" (click)="search.value='';filled=false; firstNameText=''; lastNameText=''">X</button>
-                </div>
-                <br>
-                <div *ngIf="filled">
-                    <div *ngFor="let user of usersToSearch | searchUserFirstName: firstNameText : lastNameText; let i=index;">
-                        <div>
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <h6 style="font-weight:bold;" *ngIf="user">{{user.name}}
-                                        {{user.lastName}}</h6>
-                                </div>
-                                <div class="col-sm-4">
-                                   <button>RADI</button>
-                                </div>
+        </div>
+        <div class="left">
+            <div id="search">
+                <input #search type="search" [(ngModel)]="firstNameText" [(ngModel)]="lastNameText" [placeholder]="filled?'Search':''"
+                    [ngClass]="{'filled':filled}" (click)="filled=true; getUsersToSearch(user.username)">
+
+                <button type="button" class="close" *ngIf="filled" (click)="search.value='';filled=false; firstNameText=''; lastNameText=''">X</button>
+            </div>
+            <br>
+            <div *ngIf="filled">
+                <div *ngFor="let user of usersToSearch | searchUserFirstName: firstNameText : lastNameText; let i=index;">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h6 style="font-weight:bold;" *ngIf="user">{{user.name}}
+                                    {{user.lastName}}</h6>
                             </div>
-                            <hr>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-outline-danger" (click)="addFriend(user)">Add</button>
+                            </div>
                         </div>
+                        <hr>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-sm-9">
             <div class="card">
                 <div class="card-body">
                     <div class="card-title mb-4">
                         <div class="d-flex justify-content-start">
                             <div class="image-container">
-                                <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px"
-                                    class="img-thumbnail" />
+                                <img src="images/user-150x150.png"
+                                    id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="file" style="display: none;" id="profilePicture" name="file" />
                                 </div>
@@ -94,8 +93,15 @@
                                 <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">
                                     <a href="javascript:void(0);" *ngIf="user">{{user.name}}</a>
                                 </h2>
-                                <h6 class="d-block">
-                                    <a href="javascript:void(0)">Admin</a> of SomeRentCar</h6>
+                                <h2 class="d-block" style="font-size: 1.0rem; font-weight: bold">
+                                    <a href="javascript:void(0);" *ngIf="user"> {{user.lastName}}</a>
+                                </h2>
+                                <h2 class="d-block" style="font-size: 1.0rem; font-weight: bold">
+                                    <button type="button" class="btn btn-outline-danger" (click)="edit = true">Change
+                                        data
+                                    </button>
+                                </h2>
+
                             </div>
                         </div>
                     </div>
@@ -108,14 +114,15 @@
                                         role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices"
-                                        role="tab" aria-controls="connectedServices" aria-selected="false">Connected
-                                        Services</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" id="friends-tab" data-toggle="tab" href="#friends" role="tab"
                                         aria-controls="friends" aria-selected="false">Friends</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link " id="requests-tab" data-toggle="tab" href="#requests" role="tab"
+                                        aria-controls="requests" aria-selected="true">Friend Requests</a>
+                                </li>
+
                             </ul>
                             <div class="tab-content ml-1" id="myTabContent">
                                 <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
@@ -125,7 +132,9 @@
                                             <label style="font-weight:bold;">Username:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            <label *ngIf="user">{{user.username}}</label>
+                                            <div>
+                                                <label *ngIf="user">{{user.username}}</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -134,7 +143,12 @@
                                             <label style="font-weight:bold;">Name:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            <label *ngIf="user">{{user.name}}</label>
+                                            <div *ngIf="edit == true">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputName" type="text" class="input">
+                                            </div>
+                                            <div *ngIf="edit == false">
+                                                <label *ngIf="user">{{user.name}}</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -144,18 +158,27 @@
                                             <label style="font-weight:bold;">Last Name:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            <label *ngIf="user">{{user.lastName}}</label>
+                                            <div *ngIf="edit == true">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputLastName" type="text"
+                                                    class="input">
+                                            </div>
+                                            <div *ngIf="edit == false">
+                                                <label *ngIf="user">{{user.lastName}}</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
-
-
                                     <div class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
                                             <label style="font-weight:bold;">E-Mail:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            <label *ngIf="user">{{user.email}}</label>
+                                            <div *ngIf="edit == true">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputEmail" type="text" class="input">
+                                            </div>
+                                            <div *ngIf="edit == false">
+                                                <label *ngIf="user">{{user.email}}</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -164,7 +187,12 @@
                                             <label style="font-weight:bold;">City:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            <label *ngIf="user">{{user.city}}</label>
+                                            <div *ngIf="edit == true">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputCity" type="text" class="input">
+                                            </div>
+                                            <div *ngIf="edit == false">
+                                                <label *ngIf="user">{{user.city}}</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
@@ -173,26 +201,37 @@
                                             <label style="font-weight:bold;">Telephone number:</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            <label *ngIf="user">{{user.telephoneNumber}}</label>
+                                            <div *ngIf="edit == true">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputTelephoneNumber" type="text"
+                                                    class="input">
+                                            </div>
+                                            <div *ngIf="edit == false">
+                                                <label *ngIf="user">{{user.telephoneNumber}}</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
+                                    <div *ngIf="edit == true" class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <button type="button" class="btn btn-outline-danger" (click)="saveChangedData()">Save</button>
+                                        </div>
+                                        <div class="col-sm-8 col-6">
+                                            <button type="button" class="btn btn-outline-danger" (click)="discardChangedData()">Discard</button>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                </div>
-                                <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
-                                    Facebook, Google, Twitter Account that are connected to this account
-                                </div>
                                 <div class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="friends-tab">
                                     <div *ngFor="let friend of friends">
                                         <div class="jumbotron">
-                                            <div class="sticky-top">
+                                            <div>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <h2 class="display-6" style="font-weight:bold;" *ngIf="friend">{{friend.id}}
+                                                        <h2 class="display-6" style="font-weight:bold;" *ngIf="friend">
                                                             {{friend.username}}</h2>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <button type="button" class="btn btn-outline-danger" (click)="removeFriend(user.id, friend.id)">Izbrisi</button>
+                                                        <button type="button" class="btn btn-outline-danger" (click)="removeFriend(user.id, friend.id)">Delete</button>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -200,7 +239,7 @@
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col-sm-4">
-                                                                <label style="font-weight:bold;">Ime:</label>
+                                                                <label style="font-weight:bold;">Name:</label>
                                                             </div>
                                                             <div class="col-sm-8">
                                                                 <label *ngIf="friend">{{friend.name}}</label>
@@ -211,7 +250,7 @@
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col-sm-4">
-                                                                <label style="font-weight:bold;">Email:</label>
+                                                                <label style="font-weight:bold;">E-mail:</label>
                                                             </div>
                                                             <div class="col-sm-8">
                                                                 <label *ngIf="friend">{{friend.email}}</label>
@@ -225,7 +264,7 @@
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col-sm-4">
-                                                                <label style="font-weight:bold;">Prezime:</label>
+                                                                <label style="font-weight:bold;">Last name:</label>
                                                             </div>
                                                             <div class="col-sm-8">
                                                                 <label *ngIf="friend">{{friend.lastName}}</label>
@@ -236,13 +275,37 @@
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <div class="col-sm-4">
-                                                                <label style="font-weight:bold;">Telefon:</label>
+                                                                <label style="font-weight:bold;">Phone number:</label>
                                                             </div>
                                                             <div class="col-sm-8">
                                                                 <label *ngIf="friend">{{friend.telephoneNumber}}</label>
                                                             </div>
                                                         </div>
                                                         <hr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="requests" role="tabpanel" aria-labelledby="requests-tab">
+                                    <div *ngFor="let request of requests">
+                                        <div class="jumbotron">
+                                            <div class="row" style="height: 10px">
+                                                <div class="col-sm-6">
+                                                    <label>{{request.name}} {{request.lastName}}</label>
+                                                    <hr>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <button type="button" class="btn btn-outline-danger"
+                                                                (click)="acceptFriendship(request.id)">Accept</button>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <button type="button" class="btn btn-outline-danger"
+                                                                (click)="declineFriendship(request.id)">Decline</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

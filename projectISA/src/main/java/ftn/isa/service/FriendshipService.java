@@ -21,8 +21,12 @@ public class FriendshipService {
 		return list;
 	}
 	
-	public void saveFriendship(Friendship friendship) {
-		friendshipRepository.save(friendship);
+	public Friendship findFriendship(Long id) {
+		return friendshipRepository.getOne(id);
+	}
+	
+	public Friendship saveFriendship(Friendship friendship) {
+		return friendshipRepository.save(friendship);
 	}
 	
 	public void updateFriendship(Friendship friendship) {

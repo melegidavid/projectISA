@@ -37,12 +37,29 @@ export class UserService {
     return this.http.get("http://localhost:9004/users/" + username + "/friendsList", { responseType: 'json' });
   }
 
+  addFriend(id: number, newFriend: UserDTO): Observable<any> {
+    return this.http.post("http://localhost:9004/users/" + id + "/addFriend", newFriend, { responseType: 'json' });
+  }
+
+
   removeFriend(id: number, idFriend: number): Observable<any> {
     return this.http.delete("http://localhost:9004/users/" + id + "/friends/" + idFriend, { responseType: 'text' });
   }
 
   getUsersForSearch(username: string): Observable<any> {
     return this.http.get("http://localhost:9004/users/" + username + "/usersToSearch", { responseType: 'json' });
+  }
+
+  getUsersRequest(username: string): Observable<any> {
+    return this.http.get("http://localhost:9004/users/" + username + "/listOfRequests", { responseType: 'json' });
+  }
+
+  acceptFriendship(id: number, idFriend: number): Observable<any> {
+    return this.http.post("http://localhost:9004/users/" + id + "/acceptFriendshipRequest/" + idFriend, { responseType: 'json' });
+  }
+
+  declineFriedship(id: number, idFriend: number): Observable<any> {
+    return this.http.delete("http://localhost:9004/users/" + id + "/declineFriendshipRequest/" + idFriend);
   }
 
 
@@ -68,8 +85,8 @@ export class UserService {
 
 
 
-  updateUser(id: number, value: any): Observable<Object> {
-    return this.http.put(`${this.baseUrl}/${id}`, value);
+  updateUser(id: number, value: UserDTO): Observable<any> {
+    return this.http.post("http://localhost:9004/users/" + id + "/update", value, { responseType: 'json' });
   }
 
   deleteUser(id: number): Observable<any> {
@@ -77,26 +94,27 @@ export class UserService {
   }
 
   getUsersList(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/all`);
+    return this.http.get(`${this.baseUrl}`);
   }
 
   getUsersByAge(age: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/age/${age}`);
   }
 
+
   deleteAll(): Observable<any> {
     return this.http.delete(`${this.baseUrl}` + `/delete`, { responseType: 'text' });
   }
 
-  getRoles(username: string) : Observable<AuthorityDTO> {
+  getRoles(username: string): Observable<AuthorityDTO> {
     return this.http.get<AuthorityDTO>("http://localhost:9004/auth/" + username + "/getRoles");
   }
 
-  addUser(user : UserDTO) {
+  addUser(user: UserDTO) {
     this.http.post<UserDTO>("http://localhost:9004/users/add", user)
-    .subscribe(data => {
-      
-    });
+      .subscribe(data => {
+
+      });
   }
 
 }
