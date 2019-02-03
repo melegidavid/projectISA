@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,6 @@ import ftn.isa.service.RentCarBranchService;
 import ftn.isa.service.RentCarService;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200") 
 @RequestMapping(value = "rent_car_branches")
 public class RentCarBranchController {
 	
@@ -88,23 +86,32 @@ public class RentCarBranchController {
 		
 		RentCarBranch rentCarBranch = new RentCarBranch();
 		
-		Address address = addressService.findOne(rentCarBranchDTO.getAddressDTO().getId());
 		RentCar rentCar = rentCarService.findOne(rentCarBranchDTO.getRentCarDTO().getId());
 		
-		if(address == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		//Address address = addressService.findOne(rentCarBrnchDTO.getAddressDTO().getId());
 		
-		rentCarBranch.setName(rentCarBranchDTO.getName());
-		rentCarBranch.setAddress(address);
-		rentCarBranch.setRentCar(rentCar);
+		//if(rentCarBranchDTO.getAddressDTO().getId() == 0) {
+			Address address = new Address();
+			address.setCountry(rentCarBranchDTO.getAddressDTO().getCountry());
+			address.setCity(rentCarBranchDTO.getAddressDTO().getCity());
+			address.setStreet(rentCarBranchDTO.getAddressDTO().getStreet());
+			address.setNumber(rentCarBranchDTO.getAddressDTO().getNumber());
+			address.setPostalCode(rentCarBranchDTO.getAddressDTO().getPostalCode());
+			addressService.save(address);
+			
+			
+			rentCarBranch.setName(rentCarBranchDTO.getName());
+			rentCarBranch.setAddress(address);
+			rentCarBranch.setRentCar(rentCar);
+			
+		//}
 		
 		rentCarBranch = branchService.save(rentCarBranch);
 		
 		return new ResponseEntity<>(new RentCarBranchDTO(rentCarBranch), HttpStatus.CREATED);	
 	}
 	
-	@RequestMapping(value="/update", method=RequestMethod.PUT, consumes="application/json") //bez value mozda
+	@RequestMapping(value="/update", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<RentCarBranchDTO> updateRentCar(@RequestBody RentCarBranchDTO rentCarBranchDTO){
 		
 		RentCarBranch rentCarBranch = branchService.findOne(rentCarBranchDTO.getId()); 
@@ -114,6 +121,12 @@ public class RentCarBranchController {
 		}
 		
 		rentCarBranch.setName(rentCarBranchDTO.getName());
+		rentCarBranch.getAddress().setCountry(rentCarBranchDTO.getAddressDTO().getCountry());
+		rentCarBranch.getAddress().setCity(rentCarBranchDTO.getAddressDTO().getCity());
+		rentCarBranch.getAddress().setStreet(rentCarBranchDTO.getAddressDTO().getStreet());
+		rentCarBranch.getAddress().setPostalCode(rentCarBranchDTO.getAddressDTO().getPostalCode());
+		rentCarBranch.getAddress().setNumber(rentCarBranchDTO.getAddressDTO().getNumber());
+		
 		rentCarBranch = branchService.update(rentCarBranch);
 		
 		return new ResponseEntity<>(new RentCarBranchDTO(rentCarBranch), HttpStatus.OK);	

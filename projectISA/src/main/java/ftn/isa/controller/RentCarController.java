@@ -1,8 +1,6 @@
 package ftn.isa.controller;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import ftn.isa.dto.RentCarSearchDTO;
 import ftn.isa.dto.VehicleDTO;
 import ftn.isa.model.Address;
 import ftn.isa.model.RentCar;
-import ftn.isa.model.RentCarBranch;
 import ftn.isa.model.RentCarMenuItem;
 import ftn.isa.model.Vehicle;
 import ftn.isa.service.AddressService;
@@ -44,9 +41,6 @@ public class RentCarController {
 	
 	@Autowired
 	private VehicleService vehicleService;
-	
-	@Autowired 
-	private RentCarBranchService branchService;
 	
 	@RequestMapping(value="/all", method = RequestMethod.GET)
 	public ResponseEntity<List<RentCarDTO>> getAllRentCars() {
@@ -119,7 +113,7 @@ public class RentCarController {
 		return new ResponseEntity<>(new RentCarDTO(rentCar), HttpStatus.CREATED);	
 	}
 	
-	@RequestMapping(value="/update", method=RequestMethod.PUT, consumes="application/json") //bez value mozda
+	@RequestMapping(value="/update", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<RentCarDTO> updateRentCar(@RequestBody RentCarDTO rentCarDTO){
 		
 		RentCar rentCar = rentCarService.findOne(rentCarDTO.getId()); 
@@ -128,7 +122,7 @@ public class RentCarController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		rentCar.setId(rentCarDTO.getId());
+		//rentCar.setId(rentCarDTO.getId()); id ne sme da se menja
 		rentCar.setName(rentCarDTO.getName());
 		rentCar.setDescription(rentCarDTO.getDescription());
 		//rentCar.setAddress(rentCarDTO.getAddressDTO()); ne dozvoliti da se menja adresa
@@ -259,6 +253,8 @@ public class RentCarController {
 		
 		List<Vehicle> vehicles = rentCar.getVehicles();
 		
+		System.out.println(vehicles.size());
+		
 		if(vehicles.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -278,7 +274,6 @@ public class RentCarController {
 		RentCar rentCar = rentCarService.findOne(vehicleDTO.getRentCar().getId());
 		
 		vehicle.setRentCar(rentCar);
-		vehicle.setFree(vehicleDTO.isFree());
 		vehicle.setMark(vehicleDTO.getMark());
 		vehicle.setModel(vehicleDTO.getModel());
 		vehicle.setName(vehicleDTO.getName());

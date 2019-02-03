@@ -18,13 +18,21 @@ public class RentCarBranchService {
 	
 	
 	public RentCarBranch findOne(Long id) {
+		//proveriti a li je obrisan
 		return rentCarBranchRepository.getOne(id);
 	}
 	
 	public List<RentCarBranch> findAll() {
-		List<RentCarBranch> list = new ArrayList<RentCarBranch>();
-		rentCarBranchRepository.findAll().forEach(list::add);
-		return list;
+		List<RentCarBranch> list = rentCarBranchRepository.findAll();
+		List<RentCarBranch> result = new ArrayList<RentCarBranch>();
+		
+		for(RentCarBranch r : list) {
+			if(!r.isDeleted()) {
+				result.add(r);
+			}
+		}
+		
+		return result;
 	}
 	
 	public RentCarBranch save(RentCarBranch branch) {
@@ -36,7 +44,9 @@ public class RentCarBranchService {
 	}
 	
 	public void remove(Long id) {
-		rentCarBranchRepository.deleteById(id);
+		RentCarBranch rcb = this.findOne(id);
+		rcb.setDeleted(true);
+		this.update(rcb);
 	}
 	
 }

@@ -19,9 +19,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Where;
+
 import ftn.isa.enums.VehicleType;
 
 @Entity
+@Where(clause="deleted=0")
 public class Vehicle {
 
 	@Id
@@ -33,7 +36,7 @@ public class Vehicle {
 	private String mark;
 	private String model;
 	private int yearProduced;
-	private boolean free;
+	private boolean deleted;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private RentCar rentCar;
@@ -52,7 +55,7 @@ public class Vehicle {
 	}
 
 	public Vehicle(VehicleType type, int seatsNumber, String name, String mark, String model, int yearProduced,
-			boolean free, RentCarBranch returnPlace, RentCar rentCar) {
+			RentCarBranch returnPlace, RentCar rentCar) {
 		super();
 		this.type = type;
 		this.seatsNumber = seatsNumber;
@@ -60,8 +63,8 @@ public class Vehicle {
 		this.mark = mark;
 		this.model = model;
 		this.yearProduced = yearProduced;
-		this.free = free;
 		this.rentCar = rentCar;
+		this.deleted = false;
 	}
 
 	public Long getId() {
@@ -120,13 +123,6 @@ public class Vehicle {
 		this.yearProduced = yearProduced;
 	}
 
-	public boolean isFree() {
-		return free;
-	}
-
-	public void setFree(boolean free) {
-		this.free = free;
-	}
 
 	public Map<Long, Integer> getRates() {
 		return rates;
@@ -150,5 +146,13 @@ public class Vehicle {
 
 	public void setRentCar(RentCar rentCar) {
 		this.rentCar = rentCar;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

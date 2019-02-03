@@ -76,22 +76,30 @@ public class VehicleController {
 	@RequestMapping(value="/save", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<VehicleDTO> saveVehicle(@RequestBody VehicleDTO vehicleDTO){
 		
+		System.out.println(vehicleDTO.getMark());
+		System.out.println(vehicleDTO.getModel());
+		System.out.println(vehicleDTO.getName());
+		System.out.println(vehicleDTO.getSeatsNumber());
+		System.out.println(vehicleDTO.getYearProduced());
+		System.out.println(vehicleDTO.getType());
+		System.out.println(vehicleDTO.getRentCar().getId());
+		
 		Vehicle vehicle = new Vehicle();
 		
-		vehicle.setFree(vehicleDTO.isFree());
 		vehicle.setMark(vehicleDTO.getMark());
 		vehicle.setModel(vehicleDTO.getModel());
 		vehicle.setName(vehicleDTO.getName());
 		vehicle.setSeatsNumber(vehicleDTO.getSeatsNumber());
 		vehicle.setType(vehicleDTO.getType());
 		vehicle.setYearProduced(vehicleDTO.getYearProduced());
+		vehicle.setRentCar(rentCarService.findOne(vehicleDTO.getRentCar().getId()));//ovo
 		
 		vehicle = vehicleService.save(vehicle);
 		
 		return new ResponseEntity<>(new VehicleDTO(vehicle), HttpStatus.CREATED);	
 	}
 	
-	@RequestMapping(value="/update", method=RequestMethod.PUT, consumes="application/json") //bez value mozda
+	@RequestMapping(value="/update", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<VehicleDTO> updateRentCar(@RequestBody VehicleDTO vehicleDTO){
 		
 		Vehicle vehicle = vehicleService.findOne(vehicleDTO.getId()); 
@@ -100,7 +108,6 @@ public class VehicleController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		vehicle.setFree(vehicleDTO.isFree());
 		vehicle.setMark(vehicleDTO.getMark());
 		vehicle.setModel(vehicleDTO.getModel());
 		vehicle.setName(vehicleDTO.getName());
@@ -115,7 +122,7 @@ public class VehicleController {
 	
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteRentCar(@PathVariable Long id){
+	public ResponseEntity<Void> deleteVehicle(@PathVariable Long id){
 		
 		Vehicle vehicle = vehicleService.findOne(id);
 		

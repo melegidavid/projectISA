@@ -76,14 +76,14 @@ insert into hotel_room (id, number, free, hotel_id, description, price, bed_numb
 
 insert into rent_car (id, name, address_id, description) values (101,'Mica rentakar', 101, 'Imamo sve.');
 
-insert into rent_car_branch (id, name, address_id, rent_car_id) values (101, 'Micin brenc', 101, 101);
+insert into rent_car_branch (id, name, address_id, rent_car_id, deleted) values (101, 'Micin brenc', 101, 101, 0);
 
 insert into rent_car_menu_item (id, service_name, price, description,rent_car_id) values (101,'Pranje kola', 200,'Opis pranja kola', 101);
 
 
-insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_id)  values (101, 0, 5, 'Auto paja', 'Audi', 'A4', 2010, true, 101);
-insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_id)  values (102, 1, 2, 'Auto paja', 'Aprilia', 'SR', 2010, true, 101);
-insert into vehicle (id, type, seats_number, name, mark, model, year_produced, free, rent_car_id)  values (103, 2, 2, 'Auto paja', 'Suzuki', 'SX500', 2015, true, 101);
+insert into vehicle (id, type, seats_number, name, mark, model, year_produced, rent_car_id,deleted)  values (101, 0, 5, 'Auto paja', 'Audi', 'A4', 2010, 101, 0);
+insert into vehicle (id, type, seats_number, name, mark, model, year_produced, rent_car_id,deleted)  values (102, 1, 2, 'Auto paja', 'Aprilia', 'SR', 2010, 101, 0);
+insert into vehicle (id, type, seats_number, name, mark, model, year_produced, rent_car_id,deleted)  values (103, 2, 2, 'Auto paja', 'Suzuki', 'SX500', 2015, 101, 0);
 
 --insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id)  values (101, '2019-01-21', '2019-01-15', 101, 101, 101, 21);
 --insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id)  values (102, '2019-01-21', '2019-01-15', 102, 101, 101, 22);

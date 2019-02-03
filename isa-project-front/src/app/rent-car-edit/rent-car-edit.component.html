@@ -3,77 +3,214 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 <!------ Include the above in your HEAD tag ---------->
 
-<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" routerLink="/home">
-        <img src="images/travel.png">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/home">Home</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/hotels">Hotels</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/rentACar">Rent a car</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" *ngIf="len > 0">{{username}}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
 
 <div class="container contact-form">
     <div class="contact-image">
         <img src="images/edit.png" alt="edit" />
     </div>
-    <form method="post">
+    <form (ngSubmit)="onSubmit()">
         <h3>Edit Rent a Car</h3>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <input type="text" name="txtName" class="form-control" placeholder="Naziv *" value="" />
+                    <input type="text" [(ngModel)]="rentCar.name" name="txtName" class="form-control" placeholder="Naziv *"
+                        value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" name="txtEmail" class="form-control" placeholder="Adresa *" value="" />
+                    <input type="text" [(ngModel)]="rentCar.description" name="txtPhone" class="form-control"
+                        placeholder="Promotivni opis" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" name="txtPhone" class="form-control" placeholder="Promotivni opis" value="" />
+                    <input type="submit" class="ad-btn" value="Save" />
                 </div>
-                <div class="form-group">
-                    <input type="submit" name="btnSubmit" class="btnContact" value="Manage vehicles" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" name="btnSubmit" class="btnContact" value="Manage menu" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" name="btnSubmit" class="btnContact" value="Save" />
-                </div>
-
-            </div>
-            <div class="col-md-6">
-
             </div>
         </div>
+
+        <div class="row">
+            <div class="container-fluid padding">
+                <div class="row welcome text-centre">
+                    <div class="col-12">
+                        <h1 class="display-4">Vehicles</h1>
+                        <button type="button" class="ad-btn" (click)="toggleAdd()">Add new vehicle</button>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="showAddDiv" class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="vehicleToAdd.name" name="txtAdd1" class="form-control" placeholder="Naziv *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="vehicleToAdd.mark" name="txtAdd2" class="form-control" placeholder="Marka *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="vehicleToAdd.model" name="txtAdd3" class="form-control" placeholder="Model"
+                        value="" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="vehicleToAdd.type" name="txtAdd4" class="form-control" placeholder="Tip *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="number" [(ngModel)]="vehicleToAdd.seatsNumber" name="txtAdd5" class="form-control"
+                        placeholder="Broj sedista *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="number" [(ngModel)]="vehicleToAdd.yearProduced" name="txtAdd6" class="form-control"
+                        placeholder="Godina proizvodnje" value="" />
+                </div>
+                <button type="button" class="ad-btn" (click)="addVehicle()">Add</button>
+            </div>
+        </div>
+
+        <div class="row" id="ads">
+            <div class="col-md-4" *ngFor="let vehicle of vehicles">
+                <div class="card rounded">
+                    <div class="card-image">
+                        <span class="card-notify-badge">{{vehicle.yearProduced}}</span>
+                        <!-- <span class="card-notify-year">yearproduced</span> -->
+                        <img class="img-fluid" *ngIf="vehicle.type === 'CAR'" src="images/carVehicleType2.jpg" alt="Alternate Text" />
+                        <img class="img-fluid" *ngIf="vehicle.type === 'BIKE'" src="images/bikeVehicleType2.jpg" alt="Alternate Text" />
+                        <img class="img-fluid" *ngIf="vehicle.type === 'QUAD'" src="images/quadVehicleType.jpg" alt="Alternate Text" />
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="ad-title m-auto">
+                            <h5>{{vehicle.mark + ' '}} {{vehicle.model}}</h5>
+                        </div>
+                        <button type="button" class="ad-btn" (click)="hideVehicle(vehicle.id)">Remove</button>
+                        <button type="button" class="ad-btn" (click)="toggleUpdate(vehicle.id)">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="showUpdateDiv" class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="vehicleToUpdate.name" name="txtUpdate1" class="form-control"
+                        placeholder="Name *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="vehicleToUpdate.mark" name="txtUpdate2" class="form-control"
+                        placeholder="Mark *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="vehicleToUpdate.model" name="txtUpdate3" class="form-control"
+                        placeholder="Model" value="" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="vehicleToUpdate.type" name="txtUpdate4" class="form-control"
+                        placeholder="Type *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="number" [(ngModel)]="vehicleToUpdate.seatsNumber" name="txtUpdate5" class="form-control"
+                        placeholder="Number of seats *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="number" [(ngModel)]="vehicleToUpdate.yearProduced" name="txtUpdate6" class="form-control"
+                        placeholder="Year of produce" value="" />
+                </div>
+                <button type="button" class="ad-btn" (click)="updateVehicle()">Update</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="container-fluid padding">
+                <div class="row welcome text-centre">
+                    <div class="col-12">
+                        <h1 class="display-4">Branches</h1>
+                        <button type="button" class="ad-btn" (click)="toggleAddBranch()">Add new branch</button>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="showAddBranchDiv" class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="branchToAdd.name" name="txtAdd1" class="form-control" placeholder="Name *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="branchToAdd.addressDTO.country" name="txtAdd2" class="form-control" placeholder="Country *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="branchToAdd.addressDTO.city" name="txtAdd3" class="form-control" placeholder="City *"
+                        value="" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="branchToAdd.addressDTO.street" name="txtAdd4" class="form-control" placeholder="Street *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="number" [(ngModel)]="branchToAdd.addressDTO.number" name="txtAdd5" class="form-control" placeholder="Number *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="number" [(ngModel)]="branchToAdd.addressDTO.postalCode" name="txtAdd6" class="form-control" placeholder="Postal code *" value="" />
+                </div>
+                <button type="button" class="ad-btn" (click)="addBranch()">Add</button>
+            </div>
+        </div>
+
+
+
+        <div class="row" *ngFor="let branch of branches">
+            <div class="col-md-6">
+                <label>{{branch.name}}</label>
+                <button type="button" class="ad-btn" (click)="hideBranch(branch.id)">Remove</button>
+            </div>
+            <div class="col-md-6">
+                <p>{{branch.addressDTO.street + ' '}} {{branch.addressDTO.number + ', '}} {{branch.addressDTO.city
+                    + ', '}} {{branch.addressDTO.country}} </p>
+                <button type="button" class="ad-btn" (click)="toggleUpdateBranch(branch.id)">Update</button>
+            </div>
+            <hr>
+        </div>
+
+        <!----><div *ngIf="showUpdateBranchDiv" class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="branchToUpdate.name" name="txtUpdates1" class="form-control" placeholder="Name *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="branchToUpdate.addressDTO.country" name="txtUpdates12" class="form-control" placeholder="Country *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="branchToUpdate.addressDTO.city" name="txtUpdates13" class="form-control" placeholder="City *"
+                        value="" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="branchToUpdate.addressDTO.street" name="txtUpdates14" class="form-control" placeholder="Street *"
+                        value="" />
+                </div>
+                <div class="form-group">
+                    <input type="number" [(ngModel)]="branchToUpdate.addressDTO.number" name="txtUpdates15" class="form-control" placeholder="Number *" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="number" [(ngModel)]="branchToUpdate.addressDTO.postalCode" name="txtUpdates16" class="form-control" placeholder="Postal code *" value="" />
+                </div>
+                <button type="button" class="ad-btn" (click)="updateBranch()">Update</button>
+            </div>
+        </div>
+
+
     </form>
 </div>

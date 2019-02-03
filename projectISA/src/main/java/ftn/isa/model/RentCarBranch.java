@@ -10,13 +10,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Where;
+
 @Entity
+@Where(clause="deleted=0")
 public class RentCarBranch {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
+	private boolean deleted;
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
@@ -32,7 +36,8 @@ public class RentCarBranch {
 
 	public RentCarBranch(String name) {
 		super();
-		this.name = name;	
+		this.name = name;
+		this.deleted = false;
 	}
 
 	public Long getId() {
@@ -65,5 +70,13 @@ public class RentCarBranch {
 
 	public void setRentCar(RentCar rentCar) {
 		this.rentCar = rentCar;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

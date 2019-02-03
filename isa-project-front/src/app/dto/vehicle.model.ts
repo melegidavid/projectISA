@@ -9,8 +9,5 @@ export class Vehicle {
     mark: string;
     model: string;
     yearProduced: number;
-    free: boolean;
-    returnPlace = RentACarBranch;
-    rentCarBranch = RentACarBranch;
-    rentCar = RentACar;
+    rentCar : RentACar;
 }

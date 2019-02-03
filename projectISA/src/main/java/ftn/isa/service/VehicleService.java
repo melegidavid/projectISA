@@ -24,9 +24,18 @@ public class VehicleService {
 	}
 	
 	public List<Vehicle> findAll() {
-		List<Vehicle> list = new ArrayList<Vehicle>();
-		vehicleRepository.findAll().forEach(list::add);
-		return list;
+		System.out.println("usao u servis");
+		List<Vehicle> list = vehicleRepository.findAll();
+		List<Vehicle> result = new ArrayList<Vehicle>();
+		
+		for(Vehicle v : list) {
+			if(!v.isDeleted()) {
+				result.add(v);
+				System.out.println("#############");
+			}
+		}
+		
+		return result;
 	}
 	
 	public Vehicle save(Vehicle vehicle) {
@@ -38,7 +47,9 @@ public class VehicleService {
 	}
 	
 	public void remove(Long id) {
-		vehicleRepository.deleteById(id);
+		Vehicle v = this.findOne(id);
+		v.setDeleted(true);
+		this.update(v);
 	}
 	
 	public List<Vehicle> search(RentCar rentCar, VehicleSearchDTO params) {

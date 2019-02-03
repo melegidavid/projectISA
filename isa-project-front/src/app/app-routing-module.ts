@@ -33,7 +33,7 @@ const routes: Routes = [
       {path: 'search', component: RentCarSearchComponent},
       {path: 'admin', component: UserProfileComponent},
       //{path: 'vehicles', component: RentCarVehicleComponent},
-      {path: 'edit', component: RentCarEditComponent}
+      {path: 'edit/:id', component: RentCarEditComponent}
   ]},
   { path: 'rentACar/:id', component: RentCarProfileComponent},
   { path: 'avioCompanies', component: AllAvioCompaniesComponent},

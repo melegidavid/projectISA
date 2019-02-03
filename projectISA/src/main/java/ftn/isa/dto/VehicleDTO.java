@@ -12,7 +12,6 @@ public class VehicleDTO {
 	private String mark;
 	private String model;
 	private int yearProduced;
-	private boolean free;
 	private RentCarDTO rentCar;
 	
 	public VehicleDTO() {}
@@ -25,7 +24,6 @@ public class VehicleDTO {
 		this.mark = vehicle.getMark();
 		this.model = vehicle.getModel();
 		this.yearProduced = vehicle.getYearProduced();
-		this.free = vehicle.isFree();
 		
 		this.rentCar = new RentCarDTO(vehicle.getRentCar());
 	}
@@ -85,16 +83,6 @@ public class VehicleDTO {
 	public void setYearProduced(int yearProduced) {
 		this.yearProduced = yearProduced;
 	}
-
-	public boolean isFree() {
-		return free;
-	}
-
-	public void setFree(boolean free) {
-		this.free = free;
-	}
-
-	
 
 	public RentCarDTO getRentCar() {
 		return rentCar;
