@@ -3,9 +3,9 @@ package ftn.isa.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import ftn.isa.model.HotelMenuItem;
+import ftn.isa.model.HotelMenuItemReservation;
 
 @Repository
-public interface HotelMenuItemRepository extends JpaRepository<HotelMenuItem,Long> {
+public interface HotelMenuItemReservationRepository extends JpaRepository<HotelMenuItemReservation, Long> {
 
 }

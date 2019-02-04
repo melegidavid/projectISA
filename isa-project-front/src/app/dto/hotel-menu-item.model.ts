@@ -6,4 +6,5 @@ export class HotelMenuItem {
     price: number;
     description: string;
     hotel: Hotel;
+    selected: boolean;
 }

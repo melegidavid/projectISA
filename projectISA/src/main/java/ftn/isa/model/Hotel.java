@@ -44,6 +44,7 @@ public class Hotel {
 	@CollectionTable(name="hotel_rates", joinColumns=@JoinColumn(name="id"))
 	private Map<Long, Integer> rates = new HashMap<>(); 
 	
+	
 	public Hotel() {
 		
 	}
@@ -109,6 +110,4 @@ public class Hotel {
 	public void setMenu(List<HotelMenuItem> menu) {
 		this.menu = menu;
 	}
-	
-	
 }

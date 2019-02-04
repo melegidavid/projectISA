@@ -17,7 +17,8 @@ public class RoomReservation {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date startReservation;
-	private Date endReseravtion;
+	private Date endReservation;
+	private double price;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private User user;
@@ -27,10 +28,11 @@ public class RoomReservation {
 	
 	public RoomReservation() {}
 	
-	public RoomReservation(Date startReservation, Date endReseravtion) {
+	public RoomReservation(Date startReservation, Date endReseravtion, HotelRoom belongsToRoom) {
 		super();
 		this.startReservation = startReservation;
-		this.endReseravtion = endReseravtion;
+		this.endReservation = endReseravtion;
+		this.belongsToRoom = belongsToRoom;
 	}
 
 	public Long getId() {
@@ -49,12 +51,12 @@ public class RoomReservation {
 		this.startReservation = startReservation;
 	}
 
-	public Date getEndReseravtion() {
-		return endReseravtion;
+	public Date getEndReservation() {
+		return endReservation;
 	}
 
-	public void setEndReseravtion(Date endReseravtion) {
-		this.endReseravtion = endReseravtion;
+	public void setEndReservation(Date endReservation) {
+		this.endReservation = endReservation;
 	}
 
 	public User getUser() {
@@ -71,6 +73,14 @@ public class RoomReservation {
 
 	public void setBelongsToRoom(HotelRoom belongsToRoom) {
 		this.belongsToRoom = belongsToRoom;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 	
 }

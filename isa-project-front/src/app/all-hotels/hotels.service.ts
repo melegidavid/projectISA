@@ -4,6 +4,9 @@ import { Hotel } from '../dto/hotel.model';
 import { Observable } from '../../../node_modules/rxjs';
 import { HotelRoom } from '../dto/hotel-room.model';
 import { HotelMenuItem } from '../dto/hotel-menu-item.model';
+import { RoomReservation } from '../dto/room-reservation.model';
+import { RoomSearch } from '../dto/room-search.model';
+import { HotelMenuItemReservation } from '../dto/hotel-menu-item-reservation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,4 +44,29 @@ export class HotelsService {
     console.log("posle dodavanja hotela");
   }
 
+  searchHotels(roomSearch: RoomSearch) : Observable<Hotel[]> {
+    return this.http.post<Hotel[]>("http://localhost:9004/hotels/search", roomSearch);
+  }
+
+  getFreeRooms(id:number, roomSearch: RoomSearch): Observable<HotelRoom[]> {
+    return this.http.post<HotelRoom[]>("http://localhost:9004/hotels/"+ id +"/freeRooms", roomSearch);
+  }
+
+  searchRooms(id:number, roomSearch: RoomSearch) : Observable<HotelRoom[]> {
+    return this.http.post<HotelRoom[]>("http://localhost:9004/hotels/"+ id +"/search", roomSearch);
+  }
+
+  getHotelRoom(id: number | string) : Observable<HotelRoom> {
+    return this.http.get<HotelRoom>("http://localhost:9004/hotels/rooms/" + id, {responseType: 'json'});
+  }
+
+  makeReservation(id: number | string, roomReservation: RoomReservation) {
+    return this.http.post<RoomReservation>("http://localhost:9004/hotels/reservation/" + id, roomReservation)
+    .subscribe();
+  }
+
+  makeItemReservation(id: number | string, itemReservation: HotelMenuItemReservation) {
+    return this.http.post<HotelMenuItemReservation>("http://localhost:9004/hotels/item_reservation/" + id, itemReservation)
+    .subscribe();
+  }
 }

@@ -1,12 +1,12 @@
 package ftn.isa.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ftn.isa.dto.HotelDTO;
 import ftn.isa.dto.HotelMenuItemDTO;
+import ftn.isa.dto.HotelMenuItemReservationDTO;
 import ftn.isa.dto.HotelRoomDTO;
+import ftn.isa.dto.RoomReservationDTO;
+import ftn.isa.dto.RoomSearchDTO;
 import ftn.isa.model.Address;
 import ftn.isa.model.Hotel;
 import ftn.isa.model.HotelMenuItem;
+import ftn.isa.model.HotelMenuItemReservation;
 import ftn.isa.model.HotelRoom;
+import ftn.isa.model.RoomReservation;
+import ftn.isa.model.User;
 import ftn.isa.service.AddressService;
 import ftn.isa.service.HotelMenuItemService;
 import ftn.isa.service.HotelRoomService;
 import ftn.isa.service.HotelService;
+import ftn.isa.service.UserService;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:4200") 
@@ -42,6 +49,8 @@ public class HotelController {
 	@Autowired
 	private HotelMenuItemService hotelMenuItemService;
 	
+	@Autowired
+	private UserService userService;
 	
 	//Kontroler za hotele
 	
@@ -313,4 +322,145 @@ public class HotelController {
 			return new ResponseEntity<>(HttpStatus.OK);			
 		}
 	}
+	
+	@RequestMapping(value="/search", method=RequestMethod.POST) 
+	public ResponseEntity<List<HotelDTO>> searchHotels(@RequestBody RoomSearchDTO rsDTO) {
+		
+		List<HotelDTO> hotelsDTO = new ArrayList<>();
+		List<Hotel> hotels = hotelService.getAllHotels();
+		
+		Date startDate = rsDTO.getStartDate();
+		Date endDate = rsDTO.getEndDate();
+		
+		if(startDate==null || endDate==null) { // ne treba dozvoliti da se ovo desi!
+			for(Hotel hotel: hotels) {
+				hotelsDTO.add(new HotelDTO(hotel));
+			}
+			return new ResponseEntity<>(hotelsDTO, HttpStatus.OK);
+		}
+		
+		for(Hotel hotel: hotels) {
+			List<HotelRoom> rooms = new ArrayList<>(); 
+			rooms =	hotelRoomService.freeHotelRooms(startDate, endDate, hotel);
+			System.out.println(hotel.getName() + " size: " + rooms.size());
+			if(rooms.size() > 0) {
+				hotelsDTO.add(new HotelDTO(hotel));
+			}
+		}
+		
+		return new ResponseEntity<>(hotelsDTO, HttpStatus.OK);
+	}
+	
+	
+	//VRACA SLOBODNE SOBE ZA ODREDJENI HOTEL ZA ODREDJENI VREMENSKI PERIOD
+	@RequestMapping(value="/{id}/freeRooms", method=RequestMethod.POST)
+	public ResponseEntity<List<HotelRoomDTO>> getFreeHotelRooms(@PathVariable("id") Long id, @RequestBody RoomSearchDTO rsDTO) {
+		Hotel hotel = hotelService.findHotel(id);
+		if(hotel == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<HotelRoom> rooms = hotelRoomService.freeHotelRooms(rsDTO.getStartDate(), rsDTO.getEndDate(), hotel);
+		List<HotelRoomDTO> roomsDTO = new ArrayList<>();
+		
+		if(rooms == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		for(HotelRoom r: rooms) {
+			roomsDTO.add(new HotelRoomDTO(r));
+		}
+		
+		return new ResponseEntity<>(roomsDTO, HttpStatus.OK);
+	}
+	
+	//VRACA SLOBODNE SOBE KOJE ZADOVOLJAVAJU BROJ GOSTIJU I ZELJENI BROJ SOBA ZA ODREDJENI VREMENSKI PERIOD
+	@RequestMapping(value="{id}/search", method=RequestMethod.POST)
+	public ResponseEntity<List<HotelRoomDTO>> searchHotelRooms(@PathVariable("id") Long id, @RequestBody RoomSearchDTO rsDTO) {
+		Hotel hotel = hotelService.findHotel(id);
+		
+		if(hotel == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<HotelRoomDTO> roomsDTO = new ArrayList<>();
+		
+		//sve slobodne sobe u hotelu
+		List<HotelRoom> rooms = hotelRoomService.freeHotelRooms(rsDTO.getStartDate(), rsDTO.getEndDate(), hotel);
+		
+		if(rsDTO.getRoomsNumber() > rooms.size()) {
+			//ukoliko je trazeni broj soba veci od broja slobodnih soba, posalji praznu listu
+			return new ResponseEntity<>(roomsDTO, HttpStatus.OK);
+		}
+		
+		//suma kreveta u slobodnim sobama
+		int avaliableBeds = 0;
+		for(HotelRoom r: rooms) {
+			avaliableBeds += r.getBedNumber();
+		}
+		
+		if(rsDTO.getGuestsNumber() > avaliableBeds) {
+			//ako ima manje kreveta nego sto ima gostiju vrati praznu listu
+			return new ResponseEntity<>(roomsDTO, HttpStatus.OK);
+		}
+		
+		for(HotelRoom r: rooms) {
+			//vracamo listu soba ukoliko ima dovoljno kreveta i dovoljno soba
+			roomsDTO.add(new HotelRoomDTO(r));
+		}
+		
+		return new ResponseEntity<>(roomsDTO, HttpStatus.OK);	
+	}
+	
+	//REZERVACIJA SOBE
+	@RequestMapping(value="reservation/{roomId}", method=RequestMethod.POST)
+	public ResponseEntity<RoomReservationDTO> makeRoomReservation(@PathVariable("roomId") Long roomId, @RequestBody RoomReservationDTO rrDTO) {
+		HotelRoom room = hotelRoomService.findHotelRoom(roomId);
+		User user = userService.getUserByUsername(rrDTO.getUsername());
+		
+		if(room == null || user == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		RoomReservation reservation = new RoomReservation();
+		reservation.setStartReservation(rrDTO.getStartReservation());
+		reservation.setEndReservation(rrDTO.getEndReservation());
+		reservation.setBelongsToRoom(room);
+		reservation.setUser(user);
+		reservation.setPrice(rrDTO.getPrice());
+		
+		reservation = hotelRoomService.makeRoomReservation(reservation);
+		
+		return new ResponseEntity<>(new RoomReservationDTO(reservation), HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(value="item_reservation/{itemId}", method=RequestMethod.POST)
+	public ResponseEntity<HotelMenuItemReservationDTO> makeHotelMenuItemReservation(@PathVariable("itemId") Long itemId, @RequestBody HotelMenuItemReservationDTO reservationDTO) {
+		HotelMenuItem item = hotelMenuItemService.findHotelMenuItem(itemId);
+		User user = userService.getUserByUsername(reservationDTO.getUsername());
+		
+		if(item == null || user == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		HotelMenuItemReservation reservation = new HotelMenuItemReservation();
+		reservation.setStartReservation(reservationDTO.getStartReservation());
+		reservation.setEndReservation(reservationDTO.getEndReservation());
+		reservation.setPrice(reservationDTO.getPrice());
+		reservation.setBelongsToHotelMenuItem(item);
+		reservation.setUser(user);
+		
+		reservation = hotelMenuItemService.makeReservation(reservation);
+		
+		return new ResponseEntity<>(new HotelMenuItemReservationDTO(reservation), HttpStatus.CREATED);
+	}
 } 
+
+
+
+
+
+
+
+
+

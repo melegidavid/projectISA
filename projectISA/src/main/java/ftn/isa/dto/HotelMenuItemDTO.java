@@ -9,17 +9,18 @@ public class HotelMenuItemDTO {
 	private double price;
 	private String description;
 	private HotelDTO hotelDTO;
+	private boolean selected; //da li je item odabran od strane korisnika (samo za frontend)
 	
 	public HotelMenuItemDTO() {
 		
 	}
 	
 	public HotelMenuItemDTO(HotelMenuItem hotelMenuItem) {
-		id = hotelMenuItem.getId();
-		serviceName = hotelMenuItem.getServiceName();
-		price = hotelMenuItem.getPrice();
-		description = hotelMenuItem.getDescription();
-		hotelDTO = new HotelDTO(hotelMenuItem.getHotel());
+		this.id = hotelMenuItem.getId();
+		this.serviceName = hotelMenuItem.getServiceName();
+		this.price = hotelMenuItem.getPrice();
+		this.description = hotelMenuItem.getDescription();
+		this.hotelDTO = new HotelDTO(hotelMenuItem.getHotel()); 
 	}
 
 	public Long getId() {
@@ -61,5 +62,12 @@ public class HotelMenuItemDTO {
 	public void setHotelDTO(HotelDTO hotelDTO) {
 		this.hotelDTO = hotelDTO;
 	}
-	
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
 }

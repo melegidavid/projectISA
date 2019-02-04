@@ -1,0 +1,36 @@
+.active {
+    font-size: 1.2em;
+}
+
+.navbar {
+    padding: .8rem;
+}
+
+.navbar-nav li {
+    padding-right: 20px;
+}
+
+.nav-link {
+    font-size: 1.3em;
+}
+
+.active {
+    font-size: 1.2em;
+}
+
+.welcome {
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.welcome hr {
+    border-top: 2px solid #b4b4b4;
+    width: 95%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.row{
+    padding-top: 10px;
+}

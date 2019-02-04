@@ -77,6 +77,14 @@ insert into hotel (id, name, address_id, description) values (102,'Hotel Vojvodi
 insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (101,'Cistimo krevete', 99.99, 'A mozete i sami',102);
 insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (102,'Mini bar', 25.00, 'Neki random opis', 102);
 
+insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (101,'Cistimo krevete', 99.00, 'opis opis opis',102);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (102,'Mini bar', 25.00, 'Neki random opis', 102);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (103,'Wellness and spa', 75.00, 'Sauna, bazeni, masaze', 102);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (104,'Nosenje prtljaga', 10.00, 'opis opis opis',101);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (105,'Prevoz do aerodroma', 25.00, 'Neki random opis', 101);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (106,'Wellness and spa', 75.00, 'Sauna, bazeni, masaze', 101);
+
+
 insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (101,'106', true, 101, 'opis prve sobe', 123.99, 2);
 insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (102,'107', true, 101, 'opis druge sobe', 100.00, 2);
 insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (103,'108', true, 101, 'opis trece sobe', 149.99, 2);
@@ -85,6 +93,11 @@ insert into hotel_room (id, number, free, hotel_id, description, price, bed_numb
 insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (105,'207', true, 102, 'opis druge sobe', 250.00, 3);
 insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (106,'208', true, 102, 'opis trece sobe', 150.00, 2);
 insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (107,'208', true, 102, 'opis cetvrte sobe', 150.00, 4);
+
+insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price) values (102, '2019-01-21', '2019-01-15', 102, 21, 350);
+insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price) values (103, '2019-01-21', '2019-01-15', 103, 21, 450);
+insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price) values (104, '2019-01-21', '2019-01-15', 104, 21, 600);
+
 
 insert into rent_car (id, name, address_id, description) values (101,'Mica rentakar', 101, 'Imamo sve.');
 

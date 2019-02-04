@@ -247,4 +247,6 @@ body {
     position:absolute;
     }
 
-    
+    .row{
+        padding-top: 10px;
+    }

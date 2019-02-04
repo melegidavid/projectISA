@@ -59,47 +59,63 @@
 <div class="container-fluid padding">
   <div class="row padding">
     <div class="col-md-4">
-      <h1>Search</h1>
+      <h1>Search hotels</h1>
       <hr>
-      <form>
+
+      <form (ngSubmit)="search()">
         <div class="form-group">
-          <label for="name1">Name:</label>
-          <input type="text" class="form-control" id="name1" placeholder="Enter name">
+
+          <label for="name1">Hotel name:</label>
+          <input type="text" class="form-control" [(ngModel)]="nameSearch" id="name1" name="name" placeholder="Enter name">
 
           <label for="country1">Country</label>
-          <input type="text" class="form-control" id="country1" placeholder="Enter country">
+          <input type="text" class="form-control" [(ngModel)]="countrySearch" id="country1" name="country" placeholder="Enter country">
 
           <label for="city1">City</label>
-          <input type="text" class="form-control" id="city1" placeholder="Eneter city">
+          <input type="text" class="form-control" [(ngModel)]="citySearch" id="city1" name="city" placeholder="Eneter city">
 
-          <label for="rooms1">Rooms</label>
-          <input class="form-control" type="number" value="1" id="rooms1">
+          <div class="row">
+            <div class="col">
+              <label for="date1">Check in</label>
+            </div>
+            <div class="col">
+              <label for="date1">Check out</label>
+            </div>
+          </div>
 
-          <label for="guests1">Guests</label>
-          <input class="form-control" type="number" value="1" id="guests1">
-
-          <label for="price1">Price</label>
-          <input type="range" class="custom-range" id="customRange" name="price1">
-         
-          
+          <div class="row">
+            <div class="col">
+              <input type="date" [(ngModel)]="startDate" class="form-control" name="dateFrom" id="date1">
+            </div>
+            <div class="col">
+              <input type="date" [(ngModel)]="endDate" class="form-control" name="dateTo" id="date1">
+            </div>
+          </div>
           <hr>
-          <button type="submit" class="btn btn-primary">Search</button>
+          <div class="row">
+            <div class="col">
+              <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
 
     <div class="col-md-8">
-      <div *ngFor="let hotel of hotels">
+      <div *ngFor="let hotel of hotels | hotelPipe: nameSearch:countrySearch:citySearch">
         <div class="jumbotron jumbo-hotel">
-          <h1 class="display-4"> {{hotel.name}} {{hotel.id}} </h1>
+          <h1 class="display-4"> {{hotel.name}}</h1>
           <hr>
           <p class="lead"> {{hotel.addressDTO.country + ','}} {{hotel.addressDTO.city}} </p>
           <p class="lead"> {{hotel.addressDTO.street}} {{hotel.addressDTO.number}}
           </p>
-          <p class="lead">
-            <a [routerLink]="['/hotels', hotel.id]" class="btn btn-outline-secondary btn-lg" role="button">See more</a>
-
-          </p>
+          <div class="row">
+            <div class="col">
+              <p class="lead">
+                <a [routerLink]="['/hotels', hotel.id]" class="btn btn-outline-secondary btn-lg" role="button">See more</a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

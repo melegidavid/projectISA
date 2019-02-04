@@ -16,6 +16,7 @@ import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company
 import { AdminComponent } from './admin/admin.component';
 import { ActivateProfileComponent } from './activate-profile/activate-profile.component';
 import { AdminAvioCompanyComponent } from './admin-avio-company/admin-avio-company.component';
+import { HotelMenuItemReservationComponent } from './hotel-menu-item-reservation/hotel-menu-item-reservation.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   { path: 'hotels', component: AllHotelsComponent },
   { path: 'hotels/:id', component: HotelProfileComponent},
+  { path: 'hotels/:id/menu_reservation', component: HotelMenuItemReservationComponent},
   {
     path: 'rentACar', 
     component: AllRentACarsComponent, 

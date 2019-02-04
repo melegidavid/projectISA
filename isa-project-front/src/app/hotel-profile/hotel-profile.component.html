@@ -101,45 +101,157 @@
     </div>
   </form>
 
-  <div class="container-fluid padding">
+  <div class="jumbotron" *ngIf="username != null">
+    <form (ngSubmit)="search()">
+      <div class="row">
+        <div class="col">
+          <h4> Price </h4>
+        </div>
+
+        <div class="col">
+          <h4> Guests </h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="md-form mt-0">
+            <input class="form-control" min="1" type="number" name="price" [(ngModel)]="startPrice" placeholder="From price" aria-label="Search">
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="md-form mt-0">
+            <input class="form-control" min="1" type="number" name="rooms" [(ngModel)]="roomsNumber" placeholder="Rooms" aria-label="Search">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="md-form mt-0">
+            <input class="form-control" min="1" max="1000" type="number" name="price" [(ngModel)]="endPrice" placeholder="To price" aria-label="Search">
+          </div>
+        </div>
+        <div class="col">
+          <div class="md-form mt-0">
+            <input class="form-control" min="1" max="100000" type="number" name="guests" [(ngModel)]="guestsNumber" placeholder="Number of guests"
+              aria-label="Search">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+
+
+
+  <div class="container-fluid padding" *ngIf="startDate">
     <div class="row welcome text-centre">
       <div class="col-12">
         <h1 class="display-4">Hotel rooms</h1>
         <hr>
         <div class="col-12">
-          <p class="lead">List of all hotel rooms</p>
+          <p class="lead">For period {{startDate + ' - '}}  {{endDate}}</p>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="container-fluid padding" *ngIf="startDate == undefined">
+      <div class="row welcome text-centre">
+        <div class="col-12">
+          <h1 class="display-4">Hotel rooms</h1>
+          <hr>
+          <div class="col-12">
+            <p class="lead">List of hotel rooms </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <div class="row" id="ads">
     <!-- Category Card -->
     <div class="col-md-4" *ngFor="let room of rooms">
       <div class="card rounded">
         <div class="card-image">
-          <span class="card-notify-badge">{{room.price}}e</span>
+          <span class="card-notify-badge">{{room.price*period}}e</span>
           <!-- <span class="card-notify-year">yearproduced</span> -->
           <img class="img-fluid" src="https://www.rd.com/wp-content/uploads/2016/01/05-13-things-your-hotel-desk-clerk-wont-tell-you-hotel-room.jpg"
             alt="Alternate Text" />
         </div>
         <div class="card-image-overlay m-auto">
-          <span class="card-detail-badge" *ngIf="room.free">Free for reservation</span>
+          <span class="card-detail-badge">Number of beds {{room.bedNumber}}</span>
         </div>
         <div class="card-body text-center">
           <div class="ad-title m-auto">
             <h5>Room {{room.number}}</h5>
           </div>
-          <a class="ad-btn" href="#">Rezervisi</a>
         </div>
         <div class="card-body">
-          <input type="date">
+          <div class="row">
+            <div class="col-md-8">
+              <p>{{room.description}}</p>
+            </div>
+            <div *ngIf="searchClicked">
+              <div class="col-md-8" *ngIf="room.free">
+                <button class="btn btn-primary" (click)="selectRoom(room.id)">Select room</button>
+              </div>
+              <div class="col-md-8" *ngIf="room.free == false">
+                <button class="btn btn-primary" (click)="removeRoom(room.id)">Remove room</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <hr>
     </div>
   </div>
+
+  <div *ngIf="searchClicked">
+    <h2 class="display-4">Rooms you've selected</h2>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Room number</th>
+            <th>Number of beds</th>
+            <th>Price for {{period}} days</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let selectedRoom of selectedRooms">
+          <tr>
+            <td>{{selectedRoom.number}}</td>
+            <td>{{selectedRoom.bedNumber}}</td>
+            <td>{{selectedRoom.price*period}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row" *ngIf="selectedRooms.length > 0">
+      <div class="col-md-8"></div>
+      <div class="col-md-4">
+        <button class="btn btn-primary" (click)="makeReservation()">Make reservation</button>
+      </div>
+    </div>
+    <div class="row" *ngIf="selectedRooms.length == 0">
+      <div class="col-md-8"></div>
+      <div class="col-md-4">
+        <button class="btn btn-primary" (click)="next()">Next</button>
+      </div>
+    </div>
+  </div>
+
 </div>
+
+
 
 <div class="container-fluid padding">
   <div class="row welcome text-centre">

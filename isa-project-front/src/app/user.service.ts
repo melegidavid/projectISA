@@ -79,7 +79,9 @@ export class UserService {
   logOut() {
     localStorage.removeItem('userToken');
     localStorage.removeItem('username');
-
+    localStorage.removeItem('startDate');
+    localStorage.removeItem('endDate');
+    localStorage.removeItem('guestsNumber');
     //this.http.post<TokenState>(`http://localhost:9004/auth/logout`, this.headers);
   }
 

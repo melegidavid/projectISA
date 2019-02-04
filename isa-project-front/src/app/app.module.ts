@@ -24,6 +24,8 @@ import { AdminComponent } from './admin/admin.component';
 import { ActivateProfileComponent } from './activate-profile/activate-profile.component';
 import { AdminAvioCompanyComponent } from './admin-avio-company/admin-avio-company.component';
 import { AdminAvioCompanyService } from './admin-avio-company/admin-avio-company.service';
+import { HotelPipePipe } from './pipes/hotel-pipe.pipe';
+import { HotelMenuItemReservationComponent } from './hotel-menu-item-reservation/hotel-menu-item-reservation.component';
 
 
 
@@ -46,7 +48,10 @@ import { AdminAvioCompanyService } from './admin-avio-company/admin-avio-company
     SearchUserFirstNamePipe,
     AdminComponent,
     ActivateProfileComponent,
-    AdminAvioCompanyComponent
+    AdminAvioCompanyComponent,
+    ActivateProfileComponent,
+    HotelPipePipe,
+    HotelMenuItemReservationComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="images/travel.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hotels">Hotels</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" *ngIf="len > 0">{{username}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container-fluid padding" *ngIf="hotel">
+  <div class="row welcome text-centre">
+    <div class="col-12">
+      <h1 class="display-4">{{hotel.name}}'s menu</h1>
+      <hr>
+      <div class="col-12">
+        <p class="lead">List of our services</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Service name</th>
+          <th>Price per day and person</th>
+          <th>Price for {{period}} days</th>
+          <th>Price for {{guestsNumber}} guests</th>
+          <th>Description</th>
+          <th>Choose</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of menu">
+        <tr>
+          <td>{{item.serviceName}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.price*period}}</td>
+          <td>{{item.price*period*guestsNumber}}</td>
+          <td>{{item.description}}</td>
+          <td>
+            <button *ngIf="item.selected == false" class="btn btn-primary" (click)="selectItem(item.id)">Select</button>
+            <button *ngIf="item.selected == true" class="btn btn-primary" (click)="removeItem(item.id)">Remove</button>  
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row" *ngIf="selectedItems.length > 0">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+      <button class="btn btn-primary" (click)="makeReservation()">Make reservation</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="selectedItems.length == 0">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+      <button class="btn btn-primary" (click)="next()">Next</button>
+    </div>
+  </div>
+</div>

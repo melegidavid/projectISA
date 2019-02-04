@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ftn.isa.model.HotelMenuItem;
+import ftn.isa.model.HotelMenuItemReservation;
 import ftn.isa.repository.HotelMenuItemRepository;
+import ftn.isa.repository.HotelMenuItemReservationRepository;
 
 @Service
 public class HotelMenuItemService {
 
 	@Autowired
 	private HotelMenuItemRepository hotelMenuItemRepository;
+	
+	@Autowired
+	private HotelMenuItemReservationRepository hotelMenuItemReservationRepository;
 	
 	public List<HotelMenuItem> getHotelMenuItems() {
 		List<HotelMenuItem> list = new ArrayList<HotelMenuItem>();
@@ -35,6 +40,10 @@ public class HotelMenuItemService {
 	
 	public void removeHotelMenuItem(HotelMenuItem hotelMenuItem) {
 		hotelMenuItemRepository.delete(hotelMenuItem);
+	}
+	
+	public HotelMenuItemReservation makeReservation(HotelMenuItemReservation hotelMenuItemReservation) {
+		return hotelMenuItemReservationRepository.save(hotelMenuItemReservation);
 	}
 
 }

@@ -61,6 +61,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<RoomReservation> roomReservations = new ArrayList<>();
 	
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+   	private List<HotelMenuItemReservation> hotelMenuItemReservations = new ArrayList<>();
     
 	public User() {}
 	
@@ -224,6 +226,14 @@ public class User implements UserDetails {
 
 	public void setRoomReservations(List<RoomReservation> roomReservations) {
 		this.roomReservations = roomReservations;
+	}
+
+	public List<HotelMenuItemReservation> getHotelMenuItemReservations() {
+		return hotelMenuItemReservations;
+	}
+
+	public void setHotelMenuItemReservations(List<HotelMenuItemReservation> hotelMenuItemReservations) {
+		this.hotelMenuItemReservations = hotelMenuItemReservations;
 	}
 
 	
