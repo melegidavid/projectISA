@@ -7,10 +7,14 @@ insert into user (id, username, password, email, name, last_name, city, telephon
 
 insert into authority (id, name) values (1, 'REGISTERED_USER');
 insert into authority (id, name) values (2, 'SERVICE_ADMIN');
+insert into authority (id, name) values (3, 'AVIO_COMPANY_ADMIN');
+
 
 insert into user_authority (user_id, authority_id) VALUES (21, 1);
 insert into user_authority (user_id, authority_id) VALUES (22, 1);
 insert into user_authority (user_id, authority_id) VALUES (22, 2);
+insert into user_authority (user_id, authority_id) VALUES (23, 3);
+
 
 insert into friendship (id, accepted, user1_id, user2_id) values (21, true, 21, 22);
 insert into friendship (id, accepted, user1_id, user2_id) values (22, true, 21, 23);
@@ -48,16 +52,24 @@ insert into friendship (id, accepted, user1_id, user2_id) values (48, true, 26, 
 insert into friendship (id, accepted, user1_id, user2_id) values (49, true, 26, 24);
 insert into friendship (id, accepted, user1_id, user2_id) values (50, true, 26, 25);
 
+insert into avio_company (id,name,address_id,description,average_rating, is_deleted) values (121,'AirSerbia',101,'etihad uzo', 2.0, false);
+insert into avio_company (id,name,address_id,description,average_rating, is_deleted) values (122,'JAt',102,'etihad nije uzo', 5.0, false);
 
-insert into avio_company (id,name,address_id,description,average_rating) values (101,'AirSerbia',101,'etihad uzo', 2.0);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted) values (111,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 104, 121, false);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted) values (112,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 130, 3500, 350, 102, 103, 121, false);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted) values (113,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 140, 3500, 350, 103, 102, 122, false);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted) values (114,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 150, 3500, 350, 104, 101, 122, false);
 
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id) values (101,'1 januar', '2 januar', 120, 2000, 300, 101, 102, 101);
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id) values (102,'1 jun', '3 jun', 111, 3500, 350, 102, 101, 101);
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id) values (103,'1 jun', '3 jun', 111, 3500, 350, 103, 103, 101);
 
-insert into destinations (avio_company_id, address_id) values (101, 101);
-insert into destinations (avio_company_id, address_id) values (101, 102);
+insert into destinations (avio_company_id, address_id) values (121, 101);
+insert into destinations (avio_company_id, address_id) values (121, 102);
+insert into destinations (avio_company_id, address_id) values (121, 103);
+insert into destinations (avio_company_id, address_id) values (121, 104);
 
+insert into destinations (avio_company_id, address_id) values (122, 101);
+insert into destinations (avio_company_id, address_id) values (122, 102);
+insert into destinations (avio_company_id, address_id) values (122, 103);
+insert into destinations (avio_company_id, address_id) values (122, 104);
 
 insert into hotel (id, name, address_id, description) values (101,'Hotel Park', 101, 'Imamo i kladionicu');
 insert into hotel (id, name, address_id, description) values (102,'Hotel Vojvodina', 102, 'Nemamo ni kladionicu');
@@ -91,4 +103,6 @@ insert into vehicle (id, type, seats_number, name, mark, model, year_produced, r
 
 insert into address(id, country, city, postal_code, street, number) values (101,'Srbija', 'Beograd',11000, 'Juzni Bulevar', 2);
 insert into address(id, country, city, postal_code, street, number) values (102,'Srbija', 'Novi Sad',21000, 'Ulica neka', 23);
-insert into address(id, country, city, postal_code, street, number) values (103,'Srbija', 'Novi Sad',21000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (103,'Srbija', 'Zrenjanin',21000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (104,'Srbija', 'Leskovac',16000, 'Ulica neka', 33);
+

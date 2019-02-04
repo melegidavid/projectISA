@@ -67,10 +67,12 @@
           </p>
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cenovnik</a>
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">Cenovnik</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Filijale</a>
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                aria-selected="false">Filijale</a>
             </li>
           </ul>
         </div>
@@ -84,7 +86,7 @@
         <div class="profile-work">
           <h3>Description</h3>
           <p *ngIf="avioCompany">{{avioCompany.description}}</p>
-          <br/>
+          <br />
         </div>
       </div>
       <div class="col-md-8">
@@ -184,7 +186,7 @@
           <div class="col-md-4">
             <h4>{{flight.startLocation.city + ' - '}} {{flight.endLocation.city}}</h4>
             <hr>
-            <h5> {{flight.dateTimeStart + ' - '}} {{flight.dateTimeFinish}}</h5>
+            <h5> {{flight.dateTimeStart | date: 'medium'}} - {{flight.dateTimeFinish | date: 'medium'}}</h5>
           </div>
           <div class="col-md-4">
             <h4>Distance: {{flight.flightDistance}}km</h4>

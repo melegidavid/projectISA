@@ -149,14 +149,10 @@ export class UserProfileComponent implements OnInit {
     this.changedUser.email = this.inputEmail;
     this.changedUser.telephoneNumber = this.inputTelephoneNumber;
     this.changedUser.city = this.inputCity;
-    
-    console.log(this.changedUser);
-    console.log(this.user);
     this.edit = false;
 
     this.userService.updateUser(this.user.id, this.changedUser).subscribe(data=>{
       this.user = data;
-      console.log(this.user);
     });
   }
   discardChangedData(){

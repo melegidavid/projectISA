@@ -26,34 +26,39 @@ import javax.persistence.OneToOne;
 @Entity
 public class AvioCompany {
 
-	@Id	
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
-	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id", nullable = false, unique = true)
 	private Address address;
-	
+
 	private String description;
 	private double averageRating;
-	
+	private boolean isDeleted;
+
 	@ManyToMany
-	@JoinTable(name = "destinations",
-               joinColumns = @JoinColumn(name="avio_company_id", referencedColumnName="id"), //ovde se pravi medju tabela.
-               inverseJoinColumns = @JoinColumn(name="address_id", referencedColumnName="id"))
+	@JoinTable(name = "destinations", joinColumns = @JoinColumn(name = "avio_company_id", referencedColumnName = "id"), // ovde
+																														// se
+																														// pravi
+																														// medju
+																														// tabela.
+			inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "id"))
 	private Set<Address> destinations = new HashSet<Address>();
-	
-	@OneToMany(mappedBy = "avioCompany", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "avioCompany", fetch = FetchType.LAZY)
 	private List<AvioFlight> flights = new ArrayList<>();
-	
+
 	@ElementCollection
-    @MapKeyColumn(name="user", unique = true, nullable = false)
-    @Column(name="rate", nullable = false)
-	@CollectionTable(name="avio_company_rates", joinColumns=@JoinColumn(name="id"))
-	private Map<Long, Integer> rates = new HashMap<>(); 
-	
-	public AvioCompany() {}
+	@MapKeyColumn(name = "user", unique = true, nullable = false)
+	@Column(name = "rate", nullable = false)
+	@CollectionTable(name = "avio_company_rates", joinColumns = @JoinColumn(name = "id"))
+	private Map<Long, Integer> rates = new HashMap<>();
+
+	public AvioCompany() {
+	}
 
 	public AvioCompany(String name, String description, double averageRating) {
 		super();
@@ -125,6 +130,13 @@ public class AvioCompany {
 	public void setRates(Map<Long, Integer> rates) {
 		this.rates = rates;
 	}
-	
-	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 }

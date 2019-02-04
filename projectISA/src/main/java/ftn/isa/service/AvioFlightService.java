@@ -39,7 +39,8 @@ public class AvioFlightService {
 	
 	//delete
 	public void removeAvioFlight(Long id) {
-		avioFlightRepository.deleteById(id);
+		avioFlightRepository.getOne(id).setDeleted(true);
+		avioFlightRepository.save(avioFlightRepository.getOne(id));
 	}
 	
 }

@@ -1,23 +1,25 @@
 package ftn.isa.dto;
 
+import java.time.LocalDateTime;
+
 import ftn.isa.model.AvioFlight;
 
 public class AvioFlightDTO {
 
 	private Long id;
-	private String dateTimeStart;
-	private String dateTimeFinish;
+	private LocalDateTime dateTimeStart;
+	private LocalDateTime dateTimeFinish;
 	private double flightDuration;
 	private double flightDistance;
 	private double price;
 	private AddressDTO startLocation;
 	private AddressDTO endLocation;
-	
-	
+	private boolean isDeleted;
+
 	public AvioFlightDTO() {
-	
+
 	}
-	
+
 	public AvioFlightDTO(AvioFlight avioFlight) {
 		this.id = avioFlight.getId();
 		this.dateTimeStart = avioFlight.getDateTimeStart();
@@ -27,6 +29,7 @@ public class AvioFlightDTO {
 		this.price = avioFlight.getPrice();
 		this.startLocation = new AddressDTO(avioFlight.getStartLocation());
 		this.endLocation = new AddressDTO(avioFlight.getEndLocation());
+		this.isDeleted = avioFlight.isDeleted();
 	}
 
 	public Long getId() {
@@ -37,19 +40,19 @@ public class AvioFlightDTO {
 		this.id = id;
 	}
 
-	public String getDateTimeStart() {
+	public LocalDateTime getDateTimeStart() {
 		return dateTimeStart;
 	}
 
-	public void setDateTimeStart(String dateTimeStart) {
+	public void setDateTimeStart(LocalDateTime dateTimeStart) {
 		this.dateTimeStart = dateTimeStart;
 	}
 
-	public String getDateTimeFinish() {
+	public LocalDateTime getDateTimeFinish() {
 		return dateTimeFinish;
 	}
 
-	public void setDateTimeFinish(String dateTimeFinish) {
+	public void setDateTimeFinish(LocalDateTime dateTimeFinish) {
 		this.dateTimeFinish = dateTimeFinish;
 	}
 
@@ -92,4 +95,13 @@ public class AvioFlightDTO {
 	public void setEndLocation(AddressDTO endLocation) {
 		this.endLocation = endLocation;
 	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 }

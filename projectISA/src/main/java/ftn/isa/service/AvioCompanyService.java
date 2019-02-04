@@ -39,6 +39,8 @@ public class AvioCompanyService {
 	
 	//delete
 	public void removeAvioComapny(Long id) {
-		avioCompanyRepository.deleteById(id);
+		avioCompanyRepository.getOne(id).setDeleted(true);
+		avioCompanyRepository.save(avioCompanyRepository.getOne(id));
+		
 	}
 }

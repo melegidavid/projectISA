@@ -22,7 +22,8 @@ import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company
 import { SearchUserFirstNamePipe } from './pipes/search-user-first-name.pipe';
 import { AdminComponent } from './admin/admin.component';
 import { ActivateProfileComponent } from './activate-profile/activate-profile.component';
-
+import { AdminAvioCompanyComponent } from './admin-avio-company/admin-avio-company.component';
+import { AdminAvioCompanyService } from './admin-avio-company/admin-avio-company.service';
 
 
 
@@ -44,7 +45,8 @@ import { ActivateProfileComponent } from './activate-profile/activate-profile.co
     AvioCompanyProfileComponent,
     SearchUserFirstNamePipe,
     AdminComponent,
-    ActivateProfileComponent
+    ActivateProfileComponent,
+    AdminAvioCompanyComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { ActivateProfileComponent } from './activate-profile/activate-profile.co
     FormsModule
   ],
   providers: [
-    UserService
+    UserService,
+    AdminAvioCompanyService
   ],
   bootstrap: [AppComponent]
 })

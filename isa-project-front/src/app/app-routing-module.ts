@@ -15,7 +15,7 @@ import { AllAvioCompaniesComponent } from './all-avio-companies/all-avio-compani
 import { AvioCompanyProfileComponent } from './avio-company-profile/avio-company-profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { ActivateProfileComponent } from './activate-profile/activate-profile.component';
-
+import { AdminAvioCompanyComponent } from './admin-avio-company/admin-avio-company.component';
 
 
 const routes: Routes = [
@@ -40,6 +40,7 @@ const routes: Routes = [
   { path: 'avioCompanies/:id', component: AvioCompanyProfileComponent},
   { path: 'users/:username', component: UserProfileComponent}, 
   { path: 'admin', component: AdminComponent},
+  { path: 'admin-avio-company', component: AdminAvioCompanyComponent },
   { path: 'auth/activate/:id', component: ActivateProfileComponent}
 ];
 

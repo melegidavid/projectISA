@@ -1,5 +1,6 @@
 package ftn.isa.model;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
-import javax.persistence.OneToOne;
 
 @Entity
 public class AvioFlight {
@@ -23,39 +23,42 @@ public class AvioFlight {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String dateTimeStart;
-	private String dateTimeFinish;
+
+	private LocalDateTime dateTimeStart;
+	private LocalDateTime dateTimeFinish;
 	private double flightDuration;
 	private double flightDistance;
 	private double price;
-	
+	private boolean isDeleted;
+
 	@ElementCollection
-    @MapKeyColumn(name="seat", nullable = false, unique = true)
-    @Column(name="free", nullable = false)
-	@CollectionTable(name="avio_flight_seats", joinColumns=@JoinColumn(name="id"))
+	@MapKeyColumn(name = "seat", nullable = false, unique = true)
+	@Column(name = "free", nullable = false)
+	@CollectionTable(name = "avio_flight_seats", joinColumns = @JoinColumn(name = "id"))
 	private Map<Double, Boolean> seats = new HashMap<>(); // 1.20, znaci da je prva klasa sediste broj 20. itd...
-	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	private AvioCompany avioCompany;
-	
+
 	@ElementCollection
-    @MapKeyColumn(name="user", unique = true, nullable = false)
-    @Column(name="rate", nullable = false)
-	@CollectionTable(name="avio_flight_rates", joinColumns=@JoinColumn(name="id"))
-	private Map<Long, Integer> rates = new HashMap<>(); 
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
+	@MapKeyColumn(name = "user", unique = true, nullable = false)
+	@Column(name = "rate", nullable = false)
+	@CollectionTable(name = "avio_flight_rates", joinColumns = @JoinColumn(name = "id"))
+	private Map<Long, Integer> rates = new HashMap<>();
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id", nullable = false)
 	private Address startLocation;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id", nullable = false)
 	private Address endLocation;
 
-	public AvioFlight() {}
+	public AvioFlight() {
+	}
 
-	public AvioFlight(String dateTimeStart, String dateTimeFinish, double flightDuration, double flightDistance,
-						double price) {
+	public AvioFlight(LocalDateTime dateTimeStart, LocalDateTime dateTimeFinish, double flightDuration,
+			double flightDistance, double price) {
 		this.dateTimeStart = dateTimeStart;
 		this.dateTimeFinish = dateTimeFinish;
 		this.flightDuration = flightDuration;
@@ -71,19 +74,19 @@ public class AvioFlight {
 		this.id = id;
 	}
 
-	public String getDateTimeStart() {
+	public LocalDateTime getDateTimeStart() {
 		return dateTimeStart;
 	}
 
-	public void setDateTimeStart(String dateTimeStart) {
+	public void setDateTimeStart(LocalDateTime dateTimeStart) {
 		this.dateTimeStart = dateTimeStart;
 	}
 
-	public String getDateTimeFinish() {
+	public LocalDateTime getDateTimeFinish() {
 		return dateTimeFinish;
 	}
 
-	public void setDateTimeFinish(String dateTimeFinish) {
+	public void setDateTimeFinish(LocalDateTime dateTimeFinish) {
 		this.dateTimeFinish = dateTimeFinish;
 	}
 
@@ -118,11 +121,11 @@ public class AvioFlight {
 	public void setAvioCompany(AvioCompany avioCompany) {
 		this.avioCompany = avioCompany;
 	}
-	
+
 	public Map<Long, Integer> getRates() {
 		return rates;
 	}
-	
+
 	public void setRates(Map<Long, Integer> rates) {
 		this.rates = rates;
 	}
@@ -150,4 +153,13 @@ public class AvioFlight {
 	public void setSeats(Map<Double, Boolean> seats) {
 		this.seats = seats;
 	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 }
