@@ -74,9 +74,6 @@ insert into destinations (avio_company_id, address_id) values (122, 104);
 insert into hotel (id, name, address_id, description) values (101,'Hotel Park', 101, 'Imamo i kladionicu');
 insert into hotel (id, name, address_id, description) values (102,'Hotel Vojvodina', 102, 'Nemamo ni kladionicu');
 
-insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (101,'Cistimo krevete', 99.99, 'A mozete i sami',102);
-insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (102,'Mini bar', 25.00, 'Neki random opis', 102);
-
 insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (101,'Cistimo krevete', 99.00, 'opis opis opis',102);
 insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (102,'Mini bar', 25.00, 'Neki random opis', 102);
 insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (103,'Wellness and spa', 75.00, 'Sauna, bazeni, masaze', 102);
