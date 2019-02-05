@@ -47,6 +47,10 @@ public class User implements UserDetails {
 	@Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
 	
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<AvioReservation> avioReservations = new ArrayList<>();
+    
+	
 	private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -234,6 +238,14 @@ public class User implements UserDetails {
 
 	public void setHotelMenuItemReservations(List<HotelMenuItemReservation> hotelMenuItemReservations) {
 		this.hotelMenuItemReservations = hotelMenuItemReservations;
+	}
+	
+	public List<AvioReservation> getAvioReservations() {
+		return avioReservations;
+	}
+
+	public void setAvioReservations(List<AvioReservation> avioReservations) {
+		this.avioReservations = avioReservations;
 	}
 
 	

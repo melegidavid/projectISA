@@ -31,6 +31,9 @@ public class VehicleReservation {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Vehicle belongsToVehicle;
 	
+	private int vehicleRating = -1;
+	private int rentCarRating = -1;
+	
 	public VehicleReservation() {
 		
 	}
@@ -96,5 +99,21 @@ public class VehicleReservation {
 
 	public void setReturnPlace(RentCarBranch returnPlace) {
 		this.returnPlace = returnPlace;
+	}
+
+	public int getVehicleRating() {
+		return vehicleRating;
+	}
+
+	public void setVehicleRating(int vehicleRating) {
+		this.vehicleRating = vehicleRating;
+	}
+
+	public int getRentCarRating() {
+		return rentCarRating;
+	}
+
+	public void setRentCarRating(int rentCarRating) {
+		this.rentCarRating = rentCarRating;
 	}
 }

@@ -7,6 +7,8 @@ import { map } from 'rxjs/operators';
 import { TokenState } from './dto/tokenState.model';
 import { UserDTO } from './dto/user.model';
 import { AuthorityDTO } from './dto/authorityDTO.model';
+import { VehicleReservationDTO } from './dto/vehicleReservationDTO';
+import { RatingUpdateDTO } from './dto/ratingUpdate';
 
 
 
@@ -45,6 +47,26 @@ export class UserService {
   removeFriend(id: number, idFriend: number): Observable<any> {
     return this.http.delete("http://localhost:9004/users/" + id + "/friends/" + idFriend, { responseType: 'text' });
   }
+
+  getVehicleReservations(username: string): Observable<VehicleReservationDTO[]> {
+    return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + username);
+  }
+
+  updateVehicleRating(idRes : number, newValue : number) : Observable<VehicleReservationDTO[]> {
+    let ratingDTO = new RatingUpdateDTO();
+    ratingDTO.idReservation = idRes;
+    ratingDTO.newValue = newValue;
+    return this.http.post<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/updateVehicleRating/",ratingDTO);
+  }
+
+  updateRentCarRating(idRes : number, newValue : number) : Observable<VehicleReservationDTO[]> {
+    let ratingDTO = new RatingUpdateDTO();
+    ratingDTO.idReservation = idRes;
+    ratingDTO.newValue = newValue;
+    return this.http.post<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/updateRentCarRating",ratingDTO);
+  
+  }
+
 
   getUsersForSearch(username: string): Observable<any> {
     return this.http.get("http://localhost:9004/users/" + username + "/usersToSearch", { responseType: 'json' });

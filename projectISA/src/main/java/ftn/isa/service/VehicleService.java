@@ -1,5 +1,6 @@
 package ftn.isa.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,33 @@ public class VehicleService {
 		Vehicle v = this.findOne(id);
 		v.setDeleted(true);
 		this.update(v);
+	}
+	
+	public double getAvgRating(Long id) {
+		
+		Vehicle v = this.findOne(id);
+		
+		double sum = 0;
+		double count = 0;
+		
+		List<VehicleReservation> reservations = v.getReseravations();
+		
+		for(VehicleReservation vr : reservations) {
+			if(vr.getVehicleRating() > 0) {
+				sum += vr.getVehicleRating();
+				count++;
+			}
+		}
+		
+		if(count == 0) {
+			return 0;
+		}
+		
+		double result = sum/count;
+		DecimalFormat df = new DecimalFormat("#.##");      
+		result = Double.valueOf(df.format(result));
+
+		return result;
 	}
 	
 	public List<Vehicle> search(RentCar rentCar, VehicleSearchDTO params) {

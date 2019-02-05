@@ -23,6 +23,14 @@ export class RentACarService {
     return this.http.post<RentACar[]>("http://localhost:9004/rent_a_cars/search", searchValues, {responseType: 'json'});
   }
 
+  getRentACarAvgRating(id: number) : Observable<number> {
+    return this.http.get<number>("http://localhost:9004/rent_a_cars/" + id + "/avgRentCarRating");
+  }
+
+  getVehicleAvgRating(id: number) : Observable<number> {
+    return this.http.get<number>("http://localhost:9004/rent_a_cars/" + id + "/avgVehicleRating");
+  }
+
   getRentACar(id: number | string) : Observable<RentACar> {
     return this.http.get<RentACar>("http://localhost:9004/rent_a_cars/" + id, {responseType: 'json'});
   }

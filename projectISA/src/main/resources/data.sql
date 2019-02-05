@@ -107,6 +107,16 @@ insert into vehicle (id, type, seats_number, name, mark, model, year_produced, r
 insert into vehicle (id, type, seats_number, name, mark, model, year_produced, rent_car_id,deleted)  values (102, 1, 2, 'Auto paja', 'Aprilia', 'SR', 2010, 101, 0);
 insert into vehicle (id, type, seats_number, name, mark, model, year_produced, rent_car_id,deleted)  values (103, 2, 2, 'Auto paja', 'Suzuki', 'SX500', 2015, 101, 0);
 
+insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id, vehicle_rating, rent_car_rating)  values (101, '2019-01-21', '2019-01-15', 101, 101, 101, 22, -1, 2);
+insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id, vehicle_rating, rent_car_rating)  values (102, '2019-01-29', '2019-01-26', 103, 101, 101, 22, 4, -1);
+insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id, vehicle_rating, rent_car_rating)  values (103, '2018-01-21', '2018-01-15', 101, 101, 101, 21, 3, 5);
+insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id, vehicle_rating, rent_car_rating)  values (104, '2018-01-29', '2018-01-26', 102, 101, 101, 21, 3, 4);
+
+--insert into room_reservation (id, end_reseravtion, start_reservation, belongs_to_room_id, user_id)  values (101, '2019-01-21', '2019-01-15', 101, 22);
+insert into avio_reservation (id, belongs_to_avio_id, user_id)  values (101, 103, 22);
+
+
+
 --insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id)  values (101, '2019-01-21', '2019-01-15', 101, 101, 101, 21);
 --insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id)  values (102, '2019-01-21', '2019-01-15', 102, 101, 101, 22);
 --insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id)  values (103, '2019-02-15', '2019-02-01', 101, 101, 101, 22);

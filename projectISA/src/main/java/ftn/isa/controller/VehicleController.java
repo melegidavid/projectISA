@@ -143,7 +143,7 @@ public class VehicleController {
 		
 		VehicleReservation vr = new VehicleReservation();
 		
-		vr.setBelongsToVehicle(vehicleService.findOne(reservationDTO.getId()));
+		vr.setBelongsToVehicle(vehicleService.findOne(reservationDTO.getVehicle().getId()));
 		vr.setUser(user);
 		vr.setStartReservation(Date.valueOf(LocalDate.now()));
 		vr.setEndReseravtion(Date.valueOf(LocalDate.now()));

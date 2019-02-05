@@ -26,7 +26,7 @@ import { AdminAvioCompanyComponent } from './admin-avio-company/admin-avio-compa
 import { AdminAvioCompanyService } from './admin-avio-company/admin-avio-company.service';
 import { HotelPipePipe } from './pipes/hotel-pipe.pipe';
 import { HotelMenuItemReservationComponent } from './hotel-menu-item-reservation/hotel-menu-item-reservation.component';
-
+import { UserHistoryComponent } from './home/user-history/user-history.component';
 
 
 @NgModule({
@@ -38,6 +38,8 @@ import { HotelMenuItemReservationComponent } from './hotel-menu-item-reservation
     AllHotelsComponent,
     AllRentACarsComponent,
     RentCarProfileComponent,
+    ActivateProfileComponent,
+    UserHistoryComponent,
     RentCarSearchComponent,
     UserProfileComponent,
     RentCarVehicleComponent,

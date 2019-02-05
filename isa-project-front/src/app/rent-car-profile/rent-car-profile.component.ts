@@ -25,6 +25,7 @@ export class RentCarProfileComponent implements OnInit {
   id: number;
   len: number;
   username: string;
+  avgRatingRentCar : number;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,11 +38,19 @@ export class RentCarProfileComponent implements OnInit {
 
   ngOnInit() {
     this.len = localStorage.length;
+    this.avgRatingRentCar = 1;
     this.username = localStorage.getItem('username');
     console.log(localStorage);
 
+    
+
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
       this.id = + params['id'];
+    });
+
+    this.rentACarService.getRentACarAvgRating(this.id).subscribe(data => {
+      this.avgRatingRentCar = data;
+      console.log('vratio ' + this.avgRatingRentCar);
     });
 
     this.getRentACar(this.id).subscribe(data => {

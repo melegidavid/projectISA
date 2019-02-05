@@ -21,7 +21,6 @@ import ftn.isa.model.RentCar;
 import ftn.isa.model.RentCarMenuItem;
 import ftn.isa.model.Vehicle;
 import ftn.isa.service.AddressService;
-import ftn.isa.service.RentCarBranchService;
 import ftn.isa.service.RentCarMenuItemService;
 import ftn.isa.service.RentCarService;
 import ftn.isa.service.VehicleService;
@@ -146,6 +145,17 @@ public class RentCarController {
 		}
 	}
 	
+	@RequestMapping(value="/{id}/avgRentCarRating", method=RequestMethod.GET)
+	public Double getRentCarAvgRating(@PathVariable Long id){
+		
+		return rentCarService.getAvgRating(id);
+	}
+	
+	@RequestMapping(value="/{id}/avgVehicleRating", method=RequestMethod.GET)
+	public Double getVehicleAvgRating(@PathVariable Long id){
+		
+		return vehicleService.getAvgRating(id);
+	}
 	
 	
 	
@@ -156,9 +166,8 @@ public class RentCarController {
 	
 	
 	
-	//menu items, jer ne mogu da postoje bez rentacar-a
 	
-	//vraca meni za odredjeni rent a car servis
+
 	@RequestMapping(value="/{idRentCar}/menu", method=RequestMethod.GET)
 	public ResponseEntity<List<RentCarMenuItemDTO>> getRentCarMenu(@PathVariable Long idRentCar){
 		

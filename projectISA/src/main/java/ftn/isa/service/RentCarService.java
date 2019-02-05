@@ -1,5 +1,6 @@
 package ftn.isa.service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import ftn.isa.dto.RentCarSearchDTO;
 import ftn.isa.model.RentCar;
 import ftn.isa.model.RentCarBranch;
+import ftn.isa.model.Vehicle;
+import ftn.isa.model.VehicleReservation;
 import ftn.isa.repository.RentCarRepository;
 
 @Service
@@ -40,6 +43,44 @@ public class RentCarService {
 	public void remove(Long id) {
 		rentCarRepository.deleteById(id);
 	}
+	
+	
+	public double getAvgRating(Long id) {
+		
+		RentCar car = this.findOne(id);
+		
+		double sum = 0;
+		double count = 0;
+		
+		List<Vehicle> vehicles = car.getVehicles();
+		
+		List<VehicleReservation> reservations = new ArrayList<>();
+		
+		for(Vehicle v : vehicles) {
+			reservations.addAll(v.getReseravations());
+		}
+		
+		for(VehicleReservation vr : reservations) {
+			if(vr.getRentCarRating() > 0) {
+				sum += vr.getRentCarRating();
+				count++;
+			}
+		}
+		
+		if(count == 0) {
+			return 0;
+		}
+		
+		
+		double result = sum/count;
+		DecimalFormat df = new DecimalFormat("#.##");      
+		result = Double.valueOf(df.format(result));
+
+		return result;
+	}
+
+	
+	
 	
 	public List<RentCar> search(RentCarSearchDTO params, AddressService addressService) {
 		
