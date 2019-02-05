@@ -27,7 +27,7 @@ import { AdminAvioCompanyService } from './admin-avio-company/admin-avio-company
 import { HotelPipePipe } from './pipes/hotel-pipe.pipe';
 import { HotelMenuItemReservationComponent } from './hotel-menu-item-reservation/hotel-menu-item-reservation.component';
 import { UserHistoryComponent } from './home/user-history/user-history.component';
-
+import { FromLocationPipe } from'./pipes/from-location.pipe';
 
 @NgModule({
   declarations: [
@@ -51,6 +51,7 @@ import { UserHistoryComponent } from './home/user-history/user-history.component
     AdminComponent,
     ActivateProfileComponent,
     AdminAvioCompanyComponent,
+    FromLocationPipe,
     ActivateProfileComponent,
     HotelPipePipe,
     HotelMenuItemReservationComponent

@@ -55,10 +55,29 @@ insert into friendship (id, accepted, user1_id, user2_id) values (50, true, 26, 
 insert into avio_company (id,name,address_id,description,average_rating, is_deleted) values (121,'AirSerbia',101,'etihad uzo', 2.0, false);
 insert into avio_company (id,name,address_id,description,average_rating, is_deleted) values (122,'JAt',102,'etihad nije uzo', 5.0, false);
 
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted) values (111,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 104, 121, false);
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted) values (112,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 130, 3500, 350, 102, 103, 121, false);
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted) values (113,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 140, 3500, 350, 103, 102, 122, false);
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted) values (114,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 150, 3500, 350, 104, 101, 122, false);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (112,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 130, 3500, 350, 102, 103, 121, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (113,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 140, 3500, 350, 103, 102, 122, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (114,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 150, 3500, 350, 104, 101, 122, false, 20, 20, 20);
+
+
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (115,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 102, 121, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (116,"2019-02-04 02:48:03", "2019-02-04 02:48:03", 120, 2000, 300, 101, 102, 122, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (117,"2019-02-07 02:48:03", "2019-02-07 02:48:03", 120, 2000, 300, 102, 101, 121, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (118,"2019-02-05 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 102, 122, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (119,"2019-02-06 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 102, 121, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (120,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 107, 122, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (121,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 108, 121, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (122,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 109, 122, false, 20, 20, 20);
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (123,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 110, 121, false, 20, 20, 20);
+
+insert into address(id, country, city, postal_code, street, number) values (105,'Srbija', 'Nis',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (106,'Srbija', 'Subotica',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (107,'Srbija', 'Kragujevac',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (108,'Srbija', 'Kraljevo',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (109,'Srbija', 'Sombor',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (110,'Srbija', 'Valjevo',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (111,'Srbija', 'Krusevac',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (112,'Srbija', 'Sabac',16000, 'Ulica neka', 33);
 
 
 insert into destinations (avio_company_id, address_id) values (121, 101);
@@ -125,4 +144,12 @@ insert into address(id, country, city, postal_code, street, number) values (101,
 insert into address(id, country, city, postal_code, street, number) values (102,'Srbija', 'Novi Sad',21000, 'Ulica neka', 23);
 insert into address(id, country, city, postal_code, street, number) values (103,'Srbija', 'Zrenjanin',21000, 'Ulica neka', 33);
 insert into address(id, country, city, postal_code, street, number) values (104,'Srbija', 'Leskovac',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (105,'Srbija', 'Nis',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (106,'Srbija', 'Subotica',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (107,'Srbija', 'Kragujevac',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (108,'Srbija', 'Kraljevo',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (109,'Srbija', 'Sombor',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (110,'Srbija', 'Valjevo',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (111,'Srbija', 'Krusevac',16000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (112,'Srbija', 'Sabac',16000, 'Ulica neka', 33);
 
