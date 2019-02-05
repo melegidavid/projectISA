@@ -12,35 +12,35 @@ import ftn.isa.repository.AvioCompanyRepository;
 @Service
 public class AvioCompanyService {
 
-	@Autowired 
+	@Autowired
 	private AvioCompanyRepository avioCompanyRepository;
-	
-	//get all 
+
+	// get all
 	public List<AvioCompany> getAllAvioCompanies() {
 		List<AvioCompany> list = new ArrayList<AvioCompany>();
 		avioCompanyRepository.findAll().forEach(list::add);
 		return list;
 	}
-	
-	//get one
+
+	// get one
 	public AvioCompany findAvioCompany(Long id) {
 		return avioCompanyRepository.getOne(id);
 	}
-	
-	//save 
+
+	// save
 	public AvioCompany saveAvioCompany(AvioCompany avioCompany) {
 		return avioCompanyRepository.save(avioCompany);
 	}
-	
-	//update
+
+	// update
 	public AvioCompany updateAvioCompany(AvioCompany avioCompany) {
 		return avioCompanyRepository.save(avioCompany);
 	}
-	
-	//delete
+
+	// delete
 	public void removeAvioComapny(Long id) {
 		avioCompanyRepository.getOne(id).setDeleted(true);
 		avioCompanyRepository.save(avioCompanyRepository.getOne(id));
-		
 	}
+
 }

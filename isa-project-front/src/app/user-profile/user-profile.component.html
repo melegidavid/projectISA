@@ -57,7 +57,7 @@
                 <input #search type="search" [(ngModel)]="firstNameText" [(ngModel)]="lastNameText" [placeholder]="filled?'Search':''"
                     [ngClass]="{'filled':filled}" (click)="filled=true; getUsersToSearch(user.username)">
 
-                <button type="button" class="close" *ngIf="filled" (click)="search.value='';filled=false; firstNameText=''; lastNameText=''">X</button>
+                <button type="button" class="close" *ngIf="filled" (click)="filled=false">X</button>
             </div>
             <br>
             <div *ngIf="filled">

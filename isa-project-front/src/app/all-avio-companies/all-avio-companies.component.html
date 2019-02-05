@@ -59,43 +59,212 @@
 <div class="container-fluid padding">
   <div class="row padding">
     <div class="col-md-4">
-      <h1>Search</h1>
+      <h1>Search flights:</h1>
       <hr>
-      <form>
+      <div>
         <div class="form-group">
-          <label for="name1">Name:</label>
-          <input type="text" class="form-control" id="name1" placeholder="Enter name"> 
+          <label for="type">Type of flight:</label>
+          <div class="row">
+            <div class="col-sm-4">
+              <button type="button" class="btn btn-primary" (click)="oneWay = true; roundTrip = false; multiCity = false; setTypeOfFlight()">One-way</button>
+            </div>
+            <div class="col-sm-4">
+              <button type="button" class="btn btn-primary" (click)="oneWay = false; roundTrip = true; multiCity = false; setTypeOfFlight()">Round-trip</button>
+            </div>
+            <div class="col-sm-4">
+              <button type="button" class="btn btn-primary" (click)="oneWay = false; roundTrip = false; multiCity = true; setTypeOfFlight()">Multi-city</button>
+            </div>
 
-          <label for="country1">Country</label>
-          <input type="text" class="form-control" id="country1" placeholder="Enter country">
+          </div>
+          <br>
+          <div *ngIf="oneWay == true">
+            <label for="from">Type: One-way</label>
+          </div>
+          <div *ngIf="roundTrip == true">
+            <label for="from">Type: Round-trip:</label>
+          </div>
+          <div *ngIf="multiCity == true">
+            <label for="from">Type: Multi-city:</label>
+          </div>
+          <div *ngIf="oneWay == true || roundTrip == true">
+            <label for="from">From:</label>
+            <input type="text" class="form-control" [(ngModel)]="searchFrom" id="from" placeholder="Enter from location"
+              (click)="filledFrom = true">
+            <button type="button" class="close" *ngIf="filledFrom" (click)="selectedFromLocation = false; filledFrom = false; searchFrom = '';">x</button>
 
-          <label for="city1">City</label>
-          <input type="text" class="form-control" id="city1" placeholder="Eneter city">
-          
-          <label for="rooms1">Rooms</label>
-          <input class="form-control" type="number" value="1" id="rooms1">
+            <div *ngIf="searchFrom && selectedFromLocation == false">
+              <div *ngFor="let destFrom of destinations | fromLocation: searchFrom; let i=index;">
+                <div>
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="item" (click)="setFromLocation(destFrom); selectedFromLocation = true; filledFrom = false">
+                        <label *ngIf="destFrom">
+                          {{destFrom.street}},
+                          {{destFrom.city}},
+                          {{destFrom.country}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+            <label for="to">To:</label>
+            <input type="text" class="form-control" [(ngModel)]="searchTo" id="to" placeholder="Enter to location"
+              (click)="filledTo = true">
+            <button type="button" class="close" *ngIf="filledTo" (click)="selectedToLocation = false; filledTo = false; searchTo = '';">x</button>
+
+            <div *ngIf="searchTo && selectedToLocation == false">
+              <div *ngFor="let destTo of destinations | fromLocation: searchTo; let i=index;">
+                <div>
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="item" (click)="setToLocation(destTo); selectedToLocation = true; filledTo = false">
+                        <label *ngIf="destTo">
+                          {{destTo.street}},
+                          {{destTo.city}},
+                          {{destTo.country}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+            <label for="departureDate">Departure date:</label>
+            <input [(ngModel)]="departureDate" type="date" class="form-control">
+          </div>
+
+          <div *ngIf="roundTrip == true">
+            <label for="returnDate">Return date:</label>
+            <input [(ngModel)]="returnDate" type="date" class="form-control">
+          </div>
+
+          <label for="travelers">Number of travelers:</label>
+          <input type="number" min="1" [(ngModel)]="travelers" class="form-control" id="travelers" placeholder="Eneter number of travelers">
+
+          <label for="class">Class</label>
+
+          <select [(ngModel)]="classFlight" id="classFlight" name="classFlight" class="form-control">
+            <option value="economy">Economy</option>
+            <option value="business">Business</option>
+            <option value="first">First</option>
+          </select>
 
           <label for="guests1">Guests</label>
           <input class="form-control" type="number" value="1" id="guests1">
           <hr>
-          <button type="submit" class="btn btn-primary">Search</button>
+          <button type="submit" class="btn btn-primary" (click)="print()">Search</button>
+          <button type="submit" class="btn btn-danger" (click)="discardSearch()">Reset</button>
+
         </div>
-      </form>
+      </div>
+    </div>
+    <div class="col-md-8" *ngIf="searchResult == true">
+      <div>
+        <div *ngFor="let flight of searchFlightsResult">
+          <div class="jumbotron">
+            <!-- FROM - TO-->
+            <div class="row">
+              <div class="col-sm-3 col-md-2 col-5">
+                <label style="font-weight:bold;">From:</label>
+              </div>
+              <div class="col-md-3 col-2">
+                <div>
+                  <label *ngIf="flight">{{flight.startLocation.city}}</label>
+                </div>
+              </div>
+
+              <div class="col-sm-3 col-md-2 col-5">
+                <label style="font-weight:bold;">To:</label>
+              </div>
+              <div class="col-md-3 col-2">
+                <div>
+                  <label *ngIf="flight">{{flight.endLocation.city}}</label>
+                </div>
+              </div>
+            </div>
+            <!--Start finish time-->
+            <div class="row">
+              <div class="col-sm-3 col-md-2 col-5">
+                <label style="font-weight:bold;">Start time:</label>
+              </div>
+              <div class="col-md-3 col-2">
+                <div>
+                  <label type="datetime-local" *ngIf="flight"> {{flight.dateTimeStart | date: 'medium'}}</label>
+                </div>
+              </div>
+
+              <div class="col-sm-3 col-md-2 col-5">
+                <label style="font-weight:bold;">Finish time:</label>
+              </div>
+              <div class="col-md-3 col-2">
+                <div>
+                  <label *ngIf="flight">{{flight.dateTimeFinish | date: 'medium'}}</label>
+                </div>
+              </div>
+            </div>
+            <!--Distance duration-->
+            <div class="row">
+              <div class="col-sm-3 col-md-2 col-5">
+                <label style="font-weight:bold;">Distance:</label>
+              </div>
+              <div class="col-md-3 col-2">
+                <div>
+                  <label *ngIf="flight">{{flight.flightDistance}}</label>
+                </div>
+              </div>
+
+              <div class="col-sm-3 col-md-2 col-5">
+                <label style="font-weight:bold;">Duration:</label>
+              </div>
+              <div class="col-md-3 col-2">
+                <div>
+                  <label *ngIf="flight">{{flight.flightDuration}}</label>
+                </div>
+              </div>
+            </div>
+            <!--price edit-->
+            <div class="row">
+              <div class="col-sm-3 col-md-2 col-5">
+                <label style="font-weight:bold;">Price:</label>
+              </div>
+              <div class="col-md-3 col-2">
+                <div>
+                  <label *ngIf="flight">{{flight.price | currency : 'EUR'}} </label>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-2 col-5">
+                <label style="font-weight:bold;">Avio Company:</label>
+              </div>
+              <div class="col-md-3 col-2">
+                <div>
+                  <label *ngIf="flight">{{flight.avioCompany.name}}</label>
+                </div>
+              </div>
+              <div *ngIf="username" class="col-sm-3 col-md-2 col-5">
+                <button type="button" class="btn btn-outline-primary" (click)="reservationFlight()">Make reservation</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-8" *ngIf="searchResult == false">
       <div *ngFor="let avio of avioCompanies">
         <div class="jumbotron jumbo-hotel">
           <h1 class="display-4"> {{avio.name}}</h1>
           <hr>
-          <p class="lead"> {{avio.address.country + ','}} 
+          <p class="lead"> {{avio.address.country + ','}}
             {{avio.address.city}} </p>
           <p class="lead"> {{avio.address.street}}
-               {{avio.address.number}}  
+            {{avio.address.number}}
           </p>
           <p class="lead">
-              <a [routerLink]="['/avioCompanies', avio.id]" class="btn btn-outline-secondary btn-lg" role="button">See more</a>
-            </p>
+            <a [routerLink]="['/avioCompanies', avio.id]" class="btn btn-outline-secondary btn-lg" role="button">See
+              more</a>
+          </p>
         </div>
       </div>
     </div>

@@ -56,6 +56,7 @@ export class UserProfileComponent implements OnInit {
     if (this.len > 0) {
       this.getUserByUsername(this.username).subscribe(data => {
         this.user = data;
+        this.id = this.user.id;
         this.changedUser = this.user;
         this.inputUsername = this.user.username;
         this.inputName = this.user.name;

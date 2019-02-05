@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from '../../../node_modules/rxjs';
 import { AvioCompany } from '../dto/avio-company.model';
 import { AvioFlight } from '../dto/avio-flight.model';
+import { AvioflightSearchDTO } from '../dto/avio-flight-search';
 
 @Injectable({
   providedIn: 'root'
@@ -12,22 +13,30 @@ export class AvioCompaniesService {
   constructor(private http: HttpClient) { }
 
   getAvioCompanies(): Observable<AvioCompany[]> {
-    return this.http.get<AvioCompany[]>("http://localhost:9004/avio_companies", {responseType: 'json'});
+    return this.http.get<AvioCompany[]>("http://localhost:9004/avio_companies", { responseType: 'json' });
   }
 
-  getAvioCompany(id: number | string) : Observable<AvioCompany> {
-    return this.http.get<AvioCompany>("http://localhost:9004/avio_companies/" + id, {responseType: 'json'});
+  getAvioCompany(id: number | string): Observable<AvioCompany> {
+    return this.http.get<AvioCompany>("http://localhost:9004/avio_companies/" + id, { responseType: 'json' });
   }
 
-  getAvioFlights(id: number | string) : Observable<AvioFlight[]> {
-    return this.http.get<AvioFlight[]>("http://localhost:9004/avio_companies/" + id + "/flights", {responseType: 'json'});
+  getAvioFlights(id: number | string): Observable<AvioFlight[]> {
+    return this.http.get<AvioFlight[]>("http://localhost:9004/avio_companies/" + id + "/flights", { responseType: 'json' });
   }
 
   addAvioCompany(avioCompany: AvioCompany) {
     this.http.post<AvioCompany>("http://localhost:9004/avio_companies", avioCompany)
-    .subscribe(data => {
-      
-    });
+      .subscribe(data => {
+
+      });
+  }
+
+  getAllDestinations(): Observable<any> {
+    return this.http.get("http://localhost:9004/avio_companies/destinations", { responseType: 'json' });
+  }
+
+  searchFlights(search: AvioflightSearchDTO): Observable<any> {
+    return this.http.post("http://localhost:9004/avio_companies/search", search, { responseType: 'json' });
   }
 
 }

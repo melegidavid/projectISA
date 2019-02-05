@@ -59,6 +59,9 @@ export class AdminAvioCompanyComponent implements OnInit {
   inputNumber: number;
 
 
+
+
+
   flights: AvioFlight[] = [];
   flight: AvioFlight = new AvioFlight;
   changedFlight: AvioFlight = new AvioFlight;
@@ -71,6 +74,9 @@ export class AdminAvioCompanyComponent implements OnInit {
   inputDistance: number;
   inputDuration: number;
   inputPrice: number;
+  inputEconomy: number;
+  inputBusiness: number;
+  inputFirst: number;
 
   editFlight: boolean = false;
   addFlightFlag: boolean = false;
@@ -230,6 +236,9 @@ export class AdminAvioCompanyComponent implements OnInit {
     this.inputDuration = 0;
     this.inputDistance = 0;
     this.inputPrice = 0;
+    this.inputEconomy = 0;
+    this.inputBusiness = 0;
+    this.inputFirst = 0;
     this.addFlightFlag = true;
     this.editFlight = false;
   }
@@ -251,6 +260,9 @@ export class AdminAvioCompanyComponent implements OnInit {
     this.changedFlight.flightDistance = this.inputDistance;
     this.changedFlight.flightDuration = this.inputDuration;
     this.changedFlight.price = this.inputPrice;
+    this.changedFlight.economyClassSeats = this.inputEconomy;
+    this.changedFlight.businessClassSeats = this.inputBusiness;
+    this.changedFlight.firstClassSeats = this.inputFirst;
 
     this.adminAvioCompanyService.addFlight(this.id, this.changedFlight).subscribe(data => {
       this.flight = data;
@@ -282,7 +294,9 @@ export class AdminAvioCompanyComponent implements OnInit {
     this.inputDuration = this.changedFlight.flightDuration;
     this.inputDistance = this.changedFlight.flightDistance;
     this.inputPrice = this.changedFlight.price;
-
+    this.inputEconomy = this.changedFlight.economyClassSeats;
+    this.inputBusiness = this.changedFlight.businessClassSeats;
+    this.inputFirst = this.changedFlight.firstClassSeats;
   }
 
   logOut() {

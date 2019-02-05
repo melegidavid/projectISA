@@ -218,6 +218,33 @@
           </div>
           <hr>
           <div class="row padding">
+            <div class="col-sm-6">
+              <label style="font-weight:bold;">Economy class: </label>
+            </div>
+            <div class="col-sm-6">
+              <input [(ngModel)]="inputEconomy" style="width: 250px;" type="number" class="input">
+            </div>
+          </div>
+          <hr>
+          <div class="row padding">
+            <div class="col-sm-6">
+              <label style="font-weight:bold;">Business class: </label>
+            </div>
+            <div class="col-sm-6">
+              <input [(ngModel)]="inputBusiness" style="width: 250px;" type="number" class="input">
+            </div>
+          </div>
+          <hr>
+          <div class="row padding">
+            <div class="col-sm-6">
+              <label style="font-weight:bold;">First class: </label>
+            </div>
+            <div class="col-sm-6">
+              <input [(ngModel)]="inputFirst" style="width: 250px;" type="number" class="input">
+            </div>
+          </div>
+          <hr>
+          <div class="row padding">
             <div class="col-sm-3 col-md-2 col-5">
               <button type="button" class="btn btn-outline-primary" (click)="saveChangedFlight()">Save</button>
             </div>
@@ -250,7 +277,8 @@
                   Avio Company: {{avioCompany.name}}
                 </h4>
                 <h5>
-                  <button *ngIf="select == true" type="button" class="btn btn-outline-primary" (click)="select = false">Choose another company</button>
+                  <button *ngIf="select == true" type="button" class="btn btn-outline-primary" (click)="select = false">Choose
+                    another company</button>
                 </h5>
               </div>
             </div>
@@ -354,6 +382,7 @@
                   </div>
                 </div>
               </div>
+              <!--destinations-->
               <div class="tab-pane fade" id="destinations" role="tabpanel" aria-labelledby="destinations-tab">
                 <div>
                   <div class="row">
@@ -492,6 +521,7 @@
                   </div>
                 </div>
               </div>
+              <!--flights-->
               <div class="tab-pane fade" id="flights" role="tabpanel" aria-labelledby="flights-tab">
                 <div>
                   <div class="row">
@@ -572,7 +602,6 @@
                             <label *ngIf="flight">{{flight.price | currency : 'EUR'}} </label>
                           </div>
                         </div>
-
                         <div class="col-sm-3 col-md-2 col-5">
                           <button type="button" class="btn btn-outline-primary" (click)="editFlight = true; addFlightFlag = false; setflight(flight)">Edit</button>
                         </div>
@@ -580,10 +609,29 @@
                           <button type="button" class="btn btn-outline-danger" (click)="removeFlight(flight.id)">Remove</button>
                         </div>
                       </div>
+                      <div class="row">
+                        <div class="col -sm-3 col-md-2 col-5">
+                          <label style="font-weight:bold;">Seats:</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3 col-2">
+                          <div>
+                            <label *ngIf="flight"> Economy: {{flight.economyClassSeats }} </label>
+                          </div>
+                          <div>
+                            <label *ngIf="flight"> Business: {{flight.businessClassSeats }} </label>
+                          </div>
+                          <div>
+                            <label *ngIf="flight"> First: {{flight.firstClassSeats }} </label>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <!--my profile-->
               <div class="tab-pane fade" id="myProfile" role="tabpanel" aria-labelledby="myProfile-tab">
                 <div class="row">
                   <h2 class="d-block" style="font-size: 1.0rem; font-weight: bold">

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ftn.isa.dto.AddressDTO;
 import ftn.isa.dto.AvioCompanyDTO;
 import ftn.isa.dto.AvioFlightDTO;
+import ftn.isa.dto.AvioFlightSearchDTO;
 import ftn.isa.model.Address;
 import ftn.isa.model.AvioCompany;
 import ftn.isa.model.AvioFlight;
@@ -363,6 +364,53 @@ public class AvioCompanyController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	
+	//get all destinations
+	@RequestMapping(value="/destinations", method=RequestMethod.GET)
+	public ResponseEntity<List<AddressDTO>> getAllDestinations(){
+		List<AvioCompany> avioCompanies = avioCompanyService.getAllAvioCompanies();
+		
+		List<Address> destinations = new ArrayList<Address>();
+		
+		if(avioCompanies.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		//metod za dodavanje svih destinacija bez ponavljanja
+		for(AvioCompany avioCompany : avioCompanies) {
+			Set<Address> tempDestinations = avioCompany.getDestinations();
+			for(Address tempDestination : tempDestinations) {
+				if(!destinations.contains(tempDestination)) {
+					destinations.add(tempDestination);
+				}
+			}
+		}
+		
+		List<AddressDTO> destinationsDTO = new ArrayList<AddressDTO>();
+		
+		for(Address address : destinations) {
+			destinationsDTO.add(new AddressDTO(address));
+		}
+		
+		return new ResponseEntity<>(destinationsDTO, HttpStatus.OK);
+	}
+	
+	
+	//search
+	@RequestMapping(value="/search", method = RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<List<AvioFlightDTO>> searchFlights(@RequestBody AvioFlightSearchDTO searchFlightsDTO){
+		List<AvioFlight> searchResult = avioFlightService.searchFlights(searchFlightsDTO, this.addressService);
+		List<AvioFlightDTO> avioFlightsDTO = new ArrayList<AvioFlightDTO>();
+		
+		if(!searchResult.isEmpty()) {
+			for(AvioFlight avioFlight : searchResult) {
+				avioFlightsDTO.add(new AvioFlightDTO(avioFlight));
+			}
+			
+		}
+		return new ResponseEntity<>(avioFlightsDTO, HttpStatus.OK);
 	}
 
 }

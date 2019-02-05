@@ -30,13 +30,11 @@ public class AvioFlight {
 	private double flightDistance;
 	private double price;
 	private boolean isDeleted;
-
-	@ElementCollection
-	@MapKeyColumn(name = "seat", nullable = false, unique = true)
-	@Column(name = "free", nullable = false)
-	@CollectionTable(name = "avio_flight_seats", joinColumns = @JoinColumn(name = "id"))
-	private Map<Double, Boolean> seats = new HashMap<>(); // 1.20, znaci da je prva klasa sediste broj 20. itd...
-
+	private int economyClassSeats;
+	private int businessClassSeats;
+	private int firstClassSeats;
+	
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private AvioCompany avioCompany;
 
@@ -146,16 +144,32 @@ public class AvioFlight {
 		this.endLocation = endLocation;
 	}
 
-	public Map<Double, Boolean> getSeats() {
-		return seats;
-	}
-
-	public void setSeats(Map<Double, Boolean> seats) {
-		this.seats = seats;
-	}
-
 	public boolean isDeleted() {
 		return isDeleted;
+	}
+
+	public int getEconomyClassSeats() {
+		return economyClassSeats;
+	}
+
+	public void setEconomyClassSeats(int economyClassSeats) {
+		this.economyClassSeats = economyClassSeats;
+	}
+
+	public int getBusinessClassSeats() {
+		return businessClassSeats;
+	}
+
+	public void setBusinessClassSeats(int businessClassSeats) {
+		this.businessClassSeats = businessClassSeats;
+	}
+
+	public int getFirstClassSeats() {
+		return firstClassSeats;
+	}
+
+	public void setFirstClassSeats(int firstClassSeats) {
+		this.firstClassSeats = firstClassSeats;
 	}
 
 	public void setDeleted(boolean isDeleted) {

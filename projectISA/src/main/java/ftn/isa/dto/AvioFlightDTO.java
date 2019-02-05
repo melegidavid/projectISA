@@ -7,6 +7,7 @@ import ftn.isa.model.AvioFlight;
 public class AvioFlightDTO {
 
 	private Long id;
+	private AvioCompanyDTO avioCompany;
 	private LocalDateTime dateTimeStart;
 	private LocalDateTime dateTimeFinish;
 	private double flightDuration;
@@ -22,6 +23,7 @@ public class AvioFlightDTO {
 
 	public AvioFlightDTO(AvioFlight avioFlight) {
 		this.id = avioFlight.getId();
+		this.avioCompany = new AvioCompanyDTO(avioFlight.getAvioCompany());
 		this.dateTimeStart = avioFlight.getDateTimeStart();
 		this.dateTimeFinish = avioFlight.getDateTimeFinish();
 		this.flightDuration = avioFlight.getFlightDuration();
@@ -38,6 +40,14 @@ public class AvioFlightDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public AvioCompanyDTO getAvioCompany() {
+		return avioCompany;
+	}
+
+	public void setAvioCompany(AvioCompanyDTO avioCompany) {
+		this.avioCompany = avioCompany;
 	}
 
 	public LocalDateTime getDateTimeStart() {
