@@ -16,6 +16,9 @@ public class AvioFlightDTO {
 	private AddressDTO startLocation;
 	private AddressDTO endLocation;
 	private boolean isDeleted;
+	private int economyClassSeats;
+	private int businessClassSeats;
+	private int firstClassSeats;
 
 	public AvioFlightDTO() {
 
@@ -32,6 +35,9 @@ public class AvioFlightDTO {
 		this.startLocation = new AddressDTO(avioFlight.getStartLocation());
 		this.endLocation = new AddressDTO(avioFlight.getEndLocation());
 		this.isDeleted = avioFlight.isDeleted();
+		this.economyClassSeats = avioFlight.getEconomyClassSeats();
+		this.businessClassSeats = avioFlight.getBusinessClassSeats();
+		this.firstClassSeats = avioFlight.getFirstClassSeats();
 	}
 
 	public Long getId() {
@@ -41,7 +47,7 @@ public class AvioFlightDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public AvioCompanyDTO getAvioCompany() {
 		return avioCompany;
 	}
@@ -112,6 +118,30 @@ public class AvioFlightDTO {
 
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public int getEconomyClassSeats() {
+		return economyClassSeats;
+	}
+
+	public void setEconomyClassSeats(int economyClassSeats) {
+		this.economyClassSeats = economyClassSeats;
+	}
+
+	public int getBusinessClassSeats() {
+		return businessClassSeats;
+	}
+
+	public void setBusinessClassSeats(int businessClassSeats) {
+		this.businessClassSeats = businessClassSeats;
+	}
+
+	public int getFirstClassSeats() {
+		return firstClassSeats;
+	}
+
+	public void setFirstClassSeats(int firstClassSeats) {
+		this.firstClassSeats = firstClassSeats;
 	}
 
 }

@@ -21,15 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 import ftn.isa.dto.AddressDTO;
 import ftn.isa.dto.AvioCompanyDTO;
 import ftn.isa.dto.AvioFlightDTO;
+import ftn.isa.dto.AvioFlightReservationDTO;
 import ftn.isa.dto.AvioFlightSearchDTO;
 import ftn.isa.model.Address;
 import ftn.isa.model.AvioCompany;
 import ftn.isa.model.AvioFlight;
+import ftn.isa.model.AvioFlightReservation;
 import ftn.isa.model.AvioFlightSeat;
+import ftn.isa.model.User;
 import ftn.isa.service.AddressService;
 import ftn.isa.service.AvioCompanyService;
+import ftn.isa.service.AvioFlightReservationService;
 import ftn.isa.service.AvioFlightSeatService;
 import ftn.isa.service.AvioFlightService;
+import ftn.isa.service.UserService;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:4200")
@@ -47,6 +52,12 @@ public class AvioCompanyController {
 
 	@Autowired
 	private AvioFlightSeatService seatService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private AvioFlightReservationService reservationService;
 
 	// kontroler avio kompanije
 
@@ -213,6 +224,64 @@ public class AvioCompanyController {
 			avioFlight.setPrice(avioFlightDTO.getPrice());
 			avioFlight.setDeleted(false);
 			avioFlight.setAvioCompany(avioCompany);
+			avioFlight.setEconomyClassSeats(avioFlightDTO.getEconomyClassSeats());
+			avioFlight.setBusinessClassSeats(avioFlightDTO.getBusinessClassSeats());
+			avioFlight.setFirstClassSeats(avioFlightDTO.getFirstClassSeats());
+
+			List<AvioFlightSeat> tempEconomy = new ArrayList<AvioFlightSeat>();
+			List<AvioFlightSeat> tempBusiness = new ArrayList<AvioFlightSeat>();
+			List<AvioFlightSeat> tempFirst = new ArrayList<AvioFlightSeat>();
+
+			// economy
+			for (int i = 0; i < avioFlight.getEconomyClassSeats(); i++) {
+				AvioFlightSeat tempEconomySeat = new AvioFlightSeat();
+				tempEconomySeat.setFree(true);
+				tempEconomySeat.setNumber(i + 1);
+				tempEconomySeat.setClassOfSeat("economy");
+				tempEconomy.add(tempEconomySeat);
+			}
+			// business
+			for (int i = 0; i < avioFlight.getBusinessClassSeats(); i++) {
+				AvioFlightSeat tempBusinessSeat = new AvioFlightSeat();
+				tempBusinessSeat.setFree(true);
+				tempBusinessSeat.setNumber(i + 1);
+				tempBusinessSeat.setClassOfSeat("business");
+				tempBusiness.add(tempBusinessSeat);
+			}
+			// first
+			for (int i = 0; i < avioFlight.getFirstClassSeats(); i++) {
+				AvioFlightSeat tempFirstSeat = new AvioFlightSeat();
+				tempFirstSeat.setFree(true);
+				tempFirstSeat.setNumber(i + 1);
+				tempFirstSeat.setClassOfSeat("first");
+
+				tempFirst.add(tempFirstSeat);
+			}
+
+			List<AvioFlightSeat> flightSeats = new ArrayList<AvioFlightSeat>();
+
+			flightSeats = new ArrayList<AvioFlightSeat>();
+			if (!tempEconomy.isEmpty()) {
+				for (AvioFlightSeat seatEconomy : tempEconomy) {
+					flightSeats.add(seatEconomy);
+				}
+			}
+			if (!tempBusiness.isEmpty()) {
+				for (AvioFlightSeat seatBusiness : tempBusiness) {
+					flightSeats.add(seatBusiness);
+				}
+			}
+			if (!tempFirst.isEmpty()) {
+				for (AvioFlightSeat seatFirst : tempFirst) {
+					flightSeats.add(seatFirst);
+				}
+			}
+
+			for (AvioFlightSeat seat : flightSeats) {
+				seat = seatService.saveSeat(seat);
+			}
+			avioFlight.setSeats(flightSeats);
+
 			avioFlight = avioFlightService.saveAvioFlight(avioFlight);
 
 			flights.add(avioFlight);
@@ -256,6 +325,69 @@ public class AvioCompanyController {
 			tempFlight.setFlightDistance(avioFlightDTO.getFlightDistance());
 			tempFlight.setPrice(avioFlightDTO.getPrice());
 			tempFlight.setDeleted(avioFlightDTO.isDeleted());
+			tempFlight.setEconomyClassSeats(avioFlightDTO.getEconomyClassSeats());
+			tempFlight.setBusinessClassSeats(avioFlightDTO.getBusinessClassSeats());
+			tempFlight.setFirstClassSeats(avioFlightDTO.getFirstClassSeats());
+
+			List<AvioFlightSeat> tempEconomy = new ArrayList<AvioFlightSeat>();
+			List<AvioFlightSeat> tempBusiness = new ArrayList<AvioFlightSeat>();
+			List<AvioFlightSeat> tempFirst = new ArrayList<AvioFlightSeat>();
+
+			// economy
+			for (int i = 0; i < tempFlight.getEconomyClassSeats(); i++) {
+				AvioFlightSeat tempEconomySeat = new AvioFlightSeat();
+				tempEconomySeat.setFree(true);
+				tempEconomySeat.setNumber(i + 1);
+				tempEconomySeat.setClassOfSeat("economy");
+				tempEconomy.add(tempEconomySeat);
+			}
+			// business
+			for (int i = 0; i < tempFlight.getBusinessClassSeats(); i++) {
+				AvioFlightSeat tempBusinessSeat = new AvioFlightSeat();
+				tempBusinessSeat.setFree(true);
+				tempBusinessSeat.setNumber(i + 1);
+				tempBusinessSeat.setClassOfSeat("business");
+				tempBusiness.add(tempBusinessSeat);
+			}
+			// first
+			for (int i = 0; i < tempFlight.getFirstClassSeats(); i++) {
+				AvioFlightSeat tempFirstSeat = new AvioFlightSeat();
+				tempFirstSeat.setFree(true);
+				tempFirstSeat.setNumber(i + 1);
+				tempFirstSeat.setClassOfSeat("first");
+				tempFirst.add(tempFirstSeat);
+			}
+
+			List<AvioFlightSeat> flightSeats = tempFlight.getSeats();
+
+			if (!flightSeats.isEmpty()) {
+				for (AvioFlightSeat tempSeat : flightSeats) {
+					seatService.removeSeat(tempSeat.getId());
+				}
+				flightSeats.clear();
+			}
+			tempFlight.setSeats(flightSeats);
+			flightSeats = new ArrayList<AvioFlightSeat>();
+			if (!tempEconomy.isEmpty()) {
+				for (AvioFlightSeat seatEconomy : tempEconomy) {
+					flightSeats.add(seatEconomy);
+				}
+			}
+			if (!tempBusiness.isEmpty()) {
+				for (AvioFlightSeat seatBusiness : tempBusiness) {
+					flightSeats.add(seatBusiness);
+				}
+			}
+			if (!tempFirst.isEmpty()) {
+				for (AvioFlightSeat seatFirst : tempFirst) {
+					flightSeats.add(seatFirst);
+				}
+			}
+
+			for (AvioFlightSeat seat : flightSeats) {
+				seat = seatService.saveSeat(seat);
+			}
+			tempFlight.setSeats(flightSeats);
 			tempFlight = avioFlightService.updateAvioFlight(tempFlight);
 
 			return new ResponseEntity<>(new AvioFlightDTO(tempFlight), HttpStatus.OK);
@@ -417,14 +549,12 @@ public class AvioCompanyController {
 	}
 
 	// get seats
-	@RequestMapping(value = "/{id}/flights/{flightId}/seasts", method = RequestMethod.GET)
-	public ResponseEntity<List<AvioFlightSeat>> getAllSeatsOfFlight(@PathVariable("id") Long id,
-			@PathVariable("flightID") Long flightId) {
-		AvioCompany avioCompany = avioCompanyService.findAvioCompany(id);
+	@RequestMapping(value = "/flights/{flightId}/seasts", method = RequestMethod.GET)
+	public ResponseEntity<List<AvioFlightSeat>> getAllSeatsOfFlight(@PathVariable("flightID") Long flightId) {
 		AvioFlight avioFlight = avioFlightService.findAvioFlight(flightId);
 		List<AvioFlightSeat> seats = new ArrayList<AvioFlightSeat>();
 
-		if (avioCompany != null && avioFlight != null) {
+		if (avioFlight != null) {
 			if (avioFlight.getSeats() != null) {
 				seats = avioFlight.getSeats();
 			}
@@ -448,10 +578,69 @@ public class AvioCompanyController {
 					avioFlight.getSeats().add(tempSeat);
 				}
 				avioFlight = avioFlightService.saveAvioFlight(avioFlight);
-				
+
 			}
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/flight/{id}/seats", method = RequestMethod.GET)
+	public ResponseEntity<List<AvioFlightSeat>> getSeatsOfFlight(@PathVariable("id") Long id) {
+
+		AvioFlight avioFlight = avioFlightService.findAvioFlight(id);
+
+		List<AvioFlightSeat> seats = new ArrayList<AvioFlightSeat>();
+
+		if (avioFlight != null && !avioFlight.isDeleted()) {
+			if (!avioFlight.getSeats().isEmpty()) {
+				for (AvioFlightSeat seat : avioFlight.getSeats()) {
+					seats.add(seat);
+				}
+			}
+		}
+
+		return new ResponseEntity<>(seats, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/flight/{id}/seats/{seatId}", method = RequestMethod.GET)
+	public ResponseEntity<AvioFlightSeat> getSeat(@PathVariable("id") Long id, @PathVariable("seatId") Long seatId) {
+		AvioFlight avioFlight = avioFlightService.findAvioFlight(id);
+
+		AvioFlightSeat seat = seatService.findSeat(seatId);
+
+		if (avioFlight != null && !avioFlight.isDeleted() && seat != null && !seat.isDeleted()) {
+			if (avioFlight.getSeats().contains(seat)) {
+				return new ResponseEntity<>(seat, HttpStatus.OK);
+			}
+		}
+
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@RequestMapping(value = "/flight/reservation", method = RequestMethod.POST)
+	public ResponseEntity<AvioFlightReservationDTO> makeAvioFlightReservation(
+			@RequestBody AvioFlightReservationDTO reservation) {
+
+		AvioFlight avioFlight = avioFlightService.findAvioFlight(reservation.getAvioFlight().getId());
+		User user = userService.findUser(reservation.getUser().getId());
+		AvioFlightSeat seat = seatService.findSeat(reservation.getSeat().getId());
+
+		if (avioFlight != null && user != null && seat != null && !avioFlight.isDeleted() && !seat.isDeleted()) {
+			AvioFlightReservation newReservation = new AvioFlightReservation();
+			newReservation.setAvioFlight(avioFlight);
+			newReservation.setUser(user);
+			newReservation.setSeat(seat);
+			newReservation.setDeleted(false);
+			newReservation.setRatingFlight(-1);
+			newReservation.setRatingCompany(-1);
+
+			newReservation = reservationService.saveReservation(newReservation);
+
+			return new ResponseEntity<>(new AvioFlightReservationDTO(newReservation), HttpStatus.OK);
+
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }

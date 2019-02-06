@@ -92,9 +92,9 @@
               (click)="filledFrom = true">
             <button type="button" class="close" *ngIf="filledFrom" (click)="selectedFromLocation = false; filledFrom = false; searchFrom = '';">x</button>
 
-            <div *ngIf="searchFrom && selectedFromLocation == false">
+            <div *ngIf="searchFrom && selectedFromLocation == false" >
               <div *ngFor="let destFrom of destinations | fromLocation: searchFrom; let i=index;">
-                <div>
+                <div class="dropdown-item">
                   <div class="row">
                     <div class="col-sm-8">
                       <div class="item" (click)="setFromLocation(destFrom); selectedFromLocation = true; filledFrom = false">
@@ -151,8 +151,6 @@
             <option value="first">First</option>
           </select>
 
-          <label for="guests1">Guests</label>
-          <input class="form-control" type="number" value="1" id="guests1">
           <hr>
           <button type="submit" class="btn btn-primary" (click)="print()">Search</button>
           <button type="submit" class="btn btn-danger" (click)="discardSearch()">Reset</button>
@@ -243,7 +241,7 @@
                 </div>
               </div>
               <div *ngIf="username" class="col-sm-3 col-md-2 col-5">
-                <button type="button" class="btn btn-outline-primary" (click)="reservationFlight()">Make reservation</button>
+                <button type="button" class="btn btn-outline-primary" (click)="reservationFlight(flight)">Make reservation</button>
               </div>
             </div>
           </div>

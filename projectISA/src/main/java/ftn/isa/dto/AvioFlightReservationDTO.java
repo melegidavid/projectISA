@@ -1,5 +1,8 @@
 package ftn.isa.dto;
 
+import ftn.isa.model.AvioFlightReservation;
+import ftn.isa.model.AvioFlightSeat;
+
 public class AvioFlightReservationDTO {
 
 	private Long id;
@@ -7,17 +10,20 @@ public class AvioFlightReservationDTO {
 	private UserDTO user;
 	private int flightRating;
 	private int avioRating;
+	private boolean isDeleted;
+	private AvioFlightSeat seat;
 
 	public AvioFlightReservationDTO() {
 	}
 
-	public AvioFlightReservationDTO(Long id, AvioFlightDTO avioFlight, UserDTO user, int flightRating,
-			int avioRating) {
-		this.id = id;
-		this.avioFlight = avioFlight;
-		this.user = user;
-		this.flightRating = flightRating;
-		this.avioRating = avioRating;
+	public AvioFlightReservationDTO(AvioFlightReservation reservation) {
+		this.id = reservation.getId();
+		this.avioFlight = new AvioFlightDTO(reservation.getAvioFlight());
+		this.user = new UserDTO(reservation.getUser());
+		this.flightRating = reservation.getRatingFlight();
+		this.avioRating = reservation.getRatingCompany();
+		this.isDeleted = reservation.isDeleted();
+		this.seat = reservation.getSeat();
 	}
 
 	public Long getId() {
@@ -58,6 +64,22 @@ public class AvioFlightReservationDTO {
 
 	public void setAvioRating(int avioRating) {
 		this.avioRating = avioRating;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public AvioFlightSeat getSeat() {
+		return seat;
+	}
+
+	public void setSeat(AvioFlightSeat seat) {
+		this.seat = seat;
 	}
 
 }

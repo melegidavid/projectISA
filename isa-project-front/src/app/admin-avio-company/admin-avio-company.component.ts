@@ -214,6 +214,9 @@ export class AdminAvioCompanyComponent implements OnInit {
     this.changedFlight.flightDistance = this.inputDistance;
     this.changedFlight.flightDuration = this.inputDuration;
     this.changedFlight.price = this.inputPrice;
+    this.changedFlight.economyClassSeats = this.inputEconomy;
+    this.changedFlight.businessClassSeats = this.inputBusiness;
+    this.changedFlight.firstClassSeats = this.inputFirst;
 
     this.adminAvioCompanyService.updateFlight(this.id, this.changedFlight.id, this.changedFlight).subscribe(data => {
       this.flight = data;
@@ -263,6 +266,7 @@ export class AdminAvioCompanyComponent implements OnInit {
     this.changedFlight.economyClassSeats = this.inputEconomy;
     this.changedFlight.businessClassSeats = this.inputBusiness;
     this.changedFlight.firstClassSeats = this.inputFirst;
+    console.log(this.changedFlight.economyClassSeats);
 
     this.adminAvioCompanyService.addFlight(this.id, this.changedFlight).subscribe(data => {
       this.flight = data;

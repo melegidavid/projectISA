@@ -116,8 +116,11 @@ export class AllAvioCompaniesComponent implements OnInit {
     this.travelers = 1;
   }
 
-  reservation(){
-    
+  reservationFlight(flight: AvioFlight){
+    console.log(flight.startLocation.city);
+    console.log(flight.endLocation.city);
+    console.log(this.username);
+
   }
 
 

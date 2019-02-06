@@ -21,7 +21,7 @@
 </nav>
 <div class="container-fluid padding">
   <div class="row padding">
-    <div class="col-sm-4">
+    <div class="col-md-4">
       <div class="left">
         <div *ngIf="select == false">
           <div>
@@ -53,10 +53,10 @@
           <hr>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Start Location: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <select [(ngModel)]="inputStartLocation" style="width: 250px;">
                 <option *ngFor="let destination of destinations" [value]="destination.id" style="width: 150px;">
                   {{destination.city}}, {{destination.country}}
@@ -67,10 +67,10 @@
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">End Location: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <select [(ngModel)]="inputEndLocation" style="width: 250px;">
                 <option *ngFor="let destination of destinations" [value]="destination.id" style="width: 150px;">
                   {{destination.city}}, {{destination.country}}
@@ -80,47 +80,74 @@
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Time start: </label>
             </div>
-            <div class="col-sm-6">
-              <input [(ngModel)]="inputDateTimeStart" style="width: 250px;" type="datetime-local" class="input">
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputDateTimeStart" type="datetime-local" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Time finish: </label>
             </div>
-            <div class="col-sm-6">
-              <input [(ngModel)]="inputDateTimeFinish" style="width: 250px;" type="datetime-local" class="input">
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputDateTimeFinish" type="datetime-local" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Distance: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <input [(ngModel)]="inputDistance" style="width: 250px;" type="text" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Duration: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <input [(ngModel)]="inputDuration" style="width: 250px;" type="text" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Price: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <input [(ngModel)]="inputPrice" style="width: 250px;" type="text" class="input">
+            </div>
+          </div>
+          <hr>
+          <div class="row padding">
+            <div class="col-sm-4">
+              <label style="font-weight:bold;">Economy class seats: </label>
+            </div>
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputEconomy" style="width: 250px;" type="number" min=0 class="input">
+            </div>
+          </div>
+          <hr>
+          <div class="row padding">
+            <div class="col-sm-4">
+              <label style="font-weight:bold;">Business class seats: </label>
+            </div>
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputBusiness" style="width: 250px;" type="number" min=0 class="input">
+            </div>
+          </div>
+          <hr>
+          <div class="row padding">
+            <div class="col-sm-4">
+              <label style="font-weight:bold;">First class seats: </label>
+            </div>
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputFirst" style="width: 250px;" type="text" class="input">
             </div>
           </div>
           <hr>
@@ -146,10 +173,10 @@
           <hr>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Start Location: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <select [(ngModel)]="inputStartLocation" style="width: 250px;">
                 <option *ngFor="let destination of destinations" [value]="destination.id" style="width: 150px;">
                   {{destination.city}}, {{destination.country}}
@@ -160,10 +187,10 @@
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">End Location: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <select [(ngModel)]="inputEndLocation" style="width: 250px;">
                 <option *ngFor="let destination of destinations" [value]="destination.id" style="width: 150px;">
                   {{destination.city}}, {{destination.country}}
@@ -173,74 +200,74 @@
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Time start: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <input [(ngModel)]="inputDateTimeStart" style="width: 250px;" type="datetime-local" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Time finish: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <input [(ngModel)]="inputDateTimeFinish" style="width: 250px;" type="datetime-local" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Distance: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <input [(ngModel)]="inputDistance" style="width: 250px;" type="text" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Duration: </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
               <input [(ngModel)]="inputDuration" style="width: 250px;" type="text" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Price: </label>
             </div>
-            <div class="col-sm-6">
-              <input [(ngModel)]="inputPrice" style="width: 250px;" type="text" class="input">
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputPrice" min="0" style="width: 250px;" type="text" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Economy class: </label>
             </div>
-            <div class="col-sm-6">
-              <input [(ngModel)]="inputEconomy" style="width: 250px;" type="number" class="input">
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputEconomy" style="width: 250px;" type="number" min="0" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">Business class: </label>
             </div>
-            <div class="col-sm-6">
-              <input [(ngModel)]="inputBusiness" style="width: 250px;" type="number" class="input">
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputBusiness" style="width: 250px;" type="number" min="0" class="input">
             </div>
           </div>
           <hr>
           <div class="row padding">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
               <label style="font-weight:bold;">First class: </label>
             </div>
-            <div class="col-sm-6">
-              <input [(ngModel)]="inputFirst" style="width: 250px;" type="number" class="input">
+            <div class="col-sm-8">
+              <input [(ngModel)]="inputFirst" style="width: 250px;" type="number" min="0" class="input">
             </div>
           </div>
           <hr>
@@ -258,7 +285,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-8">
+    <div class="col-md-8">
       <div class="container emp-profile">
         <form method="post">
           <div class="row">

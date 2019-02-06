@@ -5,7 +5,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class AvioFlightReservation {
@@ -20,6 +22,8 @@ public class AvioFlightReservation {
 	private int ratingFlight;
 	private int ratingCompany;
 	private boolean isDeleted;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "id", nullable = false, unique = true)
 	private AvioFlightSeat seat;
 
 	public AvioFlightReservation() {
