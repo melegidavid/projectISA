@@ -25,8 +25,10 @@ import ftn.isa.dto.AvioFlightSearchDTO;
 import ftn.isa.model.Address;
 import ftn.isa.model.AvioCompany;
 import ftn.isa.model.AvioFlight;
+import ftn.isa.model.AvioFlightSeat;
 import ftn.isa.service.AddressService;
 import ftn.isa.service.AvioCompanyService;
+import ftn.isa.service.AvioFlightSeatService;
 import ftn.isa.service.AvioFlightService;
 
 @RestController
@@ -42,6 +44,9 @@ public class AvioCompanyController {
 
 	@Autowired
 	private AddressService addressService;
+
+	@Autowired
+	private AvioFlightSeatService seatService;
 
 	// kontroler avio kompanije
 
@@ -318,18 +323,18 @@ public class AvioCompanyController {
 
 		if (avioCompany.getDestinations() != null) {
 			destinations = avioCompany.getDestinations();
-			
+
 			tempAddress.setCountry(destinationDTO.getCountry());
 			tempAddress.setCity(destinationDTO.getCity());
 			tempAddress.setPostalCode(destinationDTO.getPostalCode());
 			tempAddress.setStreet(destinationDTO.getStreet());
 			tempAddress.setNumber(destinationDTO.getNumber());
-			
+
 			tempAddress = addressService.save(tempAddress);
 			destinations.add(tempAddress);
 			avioCompany.setDestinations(destinations);
 			avioCompany = avioCompanyService.saveAvioCompany(avioCompany);
-			
+
 		}
 
 		return new ResponseEntity<>(new AddressDTO(tempAddress), HttpStatus.OK);
@@ -365,52 +370,88 @@ public class AvioCompanyController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	
-	//get all destinations
-	@RequestMapping(value="/destinations", method=RequestMethod.GET)
-	public ResponseEntity<List<AddressDTO>> getAllDestinations(){
+
+	// get all destinations
+	@RequestMapping(value = "/destinations", method = RequestMethod.GET)
+	public ResponseEntity<List<AddressDTO>> getAllDestinations() {
 		List<AvioCompany> avioCompanies = avioCompanyService.getAllAvioCompanies();
-		
+
 		List<Address> destinations = new ArrayList<Address>();
-		
-		if(avioCompanies.isEmpty()) {
+
+		if (avioCompanies.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		//metod za dodavanje svih destinacija bez ponavljanja
-		for(AvioCompany avioCompany : avioCompanies) {
+
+		// metod za dodavanje svih destinacija bez ponavljanja
+		for (AvioCompany avioCompany : avioCompanies) {
 			Set<Address> tempDestinations = avioCompany.getDestinations();
-			for(Address tempDestination : tempDestinations) {
-				if(!destinations.contains(tempDestination)) {
+			for (Address tempDestination : tempDestinations) {
+				if (!destinations.contains(tempDestination)) {
 					destinations.add(tempDestination);
 				}
 			}
 		}
-		
+
 		List<AddressDTO> destinationsDTO = new ArrayList<AddressDTO>();
-		
-		for(Address address : destinations) {
+
+		for (Address address : destinations) {
 			destinationsDTO.add(new AddressDTO(address));
 		}
-		
+
 		return new ResponseEntity<>(destinationsDTO, HttpStatus.OK);
 	}
-	
-	
-	//search
-	@RequestMapping(value="/search", method = RequestMethod.POST, consumes="application/json")
-	public ResponseEntity<List<AvioFlightDTO>> searchFlights(@RequestBody AvioFlightSearchDTO searchFlightsDTO){
+
+	// search
+	@RequestMapping(value = "/search", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<List<AvioFlightDTO>> searchFlights(@RequestBody AvioFlightSearchDTO searchFlightsDTO) {
 		List<AvioFlight> searchResult = avioFlightService.searchFlights(searchFlightsDTO, this.addressService);
 		List<AvioFlightDTO> avioFlightsDTO = new ArrayList<AvioFlightDTO>();
-		
-		if(!searchResult.isEmpty()) {
-			for(AvioFlight avioFlight : searchResult) {
+
+		if (!searchResult.isEmpty()) {
+			for (AvioFlight avioFlight : searchResult) {
 				avioFlightsDTO.add(new AvioFlightDTO(avioFlight));
 			}
-			
+
 		}
 		return new ResponseEntity<>(avioFlightsDTO, HttpStatus.OK);
+	}
+
+	// get seats
+	@RequestMapping(value = "/{id}/flights/{flightId}/seasts", method = RequestMethod.GET)
+	public ResponseEntity<List<AvioFlightSeat>> getAllSeatsOfFlight(@PathVariable("id") Long id,
+			@PathVariable("flightID") Long flightId) {
+		AvioCompany avioCompany = avioCompanyService.findAvioCompany(id);
+		AvioFlight avioFlight = avioFlightService.findAvioFlight(flightId);
+		List<AvioFlightSeat> seats = new ArrayList<AvioFlightSeat>();
+
+		if (avioCompany != null && avioFlight != null) {
+			if (avioFlight.getSeats() != null) {
+				seats = avioFlight.getSeats();
+			}
+		}
+		return new ResponseEntity<>(seats, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}/flights/{flightId}/setSeats/{number}", method = RequestMethod.POST)
+	public ResponseEntity<Void> setSeatsOfFlight(@PathVariable("id") Long id, @PathVariable("flightId") Long flightId,
+			@PathVariable("number") int number) {
+		AvioCompany avioCompany = avioCompanyService.findAvioCompany(id);
+		AvioFlight avioFlight = avioFlightService.findAvioFlight(flightId);
+
+		if (avioCompany != null && avioFlight != null && avioFlight.isDeleted() == false) {
+			if (avioCompany.getFlights().contains(avioFlight)) {
+				avioFlight.getSeats().clear();
+				for (int i = 0; i < number; i++) {
+					AvioFlightSeat tempSeat = new AvioFlightSeat();
+					tempSeat.setFree(true);
+					tempSeat.setNumber(i + 1);
+					avioFlight.getSeats().add(tempSeat);
+				}
+				avioFlight = avioFlightService.saveAvioFlight(avioFlight);
+				
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

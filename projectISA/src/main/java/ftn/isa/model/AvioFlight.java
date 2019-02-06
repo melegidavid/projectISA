@@ -1,8 +1,11 @@
 package ftn.isa.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -16,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class AvioFlight {
@@ -33,16 +37,9 @@ public class AvioFlight {
 	private int economyClassSeats;
 	private int businessClassSeats;
 	private int firstClassSeats;
-	
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	private AvioCompany avioCompany;
-
-	@ElementCollection
-	@MapKeyColumn(name = "user", unique = true, nullable = false)
-	@Column(name = "rate", nullable = false)
-	@CollectionTable(name = "avio_flight_rates", joinColumns = @JoinColumn(name = "id"))
-	private Map<Long, Integer> rates = new HashMap<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", nullable = false)
@@ -51,6 +48,9 @@ public class AvioFlight {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", nullable = false)
 	private Address endLocation;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<AvioFlightSeat> seats = new ArrayList<AvioFlightSeat>();
 
 	public AvioFlight() {
 	}
@@ -120,14 +120,6 @@ public class AvioFlight {
 		this.avioCompany = avioCompany;
 	}
 
-	public Map<Long, Integer> getRates() {
-		return rates;
-	}
-
-	public void setRates(Map<Long, Integer> rates) {
-		this.rates = rates;
-	}
-
 	public Address getStartLocation() {
 		return startLocation;
 	}
@@ -174,6 +166,14 @@ public class AvioFlight {
 
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public List<AvioFlightSeat> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(List<AvioFlightSeat> seats) {
+		this.seats = seats;
 	}
 
 }

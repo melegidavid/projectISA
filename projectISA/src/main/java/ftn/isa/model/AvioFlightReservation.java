@@ -20,18 +20,20 @@ public class AvioFlightReservation {
 	private int ratingFlight;
 	private int ratingCompany;
 	private boolean isDeleted;
+	private AvioFlightSeat seat;
 
 	public AvioFlightReservation() {
 	}
 
 	public AvioFlightReservation(Long id, AvioFlight avioFlight, User user, int ratingFlight, int ratingCompany,
-			boolean isDeleted) {
+			boolean isDeleted, AvioFlightSeat seat) {
 		this.id = id;
 		this.avioFlight = avioFlight;
 		this.user = user;
 		this.ratingFlight = ratingFlight;
 		this.ratingCompany = ratingCompany;
 		this.isDeleted = isDeleted;
+		this.seat = seat;
 
 	}
 
@@ -83,4 +85,11 @@ public class AvioFlightReservation {
 		this.isDeleted = isDeleted;
 	}
 
+	public AvioFlightSeat getSeat() {
+		return seat;
+	}
+
+	public void setSeat(AvioFlightSeat seat) {
+		this.seat = seat;
+	}
 }
