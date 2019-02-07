@@ -4,6 +4,7 @@ import { Observable } from '../../../node_modules/rxjs';
 import { AvioCompany } from '../dto/avio-company.model';
 import { AvioFlight } from '../dto/avio-flight.model';
 import { AvioflightSearchDTO } from '../dto/avio-flight-search';
+import { AvioFlightSeat } from '../dto/avio-flight-seat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,10 @@ export class AvioCompaniesService {
 
   searchFlights(search: AvioflightSearchDTO): Observable<any> {
     return this.http.post("http://localhost:9004/avio_companies/search", search, { responseType: 'json' });
+  }
+
+  getAvioFlightSeats(flightId: number | string) : Observable<AvioFlightSeat[]> {
+    return this.http.get<AvioFlightSeat[]>("http://localhost:9004/avio_companies/flight/" + flightId + "/seats", {responseType: 'json'});
   }
 
 }

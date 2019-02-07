@@ -144,7 +144,7 @@ export class HotelProfileComponent implements OnInit {
   }
 
   public next() {
-    this.router.navigate(['rentACars']);
+    this.router.navigate(['rentACar']);
   }
 
   //selektuje sobu i ubaci je u listu selektovanih soba

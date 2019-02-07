@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="images/travel.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hotels">Hotels</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/register" *ngIf="username">Register</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/auth/login" *ngIf="username">Login</a>
+        </li>
+        <li class="nav-item " *ngIf="username">
+          <a class="nav-link" routerLink="/home" (click)="logOut()">Logout</a>
+        </li>
+        <li class="nav-item " *ngIf="username">
+          <a class="nav-link">{{username}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid padding">
+  <div class="row welcome text-centre">
+    <div class="col-12">
+      <h1 class="display-4">Invite friends</h1>
+      <hr>
+      <div class="col-12">
+        <p class="lead">Invite your friends to trip</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="!(numberOfFriends > selectedFriends.length)">
+  <div class="row">
+    <div class="col-md-8">
+      <h4>You have already selected {{numberOfFreinds}} friends</h4>
+    </div>
+    <div class="col-md-4 padding">
+        <button class="btn btn-primary" routerLink="/invite-friends">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngFor="let friend of friends">
+  <div class="jumbotron">
+    <h1>{{friend.name + ' '}} {{friend.lastName}}</h1>
+    <hr>
+    <div>
+      <button class="btn btn-primary" *ngIf="friend.selected == undefined &&  numberOfFriends > selectedFriends.length" (click)="inviteFriend(friend)">Invite friend</button>
+      <button class="btn btn-primary" *ngIf="friend.selected == true" (click)="removeFriend(friend)">Uninvite friend</button>
+    </div>
+  </div>
+</div>

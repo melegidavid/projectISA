@@ -107,7 +107,7 @@ public class HotelController {
 		return new ResponseEntity<>(new HotelDTO(hotel), HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value="/update", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<HotelDTO> updateHotel(@RequestBody HotelDTO hotelDTO) {
 		Hotel hotel = hotelService.findHotel(hotelDTO.getId());
 		if(hotel == null) {
@@ -155,7 +155,9 @@ public class HotelController {
 		List<HotelRoomDTO> roomsDTO	= new ArrayList<>();
 		
 		for(HotelRoom room : rooms) {
-			roomsDTO.add(new HotelRoomDTO(room));
+			if(!room.isDeleted()) {
+				roomsDTO.add(new HotelRoomDTO(room));				
+			}
 		}
 		
 		return new ResponseEntity<>(roomsDTO, HttpStatus.OK);
@@ -190,13 +192,14 @@ public class HotelController {
 		room.setDescription(roomDTO.getDescription());
 		room.setPrice(roomDTO.getPrice());
 		room.setBedNumber(roomDTO.getBedNumber());
+		room.setDeleted(false);
 		
 		room = hotelRoomService.saveHotelRoom(room);
 		
 		return new ResponseEntity<>(new HotelRoomDTO(room), HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value="/{hotelId}/rooms/{roomId}", method = RequestMethod.PUT, consumes="application/json")
+	@RequestMapping(value="/{hotelId}/rooms/{roomId}", method = RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<HotelRoomDTO> updateHotelRoom(@PathVariable("hotelId") Long hotelId, @PathVariable("roomId") Long roomId, @RequestBody HotelRoomDTO roomDTO) {
 		
 		Hotel hotel = hotelService.findHotel(hotelId);
@@ -250,14 +253,16 @@ public class HotelController {
 		
 		List<HotelMenuItemDTO> menuDTO = new ArrayList<>();
 		for(HotelMenuItem item : menu) {
-			menuDTO.add(new HotelMenuItemDTO(item));
+			if(!item.isDeleted()) {
+				menuDTO.add(new HotelMenuItemDTO(item));				
+			}
 		}
 		
 		return new ResponseEntity<>(menuDTO, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/{hotelId}/menu/{itemId}", method=RequestMethod.GET)
-	public ResponseEntity<HotelMenuItemDTO> getHotelMenuItem(@PathVariable("hotelId") Long hotelId, @PathVariable("menuId") Long menuId) {
+	public ResponseEntity<HotelMenuItemDTO> getHotelMenuItem(@PathVariable("hotelId") Long hotelId, @PathVariable("itemId") Long menuId) {
 		
 		HotelMenuItem item = hotelMenuItemService.findHotelMenuItem(menuId);
 		if(item == null) {
@@ -282,13 +287,14 @@ public class HotelController {
 		item.setPrice(itemDTO.getPrice());
 		item.setDescription(itemDTO.getDescription());
 		item.setHotel(hotel);
+		item.setDeleted(false);
 		
 		item = hotelMenuItemService.saveHotelMenuItem(item);
 		
 		return new ResponseEntity<>(new HotelMenuItemDTO(item), HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value="/{hotelId}/menu/{itemId}", method=RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value="/{hotelId}/menu/{itemId}", method=RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<HotelMenuItemDTO> updateHotelMenuItem(@PathVariable("hotelId") Long hotelId, @PathVariable("itemId") Long itemId, @RequestBody HotelMenuItemDTO itemDTO){
 		
 		Hotel hotel = hotelService.findHotel(hotelId);
@@ -311,8 +317,8 @@ public class HotelController {
 		return new ResponseEntity<>(new HotelMenuItemDTO(item), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/{hotelId}/menu/{itemId}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> removeHotelMenuItem(@PathVariable("hotelId") Long hotelId, @PathVariable("itemId") Long itemId) {
+	@RequestMapping(value="/menu/{itemId}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> removeHotelMenuItem(@PathVariable("itemId") Long itemId) {
 		
 		HotelMenuItem item = hotelMenuItemService.findHotelMenuItem(itemId);
 		if(item == null) {
@@ -342,7 +348,6 @@ public class HotelController {
 		for(Hotel hotel: hotels) {
 			List<HotelRoom> rooms = new ArrayList<>(); 
 			rooms =	hotelRoomService.freeHotelRooms(startDate, endDate, hotel);
-			System.out.println(hotel.getName() + " size: " + rooms.size());
 			if(rooms.size() > 0) {
 				hotelsDTO.add(new HotelDTO(hotel));
 			}

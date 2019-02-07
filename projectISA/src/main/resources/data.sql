@@ -101,22 +101,23 @@ insert into destinations (avio_company_id, address_id) values (122, 104);
 insert into hotel (id, name, address_id, description) values (101,'Hotel Park', 101, 'Imamo i kladionicu');
 insert into hotel (id, name, address_id, description) values (102,'Hotel Vojvodina', 102, 'Nemamo ni kladionicu');
 
-insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (101,'Cistimo krevete', 99.00, 'opis opis opis',102);
-insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (102,'Mini bar', 25.00, 'Neki random opis', 102);
-insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (103,'Wellness and spa', 75.00, 'Sauna, bazeni, masaze', 102);
-insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (104,'Nosenje prtljaga', 10.00, 'opis opis opis',101);
-insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (105,'Prevoz do aerodroma', 25.00, 'Neki random opis', 101);
-insert into hotel_menu_item (id, service_name, price, description, hotel_id) values (106,'Wellness and spa', 75.00, 'Sauna, bazeni, masaze', 101);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id, deleted) values (101,'Cistimo krevete', 99.00, 'opis opis opis',102, false);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id, deleted) values (102,'Mini bar', 25.00, 'Neki random opis', 102, false);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id, deleted) values (103,'Wellness and spa', 75.00, 'Sauna, bazeni, masaze', 102, false);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id, deleted) values (104,'Nosenje prtljaga', 10.00, 'opis opis opis',101, false);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id, deleted) values (105,'Prevoz do aerodroma', 25.00, 'Neki random opis', 101, false);
+insert into hotel_menu_item (id, service_name, price, description, hotel_id, deleted) values (106,'Wellness and spa', 75.00, 'Sauna, bazeni, masaze', 101, false);
 
 
-insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (101,'106', true, 101, 'opis prve sobe', 123.99, 2);
-insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (102,'107', true, 101, 'opis druge sobe', 100.00, 2);
-insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (103,'108', true, 101, 'opis trece sobe', 149.99, 2);
+insert into hotel_room (id, number, free, hotel_id, description, price, bed_number, deleted) values (101,'106', true, 101, 'opis prve sobe', 123.99, 2, false);
+insert into hotel_room (id, number, free, hotel_id, description, price, bed_number, deleted) values (102,'107', true, 101, 'opis druge sobe', 100.00, 2, false);
+insert into hotel_room (id, number, free, hotel_id, description, price, bed_number, deleted) values (103,'108', true, 101, 'opis trece sobe', 149.99, 2, false);
 
-insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (104,'206', true, 102, 'opis prve sobe', 123.00, 2);
-insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (105,'207', true, 102, 'opis druge sobe', 250.00, 3);
-insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (106,'208', true, 102, 'opis trece sobe', 150.00, 2);
-insert into hotel_room (id, number, free, hotel_id, description, price, bed_number) values (107,'208', true, 102, 'opis cetvrte sobe', 150.00, 4);
+insert into hotel_room (id, number, free, hotel_id, description, price, bed_number, deleted) values (104,'206', true, 102, 'opis prve sobe', 123.00, 2, false);
+insert into hotel_room (id, number, free, hotel_id, description, price, bed_number, deleted) values (105,'207', true, 102, 'opis druge sobe', 250.00, 3, false);
+insert into hotel_room (id, number, free, hotel_id, description, price, bed_number, deleted) values (106,'208', true, 102, 'opis trece sobe', 150.00, 2, false);
+insert into hotel_room (id, number, free, hotel_id, description, price, bed_number, deleted) values (107,'208', true, 102, 'opis cetvrte sobe', 150.00, 4, false);
+
 
 insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price, room_rating, hotel_rating) values (102, '2019-01-21', '2019-01-15', 102, 21, 350, 3, 4);
 insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price, room_rating, hotel_rating) values (103, '2019-01-21', '2019-01-15', 103, 21, 450, 4, 5);
@@ -146,12 +147,30 @@ insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs
 insert into vehicle_reservation (id, end_reseravtion, start_reservation, belongs_to_vehicle_id, return_place_id, take_place_id, user_id, vehicle_rating, rent_car_rating,price)  values (105, '2018-01-29', '2018-01-26', 104, 102, 102, 22, 3, 4,120);
 
 insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (500, "economy", true, 1, false);
-insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (501, "economy", true, 1, false);
-insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (502, "economy", true, 1, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (501, "economy", true, 2, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (502, "economy", false, 3, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (503, "economy", true, 4, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (504, "economy", true, 5, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (505, "economy", true, 6, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (506, "economy", false, 7, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (507, "economy", true, 8, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (508, "economy", true, 9, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (509, "economy", true, 10, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (510, "economy", true, 11, false);
+insert into avio_flight_seat (id, class_of_seat, free, number, deleted) values (511, "economy", true, 12, false);
 
-insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 500);
 insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 501);
 insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 502);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 503);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 504);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 505);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 506);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 507);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 508);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 509);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 510);
+insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 511);
+
 
 --insert into avio_flight_reservation (id, is_deleted, rating_company, rating_flight, avio_flight_id, seat_id, user_id) values (51, false, 2, 3, 112, 500, 24);
 insert into avio_flight_reservation (id, user_id, avio_flight_id, rating_flight, rating_company, is_deleted,seat_id) values (101, 21, 115,4,5,0,500);

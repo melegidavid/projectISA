@@ -6,6 +6,7 @@ import { UserService } from '../user.service';
 import { Address } from '../dto/address.model';
 import { AvioflightSearchDTO } from '../dto/avio-flight-search';
 import { AvioFlight } from '../dto/avio-flight.model';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-all-avio-companies',
@@ -52,8 +53,11 @@ export class AllAvioCompaniesComponent implements OnInit {
   searchFlightsResult: AvioFlight[] = [];
 
 
-  constructor(private avioCompanyService: AvioCompaniesService,
-    private userService: UserService) { }
+  constructor(
+    private avioCompanyService: AvioCompaniesService,
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.len = localStorage.length;
@@ -120,6 +124,11 @@ export class AllAvioCompaniesComponent implements OnInit {
     console.log(flight.startLocation.city);
     console.log(flight.endLocation.city);
     console.log(this.username);
+    //localStorage.setItem('flight', JSON.stringify(flight));
+    localStorage.setItem('fligthClass', this.classFlight);
+    localStorage.setItem('numberOfTravelers', JSON.stringify(this.travelers));
+
+    this.router.navigate(['flight', flight.id, 'seats']);
 
   }
 

@@ -1,0 +1,85 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="images/travel.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hotels">Hotels</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/register" *ngIf="username">Register</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/auth/login" *ngIf="username">Login</a>
+        </li>
+        <li class="nav-item " *ngIf="username">
+          <a class="nav-link" routerLink="/home" (click)="logOut()">Logout</a>
+        </li>
+        <li class="nav-item " *ngIf="username">
+          <a class="nav-link">{{username}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid padding">
+  <div class="row welcome text-centre">
+    <div class="col-12">
+      <h1 class="display-4">Airplane seats</h1>
+      <hr>
+      <div class="col-12">
+        <p class="lead">Choose your seats for {{classOfFlight}} class</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+  </div>
+  <div class="col-md-4" *ngIf="clickedCounter == numberOfTravelers">
+      <button class="btn btn-primary" routerLink="/invite-friends">Next</button>
+  </div>
+</div>
+
+<div class="plane">
+  <div class="cockpit">
+    <h1>Please select a seat</h1>
+  </div>
+  <div class="exit exit--front fuselage">
+
+  </div>
+  <!-- <ol class="cabin fuselage"> -->
+  <tr class="seats" *ngFor="let row of seats;  let i=index">
+    <div *ngIf="!(i>=numOfRows)">
+      <td class="col" *ngFor="let item of [0,1,2,3,4,5]">
+        <div *ngIf="seats[item+i*6].free == false">
+          <input type="checkbox" [attr.id]="'sediste' + item + i * 6" disabled/>
+          <label style="width: 20px" for="{{'sediste' + item + i * 6}}">{{seats[item+i*6]}}</label>
+        </div>
+        <div *ngIf="seats[item+i*6].free == true">
+          <input myCheckedAtr="false" (click)="selectSeat(seats[item+i*6])" type="checkbox" [attr.id]="'sediste' + item + i * 6" />
+          <label style="width: 20px" for="{{'sediste' + item + i * 6}}">{{seats[item+i*6].number}}</label>
+        </div>
+      </td>
+    </div>
+  </tr>
+  <div class="exit exit--back fuselage">
+  </div>
+</div>

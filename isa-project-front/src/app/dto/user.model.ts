@@ -9,4 +9,5 @@ export class UserDTO {
     telephoneNumber : string;
     role : string;
     adminChangePassword: boolean;
+    selected: boolean;
 }

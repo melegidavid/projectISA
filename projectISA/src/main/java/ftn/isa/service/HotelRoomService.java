@@ -35,7 +35,9 @@ public class HotelRoomService {
 	}
 	
 	public void removeHotelRoom(HotelRoom room) {
-		hotelRoomRepository.delete(room);
+		HotelRoom r = this.findHotelRoom(room.getId());
+		r.setDeleted(true);
+		this.updateHotelRoom(r);
 	}
 	
 	public List<HotelRoom> freeHotelRooms(Date startDate, Date endDate, Hotel hotel) {
@@ -43,15 +45,17 @@ public class HotelRoomService {
 		List<HotelRoom> rooms = hotel.getRooms();
 		
 		for(HotelRoom room: rooms) {
-			boolean isReserved = false;
-			List<RoomReservation> roomReservations = room.getReseravations();
-			for(RoomReservation roomReservation: roomReservations) {
-				if(!(endDate.before(roomReservation.getStartReservation()) || startDate.after(roomReservation.getEndReservation()))) {
-					isReserved = true;
+			if(!room.isDeleted()) {
+				boolean isReserved = false;
+				List<RoomReservation> roomReservations = room.getReseravations();
+				for(RoomReservation roomReservation: roomReservations) {
+					if(!(endDate.before(roomReservation.getStartReservation()) || startDate.after(roomReservation.getEndReservation()))) {
+						isReserved = true;
+					}
 				}
-			}
-			if(!isReserved) {
-				freeRooms.add(room);
+				if(!isReserved) {
+					freeRooms.add(room);
+				}				
 			}
 		}
 		return freeRooms;

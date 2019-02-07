@@ -21,6 +21,7 @@ public class HotelMenuItem {
 	private String serviceName;
 	private double price;
 	private String description;
+	private boolean deleted;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Hotel hotel;
@@ -37,6 +38,7 @@ public class HotelMenuItem {
 		this.serviceName = serviceName;
 		this.price = price;
 		this.description = description;
+		this.deleted = false;
 	}
 
 	public Long getId() {
@@ -85,5 +87,13 @@ public class HotelMenuItem {
 
 	public void setHotelMenuItemReseravations(List<HotelMenuItemReservation> hotelMenuItemReseravations) {
 		this.hotelMenuItemReseravations = hotelMenuItemReseravations;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

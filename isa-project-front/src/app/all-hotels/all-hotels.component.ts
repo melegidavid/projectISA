@@ -39,7 +39,10 @@ export class AllHotelsComponent implements OnInit {
   ngOnInit() {
     this.len = localStorage.length;
     this.username = localStorage.getItem('username');
-
+    this.startDate = undefined;
+    this.endDate = undefined;
+    localStorage.removeItem('startDate');
+    localStorage.removeItem('endDate');
     this.getHotels().subscribe(data => {
       this.hotels = data;
     });

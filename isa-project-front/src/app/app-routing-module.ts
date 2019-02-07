@@ -17,6 +17,9 @@ import { AdminComponent } from './admin/admin.component';
 import { ActivateProfileComponent } from './activate-profile/activate-profile.component';
 import { AdminAvioCompanyComponent } from './admin-avio-company/admin-avio-company.component';
 import { HotelMenuItemReservationComponent } from './hotel-menu-item-reservation/hotel-menu-item-reservation.component';
+import { HotelEditComponent } from './hotel-edit/hotel-edit.component';
+import { AvioFlightSeatsComponent } from './avio-flight-seats/avio-flight-seats.component';
+import { InviteFriendsComponent } from './invite-friends/invite-friends.component';
 
 
 const routes: Routes = [
@@ -27,6 +30,7 @@ const routes: Routes = [
   { path: 'hotels', component: AllHotelsComponent },
   { path: 'hotels/:id', component: HotelProfileComponent},
   { path: 'hotels/:id/menu_reservation', component: HotelMenuItemReservationComponent},
+  { path: 'hotels/edit/:id', component: HotelEditComponent},
   {
     path: 'rentACar', 
     component: AllRentACarsComponent, 
@@ -40,6 +44,8 @@ const routes: Routes = [
   { path: 'rentACar/:id', component: RentCarProfileComponent},
   { path: 'avioCompanies', component: AllAvioCompaniesComponent},
   { path: 'avioCompanies/:id', component: AvioCompanyProfileComponent},
+  { path: 'flight/:id/seats', component: AvioFlightSeatsComponent}, //id je oznaka id leta
+  { path: 'invite-friends', component: InviteFriendsComponent},
   { path: 'users/:username', component: UserProfileComponent}, 
   { path: 'admin', component: AdminComponent},
   { path: 'admin-avio-company', component: AdminAvioCompanyComponent },

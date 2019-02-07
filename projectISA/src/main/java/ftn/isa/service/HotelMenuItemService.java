@@ -39,7 +39,9 @@ public class HotelMenuItemService {
 	}
 	
 	public void removeHotelMenuItem(HotelMenuItem hotelMenuItem) {
-		hotelMenuItemRepository.delete(hotelMenuItem);
+		HotelMenuItem item = this.findHotelMenuItem(hotelMenuItem.getId());
+		item.setDeleted(true);
+		this.updateHotelMenuItem(item);
 	}
 	
 	public HotelMenuItemReservation makeReservation(HotelMenuItemReservation hotelMenuItemReservation) {

@@ -36,12 +36,14 @@ export class HotelsService {
   }
 
   addHotel(hotel: Hotel) {
-    console.log("pre dodavanja hotela");
     this.http.post<Hotel>("http://localhost:9004/hotels", hotel)
     .subscribe(data => {
       
     });
-    console.log("posle dodavanja hotela");
+  }
+
+  updateHotel(hotel: Hotel) {
+    this.http.post<Hotel>("http://localhost:9004/hotels/update", hotel).subscribe();
   }
 
   searchHotels(roomSearch: RoomSearch) : Observable<Hotel[]> {
@@ -60,6 +62,18 @@ export class HotelsService {
     return this.http.get<HotelRoom>("http://localhost:9004/hotels/rooms/" + id, {responseType: 'json'});
   }
 
+  addHotelRoom(hotelId: number | string, hotelRoom: HotelRoom) : Observable<HotelRoom> {
+    return this.http.post<HotelRoom>("http://localhost:9004/hotels/"+ hotelId + "/rooms", hotelRoom);
+  }
+
+  updateHotelRoom(hotelId: number | string, roomId: number | string, hotelRoom: HotelRoom) : Observable<HotelRoom> {
+    return this.http.post<HotelRoom>("http://localhost:9004/hotels/" + hotelId + "/rooms/" + roomId, hotelRoom);
+  }
+
+  deleteHotelRoom(roomId: number | string) {
+    this.http.delete("http://localhost:9004/hotels/rooms/" + roomId).subscribe();
+  }
+
   makeReservation(id: number | string, roomReservation: RoomReservation) {
     return this.http.post<RoomReservation>("http://localhost:9004/hotels/reservation/" + id, roomReservation)
     .subscribe();
@@ -68,5 +82,21 @@ export class HotelsService {
   makeItemReservation(id: number | string, itemReservation: HotelMenuItemReservation) {
     return this.http.post<HotelMenuItemReservation>("http://localhost:9004/hotels/item_reservation/" + id, itemReservation)
     .subscribe();
+  }
+
+  getHotelMenuItem(hotelId: number | string, itemId: number | string) : Observable<HotelMenuItem> {
+    return this.http.get<HotelMenuItem>("http://localhost:9004/hotels/"+ hotelId + "/menu/"+ itemId);
+  }
+
+  addHotelMenuItem(hotelId: number | string, hotelMenuItem: HotelMenuItem) : Observable<HotelMenuItem> {
+    return this.http.post<HotelMenuItem>("http://localhost:9004/hotels/" + hotelId + "/menu/", hotelMenuItem);
+  }
+
+  updateHotelMenuItem(hotelId: number | string, itemId: number | string, hotelMenuItem: HotelMenuItem) : Observable<HotelMenuItem> {
+    return this.http.post<HotelMenuItem>("http://localhost:9004/hotels/"+ hotelId + "/menu/"+ itemId, hotelMenuItem);
+  }
+
+  deleteHotelMenuItem(itemId: number | string) {
+    this.http.delete("http://localhost:9004/hotels/menu/"+ itemId).subscribe();
   }
 }

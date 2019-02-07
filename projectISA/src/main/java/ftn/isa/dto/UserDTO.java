@@ -14,6 +14,7 @@ public class UserDTO {
 	private String city;
 	private String telephoneNumber;
 	private Role role;
+	private boolean selected;
 	
 	public UserDTO() {}
 	

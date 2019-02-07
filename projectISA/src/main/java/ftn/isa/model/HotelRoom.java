@@ -30,6 +30,7 @@ public class HotelRoom {
 	private String description;
 	private double price;
 	private int bedNumber; 
+	private boolean deleted;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Hotel hotel;
@@ -55,6 +56,7 @@ public class HotelRoom {
 		this.description = description;
 		this.price = price;
 		this.bedNumber = bedNumber;
+		this.deleted = false;
 	}
 
 	public Long getId() {
@@ -127,5 +129,13 @@ public class HotelRoom {
 
 	public void setBedNumber(int bedNumber) {
 		this.bedNumber = bedNumber;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}	
 }

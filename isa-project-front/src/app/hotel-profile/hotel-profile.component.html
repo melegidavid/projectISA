@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="col-md-2">
-        <button class="profile-edit-btn" name="btnAddMore" routerLink="/rentACar/edit">Edit Profile</button>
+        <button *ngIf="hotel" class="profile-edit-btn" name="btnAddMore" [routerLink]="['/hotels/edit', hotel.id]">Edit Profile</button>
       </div>
     </div>
     <div class="row">
@@ -182,7 +182,8 @@
     <div class="col-md-4" *ngFor="let room of rooms">
       <div class="card rounded">
         <div class="card-image">
-          <span class="card-notify-badge">{{room.price*period}}e</span>
+          <span class="card-notify-badge" *ngIf="startDate">{{room.price*period}}e</span>
+          <span class="card-notify-badge" *ngIf="startDate == undefined">{{room.price}}e</span>
           <!-- <span class="card-notify-year">yearproduced</span> -->
           <img class="img-fluid" src="https://www.rd.com/wp-content/uploads/2016/01/05-13-things-your-hotel-desk-clerk-wont-tell-you-hotel-room.jpg"
             alt="Alternate Text" />

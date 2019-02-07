@@ -81,7 +81,7 @@ export class HotelMenuItemReservationComponent implements OnInit {
   }
 
   public next() {
-    this.router.navigate(['/rentACars']);
+    this.router.navigate(['rentACar']);
   }
 
 

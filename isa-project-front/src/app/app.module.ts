@@ -29,6 +29,9 @@ import { HotelMenuItemReservationComponent } from './hotel-menu-item-reservation
 import { UserHistoryComponent } from './home/user-history/user-history.component';
 import { FromLocationPipe } from'./pipes/from-location.pipe';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { HotelEditComponent } from './hotel-edit/hotel-edit.component';
+import { AvioFlightSeatsComponent } from './avio-flight-seats/avio-flight-seats.component';
+import { InviteFriendsComponent } from './invite-friends/invite-friends.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,11 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     ActivateProfileComponent,
     HotelPipePipe,
     HotelMenuItemReservationComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    HotelMenuItemReservationComponent,
+    HotelEditComponent,
+    AvioFlightSeatsComponent,
+    InviteFriendsComponent
   ],
   imports: [
     BrowserModule,
