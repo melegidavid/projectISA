@@ -27,44 +27,43 @@ public class UserService implements UserDetailsService {
 	private UserRepository userRepository;
 
 	protected final Log LOGGER = LogFactory.getLog(getClass());
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	public List<User> getAllUsers() {
 		List<User> list = new ArrayList<User>();
 		userRepository.findAll().forEach(list::add);
 		return list;
 	}
-	
+
 	public User findUser(Long id) {
 		return userRepository.getOne(id);
 	}
-	
+
 	public void addUser(User user) {
 		System.out.println("dodajeee");
-		user.setPassword(passwordEncoder.encode(user.getPassword())); //dodao za pass
+		user.setPassword(passwordEncoder.encode(user.getPassword())); // dodao za pass
 		userRepository.save(user);
 	}
-	
+
 	public void removeUser(User user) {
-		//user.setDeleted(true);
-		//userRepository.save(user);
-		
+		// user.setDeleted(true);
+		// userRepository.save(user);
+
 		userRepository.delete(user);
 	}
-	
+
 	public User updateUser(User user) {
 		return userRepository.save(user);
 	}
-	
-	
+
 	public boolean isRegistered(String username) {
 		User user = userRepository.findByUsername(username);
-		if(user != null) {
+		if (user != null) {
 			return true;
 		} else {
 			return false;
@@ -79,24 +78,21 @@ public class UserService implements UserDetailsService {
 			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
 		} else {
 			return user;
-	    }
+		}
 	}
-	
-	//temp metoda za getovanje usera preko username
+
+	// temp metoda za getovanje usera preko username
 	public User getUserByUsername(String username) {
 		User user = userRepository.findByUsername(username);
-		if(user == null) {
+		if (user == null) {
 			return null;
-		}else {
+		} else {
 			return user;
 		}
 	}
-	
-	// Funkcija pomocu koje korisnik menja svoju lozinku
-	public void changePassword(String oldPassword, String newPassword) {
 
-		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		String username = currentUser.getName();
+	// Funkcija pomocu koje korisnik menja svoju lozinku
+	public void changePassword(String username, String oldPassword, String newPassword) {
 
 		if (authenticationManager != null) {
 			LOGGER.debug("Re-authenticating user '" + username + "' for password change request.");
@@ -111,15 +107,9 @@ public class UserService implements UserDetailsService {
 		LOGGER.debug("Changing password for user '" + username + "'");
 
 		User user = (User) loadUserByUsername(username);
-
-		// pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
-		// ne zelimo da u bazi cuvamo lozinke u plain text formatu
 		user.setPassword(passwordEncoder.encode(newPassword));
 		userRepository.save(user);
 
 	}
-	
-	
-	// prilikom logvanja treba da je registrovan i da je aktiviran account
-	
+
 }

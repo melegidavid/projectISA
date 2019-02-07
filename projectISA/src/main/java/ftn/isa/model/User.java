@@ -40,6 +40,7 @@ public class User implements UserDetails {
 	private String lastName;
 	private String city;
 	private String telephoneNumber;
+	private boolean adminChange;
 	
 	@Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -229,5 +230,12 @@ public class User implements UserDetails {
 		this.avioReservations = avioReservations;
 	}
 
-	
+	public boolean isAdminChange() {
+		return adminChange;
+	}
+
+	public void setAdminChange(boolean adminChange) {
+		this.adminChange = adminChange;
+	}
+
 }

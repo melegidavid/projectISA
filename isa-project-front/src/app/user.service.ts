@@ -79,57 +79,57 @@ export class UserService {
     return null;
   }
 
-  
 
-  updateVehicleRating(idRes : number, newValue : number) : Observable<VehicleReservationDTO[]> {
+
+  updateVehicleRating(idRes: number, newValue: number): Observable<VehicleReservationDTO[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
     ratingDTO.newValue = newValue;
-    return this.http.post<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/updateVehicleRating/",ratingDTO);
+    return this.http.post<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/updateVehicleRating/", ratingDTO);
   }
 
 
-  updateHotelRating(idRes : number, newValue : number) : Observable<RoomReservation[]> {
+  updateHotelRating(idRes: number, newValue: number): Observable<RoomReservation[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
     ratingDTO.newValue = newValue;
-    return this.http.post<RoomReservation[]>("http://localhost:9004/vehicle_reservations/updateHotelRating/",ratingDTO);
+    return this.http.post<RoomReservation[]>("http://localhost:9004/vehicle_reservations/updateHotelRating/", ratingDTO);
   }
 
-  updateRoomRating(idRes : number, newValue : number) : Observable<RoomReservation[]> {
+  updateRoomRating(idRes: number, newValue: number): Observable<RoomReservation[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
     ratingDTO.newValue = newValue;
-    return this.http.post<RoomReservation[]>("http://localhost:9004/vehicle_reservations/updateRoomRating",ratingDTO);
-  
+    return this.http.post<RoomReservation[]>("http://localhost:9004/vehicle_reservations/updateRoomRating", ratingDTO);
+
   }
-  
-  updateRentCarRating(idRes : number, newValue : number) : Observable<VehicleReservationDTO[]> {
+
+  updateRentCarRating(idRes: number, newValue: number): Observable<VehicleReservationDTO[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
     ratingDTO.newValue = newValue;
-    return this.http.post<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/updateRentCarRating",ratingDTO);
-  
+    return this.http.post<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/updateRentCarRating", ratingDTO);
+
   }
 
-  updateFlightRating(idRes : number, newValue : number) : Observable<AvioFlightReservation[]> {
+  updateFlightRating(idRes: number, newValue: number): Observable<AvioFlightReservation[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
     ratingDTO.newValue = newValue;
-    return this.http.post<AvioFlightReservation[]>("http://localhost:9004/vehicle_reservations/updateFlightRating",ratingDTO);
-  
+    return this.http.post<AvioFlightReservation[]>("http://localhost:9004/vehicle_reservations/updateFlightRating", ratingDTO);
+
   }
 
 
-  updateAvioRating(idRes : number, newValue : number) : Observable<AvioFlightReservation[]> {
+  updateAvioRating(idRes: number, newValue: number): Observable<AvioFlightReservation[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
     ratingDTO.newValue = newValue;
-    return this.http.post<AvioFlightReservation[]>("http://localhost:9004/vehicle_reservations/updateAvioRating",ratingDTO);
-  
+    return this.http.post<AvioFlightReservation[]>("http://localhost:9004/vehicle_reservations/updateAvioRating", ratingDTO);
+
   }
 
-  generateReport(id : number, range : DateRange) : Observable<RentCarReport> {
+  generateReport(id: number, range: DateRange): Observable<RentCarReport> {
     return this.http.post<RentCarReport>("http://localhost:9004/rent_a_cars/" + id + "/generate", range);
   }
 
@@ -201,5 +201,14 @@ export class UserService {
 
       });
   }
+
+  changePassword(id: number, oldPass: string, newPass: string) {
+    return this.http.post("http://localhost:9004/users/" + id + "/changePassword/" + oldPass + "/" + newPass, { responseType: 'text' });
+  }
+
+  getInvites(id: number): Observable<any> {
+    return this.http.get("http://localhost:9004/users/" + id + "/invites", { responseType: 'json' });
+  }
+
 
 }

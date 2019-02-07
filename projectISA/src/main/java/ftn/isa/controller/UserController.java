@@ -15,15 +15,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.isa.dto.AvioFlightReservationDTO;
+import ftn.isa.dto.InviteForFlightDTO;
 import ftn.isa.dto.RoomReservationDTO;
 import ftn.isa.dto.UserDTO;
 import ftn.isa.enums.Role;
+import ftn.isa.model.AvioFlight;
 import ftn.isa.model.AvioFlightReservation;
 import ftn.isa.model.Friendship;
+import ftn.isa.model.InviteForFlight;
 import ftn.isa.model.RoomReservation;
 import ftn.isa.model.User;
 import ftn.isa.service.AuthorityService;
+import ftn.isa.service.AvioFlightService;
 import ftn.isa.service.FriendshipService;
+import ftn.isa.service.InviteForFlightService;
 import ftn.isa.service.NotificationService;
 import ftn.isa.service.UserService;
 
@@ -43,6 +48,12 @@ public class UserController {
 
 	@Autowired
 	private NotificationService mailService;
+
+	@Autowired
+	private InviteForFlightService inviteService;
+
+	@Autowired
+	private AvioFlightService flightService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<UserDTO>> getUsers() {
@@ -70,14 +81,13 @@ public class UserController {
 		user.setLastName(userDTO.getLastName());
 		user.setCity(userDTO.getCity());
 		user.setTelephoneNumber(userDTO.getTelephoneNumber());
-		
-		//05.02
+
+		// 05.02
 		user.getAuthorities().add(authorityService.findByRole(userDTO.getRole()));
-		
 
 		userService.addUser(user);
 		System.out.println("DODAO KORISNIKA");
-		
+
 		return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
 	}
 
@@ -96,7 +106,7 @@ public class UserController {
 
 		UserDTO updated = new UserDTO(user);
 		return new ResponseEntity<>(updated, HttpStatus.OK);
-		
+
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -140,6 +150,16 @@ public class UserController {
 		userService.updateUser(user);
 
 		return new ResponseEntity<>(true, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}/changePassword/{oldPass}/{newPass}", method = RequestMethod.POST)
+	public ResponseEntity<Void> changePassword(@PathVariable("id") Long id, @PathVariable("oldPass") String oldPass,
+			@PathVariable("newPass") String newPass) {
+		User user = userService.findUser(id);
+
+		userService.changePassword(user.getUsername(), oldPass, newPass);
+		return new ResponseEntity<>(HttpStatus.OK);
+
 	}
 
 	// temp metoda za getovanje usera preko username
@@ -296,10 +316,9 @@ public class UserController {
 			user2.setCity(userDTO.getCity());
 			user2.setTelephoneNumber(userDTO.getTelephoneNumber());
 
-			//05.02
+			// 05.02
 			user2.getAuthorities().add(authorityService.findByRole(userDTO.getRole()));
 
-			
 			newFriendship.setUser1(user1);
 			newFriendship.setUser2(user2);
 			newFriendship.setAccepted(accepted);
@@ -410,14 +429,13 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	
-	@RequestMapping(value = "/room_reservations/{username}" , method = RequestMethod.GET)
+
+	@RequestMapping(value = "/room_reservations/{username}", method = RequestMethod.GET)
 	public ResponseEntity<List<RoomReservationDTO>> getAllReservations(@PathVariable String username) {
 
 		User user = userService.getUserByUsername(username);
-		
-		List<RoomReservation> reservations = user.getRoomReservations();		
+
+		List<RoomReservation> reservations = user.getRoomReservations();
 		List<RoomReservationDTO> reservationDTOs = new ArrayList<RoomReservationDTO>();
 
 		for (RoomReservation vr : reservations) {
@@ -426,13 +444,13 @@ public class UserController {
 
 		return new ResponseEntity<>(reservationDTOs, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/avio_reservations/{username}" , method = RequestMethod.GET)
+
+	@RequestMapping(value = "/avio_reservations/{username}", method = RequestMethod.GET)
 	public ResponseEntity<List<AvioFlightReservationDTO>> getAllAvioReservations(@PathVariable String username) {
 
 		User user = userService.getUserByUsername(username);
-		
-		List<AvioFlightReservation> reservations = user.getAvioReservations();		
+
+		List<AvioFlightReservation> reservations = user.getAvioReservations();
 		List<AvioFlightReservationDTO> reservationDTOs = new ArrayList<AvioFlightReservationDTO>();
 
 		for (AvioFlightReservation vr : reservations) {
@@ -440,5 +458,65 @@ public class UserController {
 		}
 
 		return new ResponseEntity<>(reservationDTOs, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}/inviteFriends/{idFlight}", method = RequestMethod.POST)
+	public ResponseEntity<List<UserDTO>> inviteFriends(@PathVariable("id") Long id,
+			@PathVariable("idFlight") Long idFlight, @RequestBody List<UserDTO> friends) {
+
+		User user = userService.findUser(id);
+		AvioFlight flight = flightService.findAvioFlight(idFlight);
+
+		List<UserDTO> friendsOfUser = this.getFriendsOfUser(id).getBody();
+		int i = 0;
+		for (UserDTO friend : friends) {
+			if (friendsOfUser.contains(friend)) {
+				i++;
+			}
+		}
+
+		if (i == friends.size()) {
+			for (UserDTO fr : friends) {
+				User friend = new User(fr.getUsername(), fr.getPassword(), fr.getEmail(), fr.getName(),
+						fr.getLastName(), fr.getCity(), fr.getTelephoneNumber(), true);
+				InviteForFlight newInvite = new InviteForFlight();
+				newInvite.setUser1(user);
+				newInvite.setUser2(friend);
+				newInvite.setAccepted(false);
+				newInvite.setFlight(flight);
+				newInvite = inviteService.saveInvite(newInvite);
+
+				try {
+					mailService.sendInvite(user, friend, flight); // send mail
+				} catch (MailException m) {
+					System.out.println("Neuspesno poslat poziv!");
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
+			}
+
+			return new ResponseEntity<>(friends, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@RequestMapping(value = "/{id}/invites", method = RequestMethod.GET)
+	public ResponseEntity<List<InviteForFlightDTO>> getInvites(@PathVariable("id") Long id) {
+
+		List<InviteForFlight> allInvites = new ArrayList<InviteForFlight>();
+
+		List<InviteForFlightDTO> invites = new ArrayList<InviteForFlightDTO>();
+
+		allInvites = inviteService.getAllInvites();
+
+		if (allInvites != null) {
+			for (InviteForFlight invite : allInvites) {
+				if (invite.getUser2().getId().equals(id)) {
+					invites.add(new InviteForFlightDTO(invite));
+				}
+			}
+		}
+
+		return new ResponseEntity<>(invites, HttpStatus.OK);
 	}
 }

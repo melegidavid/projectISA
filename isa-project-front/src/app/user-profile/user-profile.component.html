@@ -54,14 +54,16 @@
         </div>
         <div class="left">
             <div id="search">
-                <input #search type="search" [(ngModel)]="firstNameText" [(ngModel)]="lastNameText" [placeholder]="filled?'Search':''"
-                    [ngClass]="{'filled':filled}" (click)="filled=true; getUsersToSearch(user.username)">
+                <input #search type="search" [(ngModel)]="firstNameText" [(ngModel)]="lastNameText"
+                    [placeholder]="filled?'Search':''" [ngClass]="{'filled':filled}"
+                    (click)="filled=true; getUsersToSearch(user.username)">
 
                 <button type="button" class="close" *ngIf="filled" (click)="filled=false">X</button>
             </div>
             <br>
             <div *ngIf="filled">
-                <div *ngFor="let user of usersToSearch | searchUserFirstName: firstNameText : lastNameText; let i=index;">
+                <div
+                    *ngFor="let user of usersToSearch | searchUserFirstName: firstNameText : lastNameText; let i=index;">
                     <div>
                         <div class="row">
                             <div class="col-sm-8">
@@ -69,7 +71,8 @@
                                     {{user.lastName}}</h6>
                             </div>
                             <div class="col-sm-4">
-                                <button type="button" class="btn btn-outline-danger" (click)="addFriend(user)">Add</button>
+                                <button type="button" class="btn btn-outline-danger"
+                                    (click)="addFriend(user)">Add</button>
                             </div>
                         </div>
                         <hr>
@@ -83,8 +86,8 @@
                     <div class="card-title mb-4">
                         <div class="d-flex justify-content-start">
                             <div class="image-container">
-                                <img src="images/user-150x150.png"
-                                    id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                <img src="images/user-150x150.png" id="imgProfile" style="width: 150px; height: 150px"
+                                    class="img-thumbnail" />
                                 <div class="middle">
                                     <input type="file" style="display: none;" id="profilePicture" name="file" />
                                 </div>
@@ -99,6 +102,12 @@
                                 <h2 class="d-block" style="font-size: 1.0rem; font-weight: bold">
                                     <button type="button" class="btn btn-outline-danger" (click)="edit = true">Change
                                         data
+                                    </button>
+                                </h2>
+                                <h2 class="d-block" style="font-size: 1.0rem; font-weight: bold">
+                                    <button type="button" class="btn btn-outline-danger"
+                                        (click)="changePassword = true">Change
+                                        password
                                     </button>
                                 </h2>
 
@@ -119,13 +128,24 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link " id="requests-tab" data-toggle="tab" href="#requests" role="tab"
-                                        aria-controls="requests" aria-selected="true">Friend Requests</a>
+                                    <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" role="tab"
+                                        aria-controls="requests" aria-selected="true">Friend
+                                        Requests
+                                        <span *ngIf="numberOfRequests >  0" class="badge">{{numberOfRequests}}</span>
+                                    </a>
                                 </li>
 
+                                <li class="nav-item">
+                                    <a class="nav-link" id="invites-tab" data-toggle="tab" href="#invites" role="tab"
+                                        aria-controls="invites" aria-selected="true">Friend
+                                        Requests
+                                        <span *ngIf="numberOfInvites >  0" class="badge">{{numberOfInvites}}</span>
+                                    </a>
+                                </li>
                             </ul>
                             <div class="tab-content ml-1" id="myTabContent">
-                                <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+                                <div class="tab-pane fade show active" id="basicInfo" role="tabpanel"
+                                    aria-labelledby="basicInfo-tab">
 
                                     <div class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
@@ -133,7 +153,58 @@
                                         </div>
                                         <div class="col-md-8 col-6">
                                             <div>
-                                                <label *ngIf="user">{{user.username}}</label>
+                                                <label *ngIf="user" class="form-control">{{user.username}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+
+                                    <!--old pass-->
+                                    <div class="row" *ngIf="changePassword == true">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Old password:</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            <div>
+                                                <input *ngIf="changedUser" [(ngModel)]="inputOldPassword"
+                                                    type="password" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr *ngIf="changePassword == true">
+                                    <!--new pass-->
+                                    <div class="row" *ngIf="changePassword == true">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">New password:</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            <div>
+                                                <input *ngIf="changedUser" [(ngModel)]="inputNewPassword"
+                                                    type="password" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr *ngIf="changePassword == true">
+
+                                    <div *ngIf="changePassword == true" class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <button type="button" class="btn btn-outline-danger"
+                                                (click)="saveChangePassword()">Save</button>
+                                        </div>
+                                        <div class="col-sm-8 col-6">
+                                            <button type="button" class="btn btn-outline-danger"
+                                                (click)="discardChangePassword()">Discard</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" *ngIf="changePassword == false">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Password:</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            <div>
+                                                <input *ngIf="user" type="password" disabled value="inputPassword"
+                                                    class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -144,10 +215,11 @@
                                         </div>
                                         <div class="col-md-8 col-6">
                                             <div *ngIf="edit == true">
-                                                <input *ngIf="changedUser" [(ngModel)]="inputName" type="text" class="input">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputName" type="text"
+                                                    class="input">
                                             </div>
                                             <div *ngIf="edit == false">
-                                                <label *ngIf="user">{{user.name}}</label>
+                                                <label *ngIf="user" class="form-control">{{user.name}}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +235,7 @@
                                                     class="input">
                                             </div>
                                             <div *ngIf="edit == false">
-                                                <label *ngIf="user">{{user.lastName}}</label>
+                                                <label *ngIf="user" class="form-control">{{user.lastName}}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -174,10 +246,11 @@
                                         </div>
                                         <div class="col-md-8 col-6">
                                             <div *ngIf="edit == true">
-                                                <input *ngIf="changedUser" [(ngModel)]="inputEmail" type="text" class="input">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputEmail" type="text"
+                                                    class="input">
                                             </div>
                                             <div *ngIf="edit == false">
-                                                <label *ngIf="user">{{user.email}}</label>
+                                                <label *ngIf="user" class="form-control">{{user.email}}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -188,10 +261,11 @@
                                         </div>
                                         <div class="col-md-8 col-6">
                                             <div *ngIf="edit == true">
-                                                <input *ngIf="changedUser" [(ngModel)]="inputCity" type="text" class="input">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputCity" type="text"
+                                                    class="input">
                                             </div>
                                             <div *ngIf="edit == false">
-                                                <label *ngIf="user">{{user.city}}</label>
+                                                <label *ngIf="user" class="form-control">{{user.city}}</label>
                                             </div>
                                         </div>
                                     </div>
@@ -202,21 +276,24 @@
                                         </div>
                                         <div class="col-md-8 col-6">
                                             <div *ngIf="edit == true">
-                                                <input *ngIf="changedUser" [(ngModel)]="inputTelephoneNumber" type="text"
-                                                    class="input">
+                                                <input *ngIf="changedUser" [(ngModel)]="inputTelephoneNumber"
+                                                    type="text" class="input">
                                             </div>
                                             <div *ngIf="edit == false">
-                                                <label *ngIf="user">{{user.telephoneNumber}}</label>
+                                                <label *ngIf="user"
+                                                    class="form-control">{{user.telephoneNumber}}</label>
                                             </div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div *ngIf="edit == true" class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
-                                            <button type="button" class="btn btn-outline-danger" (click)="saveChangedData()">Save</button>
+                                            <button type="button" class="btn btn-outline-danger"
+                                                (click)="saveChangedData()">Save</button>
                                         </div>
                                         <div class="col-sm-8 col-6">
-                                            <button type="button" class="btn btn-outline-danger" (click)="discardChangedData()">Discard</button>
+                                            <button type="button" class="btn btn-outline-danger"
+                                                (click)="discardChangedData()">Discard</button>
                                         </div>
                                     </div>
                                 </div>
@@ -231,7 +308,8 @@
                                                             {{friend.username}}</h2>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <button type="button" class="btn btn-outline-danger" (click)="removeFriend(user.id, friend.id)">Delete</button>
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                            (click)="removeFriend(user.id, friend.id)">Delete</button>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -288,6 +366,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane fade" id="requests" role="tabpanel" aria-labelledby="requests-tab">
                                     <div *ngFor="let request of requests">
                                         <div class="jumbotron">
@@ -305,6 +384,37 @@
                                                         <div class="col-sm-3">
                                                             <button type="button" class="btn btn-outline-danger"
                                                                 (click)="declineFriendship(request.id)">Decline</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="invites" role="tabpanel" aria-labelledby="invites-tab">
+                                    <div *ngFor="let invite of invites">
+                                        <div class="jumbotron">
+                                            <div class="row" style="height: 10px">
+                                                <div class="col-sm-6">
+                                                    <label>From: {{invite.user1.name}} {{invite.user1.lastName}}</label>
+                                                    <hr>
+                                                    <label>Flight: {{invite.avioFlight.startLocation.city}} + '-' +
+                                                        {{invite.avioFlight.endLocation.city}}</label>
+                                                    <hr>
+                                                    <label>Date:
+                                                        {{invite.avioFlight.dateTimeStart | date: 'medium'}}</label>
+                                                    <hr>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <button type="button" class="btn btn-outline-danger"
+                                                                (click)="acceptInvite()">Accept</button>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <button type="button" class="btn btn-outline-danger"
+                                                                (click)="declineInvite()">Decline</button>
                                                         </div>
                                                     </div>
                                                 </div>

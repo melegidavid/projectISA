@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { UserDTO } from '../dto/user.model';
 import { Observable, fromEventPattern } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { InviteForFlight} from '../dto/inviteForFlight';
 
 @Component({
   selector: 'app-user-profile',
@@ -31,22 +32,32 @@ export class UserProfileComponent implements OnInit {
   newFriend: UserDTO;
   requests: UserDTO[] = [];
   request: UserDTO;
+  numberOfRequests: number;
 
   edit: boolean = false;
+  changePassword: boolean = false;
   changedUser: UserDTO; 
 
   inputUsername: string;
+  inputPassword: string;
+  inputOldPassword: string;
+  inputNewPassword: string;
   inputName: string;
   inputLastName: string;
   inputEmail: string;
   inputCity: string;
   inputTelephoneNumber: string;
 
+  invites: InviteForFlight[] = [];
+  numberOfInvites: number;
+  invite: InviteForFlight;
+
 
 
   constructor(
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -59,6 +70,8 @@ export class UserProfileComponent implements OnInit {
         this.id = this.user.id;
         this.changedUser = this.user;
         this.inputUsername = this.user.username;
+        this.inputPassword = this.user.password;
+        console.log(this.inputPassword);
         this.inputName = this.user.name;
         this.inputLastName = this.user.lastName;
         this.inputEmail = this.user.email;
@@ -81,6 +94,13 @@ export class UserProfileComponent implements OnInit {
 
       this.getUsersRequests(this.username).subscribe(data => {
         this.requests = data;
+        this.numberOfRequests = this.requests.length;
+      });
+
+      this.getInvites(this.user.id).subscribe(data=>{
+        this.invites = data;
+        this.numberOfInvites = this.invites.length;
+        console.log(data);
       });
 
     }
@@ -131,6 +151,11 @@ export class UserProfileComponent implements OnInit {
         this.usersToSearch = data;
       });
 
+      this.getUsersRequests(this.username).subscribe(data => {
+        this.requests = data;
+        this.numberOfRequests = this.requests.length;
+      });
+
     })
   }
 
@@ -138,10 +163,34 @@ export class UserProfileComponent implements OnInit {
     this.friendId = idFriend;
     this.userService.declineFriedship(this.id, this.friendId).subscribe(data => {
       console.log(data);
+      this.getUsersToSearch(this.username).subscribe(data => {
+        this.usersToSearch = data;
+      });
+      
       this.getUsersRequests(this.username).subscribe(data => {
         this.requests = data;
+        this.numberOfRequests = this.requests.length;
       });
     });
+  }
+
+  acceptInvite(){
+    
+  }
+
+  saveChangePassword(){
+    this.userService.changePassword(this.user.id, this.inputOldPassword, this.inputNewPassword).subscribe(data=>{
+      this.changePassword = false;
+      this.logOut();
+      this.router.navigate(['auth/login']);
+    });
+  }
+
+  discardChangePassword(){
+    this.inputPassword = this.user.password;
+    this.inputOldPassword = "";
+    this.inputNewPassword = "";
+    this.changePassword = false;
   }
 
   saveChangedData(){
@@ -191,6 +240,10 @@ export class UserProfileComponent implements OnInit {
 
   public getUsersRequests(username: string): Observable<any> {
     return this.userService.getUsersRequest(username);
+  }
+
+  public getInvites(id: number):Observable<any>{
+    return this.userService.getInvites(id);
   }
 
 }

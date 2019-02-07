@@ -40,6 +40,7 @@ public class AvioFlightReservationService {
 		return flightReservationRepository.save(res);		
 	}
 	
+	
 	public void removeReservation(Long id) {
 		flightReservationRepository.getOne(id).setDeleted(true);
 		flightReservationRepository.save(flightReservationRepository.getOne(id));

@@ -1,9 +1,9 @@
-insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled) values (21,'David', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','melegi@gmail.com','David','Melegi','Zrenjanin','06334321','2017-08-19 12:17:55',true);
-insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled) values (22,'Rodja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','rodja@gmail.com','Dusan','Radj','Zrenjanin','060123123','2017-08-19 12:17:55',true);
-insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled) values (23,'Kumara', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','kum@gmail.com','Aleksandar','Joksimovic','Leskovac','060123123','2017-08-19 12:17:55',true);
-insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled) values (24,'Pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','pera@gmail.com','Pera','Petrovic','Beograd','060123123','2017-08-19 12:17:55',true);
-insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled) values (25,'Zika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','zika@gmail.com','Zika','Zivkovic','Beograd','060123123','2017-08-19 12:17:55',true);
-insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled) values (26,'Laza', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','laza@gmail.com','Laza','Lazarevic','Beograd','060123123','2017-08-19 12:17:55',true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled, admin_change) values (21,'David', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','melegi@gmail.com','David','Melegi','Zrenjanin','06334321','2017-08-19 12:17:55',true,true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled, admin_change) values (22,'Rodja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','rodja@gmail.com','Dusan','Radj','Zrenjanin','060123123', '2017-08-19 12:17:55',true,true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled, admin_change) values (23,'Kumara', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','kum@gmail.com','Aleksandar','Joksimovic','Leskovac','060123123', '2017-08-19 12:17:55',true,true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled, admin_change) values (24,'Pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','pera@gmail.com','Pera','Petrovic','Beograd','060123123', '2017-08-19 12:17:55',true,true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled, admin_change) values (25,'Zika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','zika@gmail.com','Zika','Zivkovic','Beograd','060123123', '2017-08-19 12:17:55',true,true);
+insert into user (id, username, password, email, name, last_name, city, telephone_number, last_password_reset_date,enabled, admin_change) values (26,'Laza', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','laza@gmail.com','Laza','Lazarevic','Beograd','060123123', '2017-08-19 12:17:55',true,true);
 
 insert into authority (id, name) values (1, 'REGISTERED_USER');
 insert into authority (id, name) values (2, 'SERVICE_ADMIN');
@@ -15,8 +15,8 @@ insert into user_authority (user_id, authority_id) VALUES (21, 1);
 insert into user_authority (user_id, authority_id) VALUES (22, 4);
 insert into user_authority (user_id, authority_id) VALUES (23, 3);
 insert into user_authority (user_id, authority_id) VALUES (24, 1);
-insert into user_authority (user_id, authority_id) VALUES (25, 0);
-insert into user_authority (user_id, authority_id) VALUES (26, 2);
+insert into user_authority (user_id, authority_id) VALUES (25, 1);
+insert into user_authority (user_id, authority_id) VALUES (26, 1);
 
 
 insert into friendship (id, accepted, user1_id, user2_id) values (21, true, 21, 22);
