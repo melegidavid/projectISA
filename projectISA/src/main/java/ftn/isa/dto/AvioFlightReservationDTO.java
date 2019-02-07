@@ -11,7 +11,7 @@ public class AvioFlightReservationDTO {
 	private int flightRating;
 	private int avioRating;
 	private boolean isDeleted;
-	private AvioFlightSeat seat;
+	private AvioFlightSeatDTO seat;
 
 	public AvioFlightReservationDTO() {
 	}
@@ -23,7 +23,7 @@ public class AvioFlightReservationDTO {
 		this.flightRating = reservation.getRatingFlight();
 		this.avioRating = reservation.getRatingCompany();
 		this.isDeleted = reservation.isDeleted();
-		this.seat = reservation.getSeat();
+		this.seat = new AvioFlightSeatDTO(reservation.getSeat());
 	}
 
 	public Long getId() {
@@ -74,11 +74,11 @@ public class AvioFlightReservationDTO {
 		this.isDeleted = isDeleted;
 	}
 
-	public AvioFlightSeat getSeat() {
+	public AvioFlightSeatDTO getSeat() {
 		return seat;
 	}
 
-	public void setSeat(AvioFlightSeat seat) {
+	public void setSeat(AvioFlightSeatDTO seat) {
 		this.seat = seat;
 	}
 

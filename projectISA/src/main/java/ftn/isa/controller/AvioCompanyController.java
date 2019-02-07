@@ -23,6 +23,7 @@ import ftn.isa.dto.AvioCompanyDTO;
 import ftn.isa.dto.AvioFlightDTO;
 import ftn.isa.dto.AvioFlightReservationDTO;
 import ftn.isa.dto.AvioFlightSearchDTO;
+import ftn.isa.dto.AvioFlightSeatDTO;
 import ftn.isa.model.Address;
 import ftn.isa.model.AvioCompany;
 import ftn.isa.model.AvioFlight;
@@ -550,13 +551,15 @@ public class AvioCompanyController {
 
 	// get seats
 	@RequestMapping(value = "/flights/{flightId}/seasts", method = RequestMethod.GET)
-	public ResponseEntity<List<AvioFlightSeat>> getAllSeatsOfFlight(@PathVariable("flightID") Long flightId) {
+	public ResponseEntity<List<AvioFlightSeatDTO>> getAllSeatsOfFlight(@PathVariable("flightID") Long flightId) {
 		AvioFlight avioFlight = avioFlightService.findAvioFlight(flightId);
-		List<AvioFlightSeat> seats = new ArrayList<AvioFlightSeat>();
+		List<AvioFlightSeatDTO> seats = new ArrayList<AvioFlightSeatDTO>();
 
 		if (avioFlight != null) {
 			if (avioFlight.getSeats() != null) {
-				seats = avioFlight.getSeats();
+				for(AvioFlightSeat seat : avioFlight.getSeats()) {
+					seats.add(new AvioFlightSeatDTO(seat));
+				}
 			}
 		}
 		return new ResponseEntity<>(seats, HttpStatus.OK);
