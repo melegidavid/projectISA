@@ -12,6 +12,7 @@ public class VehicleDTO {
 	private String mark;
 	private String model;
 	private int yearProduced;
+	private int price;
 	private RentCarDTO rentCar;
 	
 	public VehicleDTO() {}
@@ -24,6 +25,7 @@ public class VehicleDTO {
 		this.mark = vehicle.getMark();
 		this.model = vehicle.getModel();
 		this.yearProduced = vehicle.getYearProduced();
+		this.price = vehicle.getPrice();
 		
 		this.rentCar = new RentCarDTO(vehicle.getRentCar());
 	}
@@ -90,5 +92,13 @@ public class VehicleDTO {
 
 	public void setRentCar(RentCarDTO rentCar) {
 		this.rentCar = rentCar;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 }

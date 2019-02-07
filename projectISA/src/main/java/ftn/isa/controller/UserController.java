@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ftn.isa.dto.AvioFlightReservationDTO;
+import ftn.isa.dto.RoomReservationDTO;
 import ftn.isa.dto.UserDTO;
+import ftn.isa.enums.Role;
+import ftn.isa.model.AvioFlightReservation;
 import ftn.isa.model.Friendship;
+import ftn.isa.model.RoomReservation;
 import ftn.isa.model.User;
 import ftn.isa.service.AuthorityService;
 import ftn.isa.service.FriendshipService;
@@ -65,10 +70,14 @@ public class UserController {
 		user.setLastName(userDTO.getLastName());
 		user.setCity(userDTO.getCity());
 		user.setTelephoneNumber(userDTO.getTelephoneNumber());
-		user.setRole(userDTO.getRole());
+		
+		//05.02
+		user.getAuthorities().add(authorityService.findByRole(userDTO.getRole()));
+		
 
 		userService.addUser(user);
 		System.out.println("DODAO KORISNIKA");
+		
 		return new ResponseEntity<>(new UserDTO(user), HttpStatus.CREATED);
 	}
 
@@ -101,10 +110,9 @@ public class UserController {
 		}
 
 		User user = new User(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail(), userDTO.getName(),
-				userDTO.getLastName(), userDTO.getCity(), userDTO.getTelephoneNumber(), userDTO.getRole(), false);
+				userDTO.getLastName(), userDTO.getCity(), userDTO.getTelephoneNumber(), false);
 
-		user.setEnabled(false);
-		user.getAuthorities().add(authorityService.findOne((long) 1));
+		user.getAuthorities().add(authorityService.findByRole(Role.REGISTERED_USER));
 		userService.addUser(user);
 
 		try {
@@ -287,8 +295,11 @@ public class UserController {
 			user2.setLastName(userDTO.getLastName());
 			user2.setCity(userDTO.getCity());
 			user2.setTelephoneNumber(userDTO.getTelephoneNumber());
-			user2.setRole(userDTO.getRole());
 
+			//05.02
+			user2.getAuthorities().add(authorityService.findByRole(userDTO.getRole()));
+
+			
 			newFriendship.setUser1(user1);
 			newFriendship.setUser2(user2);
 			newFriendship.setAccepted(accepted);
@@ -398,5 +409,36 @@ public class UserController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	
+	@RequestMapping(value = "/room_reservations/{username}" , method = RequestMethod.GET)
+	public ResponseEntity<List<RoomReservationDTO>> getAllReservations(@PathVariable String username) {
+
+		User user = userService.getUserByUsername(username);
+		
+		List<RoomReservation> reservations = user.getRoomReservations();		
+		List<RoomReservationDTO> reservationDTOs = new ArrayList<RoomReservationDTO>();
+
+		for (RoomReservation vr : reservations) {
+			reservationDTOs.add(new RoomReservationDTO(vr));
+		}
+
+		return new ResponseEntity<>(reservationDTOs, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/avio_reservations/{username}" , method = RequestMethod.GET)
+	public ResponseEntity<List<AvioFlightReservationDTO>> getAllAvioReservations(@PathVariable String username) {
+
+		User user = userService.getUserByUsername(username);
+		
+		List<AvioFlightReservation> reservations = user.getAvioReservations();		
+		List<AvioFlightReservationDTO> reservationDTOs = new ArrayList<AvioFlightReservationDTO>();
+
+		for (AvioFlightReservation vr : reservations) {
+			reservationDTOs.add(new AvioFlightReservationDTO(vr));
+		}
+
+		return new ResponseEntity<>(reservationDTOs, HttpStatus.OK);
 	}
 }

@@ -19,6 +19,8 @@ public class RoomReservation {
 	private Date startReservation;
 	private Date endReservation;
 	private double price;
+	private int hotelRating;
+	private int roomRating;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private User user;
@@ -28,6 +30,22 @@ public class RoomReservation {
 	
 	public RoomReservation() {}
 	
+	public int getHotelRating() {
+		return hotelRating;
+	}
+
+	public void setHotelRating(int hotelRating) {
+		this.hotelRating = hotelRating;
+	}
+
+	public int getRoomRating() {
+		return roomRating;
+	}
+
+	public void setRoomRating(int roomRating) {
+		this.roomRating = roomRating;
+	}
+
 	public RoomReservation(Date startReservation, Date endReseravtion, HotelRoom belongsToRoom) {
 		super();
 		this.startReservation = startReservation;

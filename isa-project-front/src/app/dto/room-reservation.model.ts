@@ -7,6 +7,9 @@ export class RoomReservation {
     endReservation: Date;
     username: string;
     price: number;
+    room: HotelRoom;
+    roomRating: number;
+    hotelRating: number;
 
     constructor() {
         this.startReservation = new Date('2019-02-05');

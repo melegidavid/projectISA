@@ -27,11 +27,11 @@
         <li class="nav-item ">
           <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+        <li class="nav-item " *ngIf="username">
+          <a class="nav-link" routerLink="/home" (click)="logOut()" >Logout</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" [routerLink]="['/users', username]" *ngIf="len > 0">{{username}}</a>
+        <li class="nav-item " *ngIf="username">
+          <a class="nav-link" [routerLink]="['/users', username]" >{{username}}</a>
         </li>
       </ul>
     </div>

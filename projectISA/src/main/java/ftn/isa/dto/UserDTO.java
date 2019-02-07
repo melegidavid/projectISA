@@ -13,8 +13,7 @@ public class UserDTO {
 	private String lastName;
 	private String city;
 	private String telephoneNumber;
-	private Role role; 
-	//private Object adminOf;
+	private Role role;
 	
 	public UserDTO() {}
 	
@@ -27,7 +26,32 @@ public class UserDTO {
 		this.lastName = user.getLastName();
 		this.city = user.getCity();
 		this.telephoneNumber = user.getTelephoneNumber();
-		this.role = user.getRole();
+		
+		switch(user.getAuthorities().get(0).getAuthority()) {
+		
+		  case "REGISTERED_USER": {
+			  this.role = Role.REGISTERED_USER;
+			  break;
+		  }
+		  case "SERVICE_ADMIN": {
+			  this.role = Role.SERVICE_ADMIN;
+			  break;
+		  }
+		  case "AVIO_COMPANY_ADMIN": {
+			  this.role = Role.AVIO_COMPANY_ADMIN;
+			  break;
+		  }
+		  case "HOTEL_ADMIN": {
+			  this.role = Role.HOTEL_ADMIN;
+			  break;
+		  }
+		  case "RENT_CAR_ADMIN": {
+			  this.role = Role.RENT_CAR_ADMIN;
+			  break;
+		  }
+		}
+		
+	
 	}
 
 	public Long getId() {
@@ -101,15 +125,6 @@ public class UserDTO {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-/*
-	public Object getAdminOf() {
-		return adminOf;
-	}
-
-	public void setAdminOf(Object adminOf) {
-		this.adminOf = adminOf;
-	}
-	*/
 	
 	
 }

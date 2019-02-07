@@ -29,6 +29,7 @@ public class Vehicle {
 	private String mark;
 	private String model;
 	private int yearProduced;
+	private int price;
 	private boolean deleted;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -133,5 +134,13 @@ public class Vehicle {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 }

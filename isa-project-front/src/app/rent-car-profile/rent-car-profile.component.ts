@@ -7,6 +7,8 @@ import { RentACarMenuItem } from '../dto/rent-a-car-menu-item.model';
 import { RentACarBranch } from '../dto/rent-a-car-branch.model';
 import { Vehicle } from '../dto/vehicle.model';
 import { UserService } from '../user.service';
+import { DateRange } from '../dto/date-range';
+import { RentCarReport } from '../dto/rent-car-report';
 
 @Component({
   selector: 'app-rent-car-profile',
@@ -26,6 +28,13 @@ export class RentCarProfileComponent implements OnInit {
   len: number;
   username: string;
   avgRatingRentCar : number;
+  showAdminControls : boolean;
+  dateRange : DateRange;
+  report : RentCarReport;
+  showReport : boolean;
+  startDate : Date;
+  endDate : Date;
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -39,10 +48,20 @@ export class RentCarProfileComponent implements OnInit {
   ngOnInit() {
     this.len = localStorage.length;
     this.avgRatingRentCar = 1;
+    this.dateRange = new DateRange();
+    this.startDate = new Date();
+    this.endDate = new Date();
+    this.showReport = false;
+
     this.username = localStorage.getItem('username');
     console.log(localStorage);
 
-    
+    let x = localStorage.getItem('role');
+    if(x == undefined || x == null || x !=  "RENT_CAR_ADMIN") {
+          this.showAdminControls = false;
+    } else {
+      this.showAdminControls = true;
+    }
 
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
       this.id = + params['id'];
@@ -93,6 +112,20 @@ export class RentCarProfileComponent implements OnInit {
     
     console.log('ostalo ' + localStorage.length);
     this.ngOnInit();
+  }
+
+  generateReport() {
+
+    this.dateRange = new DateRange();
+    this.dateRange.startDate = this.startDate;
+    this.dateRange.endDate = this.endDate;
+
+    this.userService.generateReport(this.id,this.dateRange).subscribe(data => {
+      console.log(data);
+      this.report = data;
+      this.showReport = true;
+    });
+
   }
 
 }

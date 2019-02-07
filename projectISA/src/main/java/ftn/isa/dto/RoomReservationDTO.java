@@ -11,6 +11,9 @@ public class RoomReservationDTO {
 	private Date endReservation;
 	private String username;
 	private double price;
+	private HotelRoomDTO room;
+	private int hotelRating;
+	private int roomRating;
 	
 	public RoomReservationDTO() {
 		
@@ -27,6 +30,25 @@ public class RoomReservationDTO {
 		this.endReservation = rr.getEndReservation();
 		this.username = rr.getUser().getUsername();
 		this.price = rr.getPrice();
+		this.room = new HotelRoomDTO(rr.getBelongsToRoom());
+		this.hotelRating = rr.getHotelRating();
+		this.roomRating = rr.getRoomRating();
+	}
+
+	public int getHotelRating() {
+		return hotelRating;
+	}
+
+	public void setHotelRating(int hotelRating) {
+		this.hotelRating = hotelRating;
+	}
+
+	public int getRoomRating() {
+		return roomRating;
+	}
+
+	public void setRoomRating(int roomRating) {
+		this.roomRating = roomRating;
 	}
 
 	public Long getId() {
@@ -67,5 +89,13 @@ public class RoomReservationDTO {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public HotelRoomDTO getRoom() {
+		return room;
+	}
+
+	public void setRoom(HotelRoomDTO room) {
+		this.room = room;
 	}
 }

@@ -1,8 +1,9 @@
 package ftn.isa.model;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,17 +19,18 @@ public class VehicleReservation {
 	private Long id;
 	private Date startReservation;
 	private Date endReseravtion;
+	private int price;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private RentCarBranch takePlace;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private RentCarBranch returnPlace;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Vehicle belongsToVehicle;
 	
 	private int vehicleRating = -1;
@@ -116,4 +118,32 @@ public class VehicleReservation {
 	public void setRentCarRating(int rentCarRating) {
 		this.rentCarRating = rentCarRating;
 	}
+	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public void calculatePrice() {
+		
+	    Calendar calendar = new GregorianCalendar();
+	    calendar.setTime(this.startReservation);
+	     
+	    Calendar endCalendar = new GregorianCalendar();
+	    endCalendar.setTime(this.endReseravtion);
+	 
+	    while (calendar.before(endCalendar)) {
+		    this.price+=this.getBelongsToVehicle().getPrice();
+//	        calendar.add(Calendar.DATE, 1);
+	    } 
+		
+		System.out.println("End. PRice is : " + this.price);
+		
+	}
+	
+	
+	
 }

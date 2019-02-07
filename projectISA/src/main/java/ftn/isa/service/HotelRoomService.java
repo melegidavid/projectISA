@@ -61,6 +61,13 @@ public class HotelRoomService {
 		return roomReservationRepository.save(roomReservation);
 	}
 	
+	public RoomReservation updateReservation(RoomReservation roomReservation) {
+		return roomReservationRepository.save(roomReservation);
+	}
+	
+	public RoomReservation findRoomReservation(Long roomId) {
+		return roomReservationRepository.getOne(roomId);
+	}
 }
 
 

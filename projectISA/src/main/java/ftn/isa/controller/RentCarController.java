@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ftn.isa.dto.DateRange;
 import ftn.isa.dto.RentCarDTO;
 import ftn.isa.dto.RentCarMenuItemDTO;
 import ftn.isa.dto.RentCarSearchDTO;
@@ -19,6 +20,7 @@ import ftn.isa.dto.VehicleDTO;
 import ftn.isa.model.Address;
 import ftn.isa.model.RentCar;
 import ftn.isa.model.RentCarMenuItem;
+import ftn.isa.model.RentCarReport;
 import ftn.isa.model.Vehicle;
 import ftn.isa.service.AddressService;
 import ftn.isa.service.RentCarMenuItemService;
@@ -87,11 +89,6 @@ public class RentCarController {
 	public ResponseEntity<RentCarDTO> saveRentCar(@RequestBody RentCarDTO rentCarDTO){
 		
 		RentCar rentCar = new RentCar();
-//		Address address = addressService.findOne(rentCarDTO.getAddressDTO().getId());
-//		
-//		if(address == null) {
-//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//		}
 		
 		Address address = new Address();
 		address.setCountry(rentCarDTO.getAddressDTO().getCountry());
@@ -121,10 +118,8 @@ public class RentCarController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		//rentCar.setId(rentCarDTO.getId()); id ne sme da se menja
 		rentCar.setName(rentCarDTO.getName());
 		rentCar.setDescription(rentCarDTO.getDescription());
-		//rentCar.setAddress(rentCarDTO.getAddressDTO()); ne dozvoliti da se menja adresa
 		
 		rentCar = rentCarService.update(rentCar);
 		
@@ -289,10 +284,20 @@ public class RentCarController {
 		vehicle.setSeatsNumber(vehicleDTO.getSeatsNumber());
 		vehicle.setType(vehicleDTO.getType());
 		vehicle.setYearProduced(vehicleDTO.getYearProduced());
+		vehicle.setPrice(vehicleDTO.getPrice());
 		
 		vehicle = vehicleService.save(vehicle);
 		
 		return new ResponseEntity<>(new VehicleDTO(vehicle), HttpStatus.CREATED);
+	}
+	
+	//generisanje izvestaja od strane admina, preutorize admin, prima id rentCara
+	@RequestMapping(value="/{idRentCar}/generate", method=RequestMethod.POST) 
+	public ResponseEntity<RentCarReport> generateReport(@PathVariable Long idRentCar, @RequestBody DateRange dateRange) {
+		
+		RentCarReport rcr = rentCarService.generateReport(idRentCar, dateRange);
+		
+		return new ResponseEntity<>(rcr, HttpStatus.CREATED);
 	}
 	
 }

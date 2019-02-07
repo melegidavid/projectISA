@@ -7,5 +7,7 @@ import ftn.isa.model.Authority;
 
 @Repository
 public interface AuthorityRepository extends JpaRepository<Authority,Long> {
+	
+	Authority findOneByName(String name);
 
 }

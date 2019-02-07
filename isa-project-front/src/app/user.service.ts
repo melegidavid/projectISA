@@ -9,6 +9,11 @@ import { UserDTO } from './dto/user.model';
 import { AuthorityDTO } from './dto/authorityDTO.model';
 import { VehicleReservationDTO } from './dto/vehicleReservationDTO';
 import { RatingUpdateDTO } from './dto/ratingUpdate';
+import { RoomReservation } from './dto/room-reservation.model';
+import { AvioFlightReservation } from './dto/avio-flight-reservation';
+import { DateRange } from './dto/date-range';
+import { RentCarReport } from './dto/rent-car-report';
+
 
 
 
@@ -52,6 +57,30 @@ export class UserService {
     return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + username);
   }
 
+  cancelVehicleReservation(id: number): Observable<VehicleReservationDTO[]> {
+    return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + id + "/cancelReservation");
+  }
+
+  getHotelReservations(username: string): Observable<RoomReservation[]> {
+    return this.http.get<RoomReservation[]>("http://localhost:9004/users/room_reservations/" + username);
+  }
+
+  cancelHotelReservation(id: number): Observable<VehicleReservationDTO[]> {
+    //return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + username);
+    return null;
+  }
+
+  getAvioReservations(username: string): Observable<AvioFlightReservation[]> {
+    return this.http.get<AvioFlightReservation[]>("http://localhost:9004/users/avio_reservations/" + username);
+  }
+
+  cancelAvioReservation(id: number): Observable<VehicleReservationDTO[]> {
+    //return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + username);
+    return null;
+  }
+
+  
+
   updateVehicleRating(idRes : number, newValue : number) : Observable<VehicleReservationDTO[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
@@ -59,6 +88,22 @@ export class UserService {
     return this.http.post<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/updateVehicleRating/",ratingDTO);
   }
 
+
+  updateHotelRating(idRes : number, newValue : number) : Observable<RoomReservation[]> {
+    let ratingDTO = new RatingUpdateDTO();
+    ratingDTO.idReservation = idRes;
+    ratingDTO.newValue = newValue;
+    return this.http.post<RoomReservation[]>("http://localhost:9004/vehicle_reservations/updateHotelRating/",ratingDTO);
+  }
+
+  updateRoomRating(idRes : number, newValue : number) : Observable<RoomReservation[]> {
+    let ratingDTO = new RatingUpdateDTO();
+    ratingDTO.idReservation = idRes;
+    ratingDTO.newValue = newValue;
+    return this.http.post<RoomReservation[]>("http://localhost:9004/vehicle_reservations/updateRoomRating",ratingDTO);
+  
+  }
+  
   updateRentCarRating(idRes : number, newValue : number) : Observable<VehicleReservationDTO[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
@@ -67,6 +112,26 @@ export class UserService {
   
   }
 
+  updateFlightRating(idRes : number, newValue : number) : Observable<AvioFlightReservation[]> {
+    let ratingDTO = new RatingUpdateDTO();
+    ratingDTO.idReservation = idRes;
+    ratingDTO.newValue = newValue;
+    return this.http.post<AvioFlightReservation[]>("http://localhost:9004/vehicle_reservations/updateFlightRating",ratingDTO);
+  
+  }
+
+
+  updateAvioRating(idRes : number, newValue : number) : Observable<AvioFlightReservation[]> {
+    let ratingDTO = new RatingUpdateDTO();
+    ratingDTO.idReservation = idRes;
+    ratingDTO.newValue = newValue;
+    return this.http.post<AvioFlightReservation[]>("http://localhost:9004/vehicle_reservations/updateAvioRating",ratingDTO);
+  
+  }
+
+  generateReport(id : number, range : DateRange) : Observable<RentCarReport> {
+    return this.http.post<RentCarReport>("http://localhost:9004/rent_a_cars/" + id + "/generate", range);
+  }
 
   getUsersForSearch(username: string): Observable<any> {
     return this.http.get("http://localhost:9004/users/" + username + "/usersToSearch", { responseType: 'json' });
@@ -99,11 +164,7 @@ export class UserService {
   }
 
   logOut() {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('username');
-    localStorage.removeItem('startDate');
-    localStorage.removeItem('endDate');
-    localStorage.removeItem('guestsNumber');
+    localStorage.clear();
     //this.http.post<TokenState>(`http://localhost:9004/auth/logout`, this.headers);
   }
 

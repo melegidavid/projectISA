@@ -40,9 +40,6 @@ public class User implements UserDetails {
 	private String lastName;
 	private String city;
 	private String telephoneNumber;
-	private Role role; 
-	
-	//private Object adminOf; //za sad ovako, napraviti mozda posebnu tabelu koja mapira admine na ono za sta su admini
 	
 	@Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -71,7 +68,7 @@ public class User implements UserDetails {
 	public User() {}
 	
 	public User(String username, String password, String email, String name, String lastName, String city,
-			String telephoneNumber, Role role, boolean activated) {
+			String telephoneNumber, boolean enabled) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -80,21 +77,13 @@ public class User implements UserDetails {
 		this.lastName = lastName;
 		this.city = city;
 		this.telephoneNumber = telephoneNumber;
-		this.role = role;
-		//this.adminOf = null; // za sad
 		
-		this.enabled = true;
+		this.enabled = enabled;
 		this.lastPasswordResetDate = Timestamp.valueOf(LocalDateTime.now());
 		this.authorities = new ArrayList<Authority>();
 	}
 
-	public Role getRole() {
-		return role;
-	}
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
 
 	public Long getId() {
 		return id;
@@ -178,14 +167,6 @@ public class User implements UserDetails {
 	public void setTelephoneNumber(String telephoneNumber) {
 		this.telephoneNumber = telephoneNumber;
 	}
-/*
-	public Object getAdminOf() {
-		return adminOf;
-	}
-
-	public void setAdminOf(Object adminOf) {
-		this.adminOf = adminOf;
-	}*/
 	
 	@Override
 	public boolean isEnabled() {

@@ -101,6 +101,7 @@ export class RentCarEditComponent implements OnInit {
     this.vehicleToAdd.model = "";
     this.vehicleToAdd.name = "";
     this.vehicleToAdd.type = "";
+    this.vehicleToAdd.price = 0;
     //probaj bez nule
     this.vehicleToAdd.seatsNumber = 0;
     this.vehicleToAdd.yearProduced = 0;

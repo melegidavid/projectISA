@@ -2,6 +2,7 @@ package ftn.isa.service;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,24 @@ public class VehicleService {
 	
 	public void remove(Long id) {
 		Vehicle v = this.findOne(id);
-		v.setDeleted(true);
-		this.update(v);
+		
+		List<VehicleReservation> reservations = v.getReseravations();
+		boolean reserved = false;
+		Date nowDate = new Date();
+		for(VehicleReservation reservation : reservations) {
+			if((nowDate.after(reservation.getStartReservation()) 
+					&& nowDate.before(reservation.getEndReseravtion())) ||
+					nowDate.toString().equals(reservation.getStartReservation()) ||
+					nowDate.toString().equals(reservation.getEndReseravtion())) {
+				reserved = true;
+			}
+		}
+		
+		if(reserved) {
+			v.setDeleted(true);
+			this.update(v);	
+		}
+		
 	}
 	
 	public double getAvgRating(Long id) {

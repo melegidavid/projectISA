@@ -114,6 +114,7 @@ public class VehicleController {
 		vehicle.setSeatsNumber(vehicleDTO.getSeatsNumber());
 		vehicle.setType(vehicleDTO.getType());
 		vehicle.setYearProduced(vehicleDTO.getYearProduced());
+		vehicle.setPrice(vehicleDTO.getPrice());
 		
 		vehicle = vehicleService.update(vehicle);
 		
@@ -149,6 +150,7 @@ public class VehicleController {
 		vr.setEndReseravtion(Date.valueOf(LocalDate.now()));
 		vr.setTakePlace(branchService.findOne(reservationDTO.getTakePlaceId()));
 		vr.setReturnPlace(branchService.findOne(reservationDTO.getReturnPlaceId()));
+		vr.calculatePrice();
 	
 		reservationService.save(vr);
 		

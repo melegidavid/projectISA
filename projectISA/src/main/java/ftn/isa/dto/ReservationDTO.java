@@ -18,6 +18,7 @@ public class ReservationDTO {
 	
 	private int vehicleRating;
 	private int rentCarRating;
+	private int price;
 	
 	public ReservationDTO() {
 		
@@ -38,6 +39,7 @@ public class ReservationDTO {
 		this.rentCarRating = vr.getRentCarRating();
 		this.vehicleRating = vr.getVehicleRating();
 		this.setId(vr.getId());
+		this.price = vr.getPrice();
 	}
 
 	public String getUsername() {
@@ -110,6 +112,14 @@ public class ReservationDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 	
 }

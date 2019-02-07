@@ -10,4 +10,5 @@ export class Vehicle {
     model: string;
     yearProduced: number;
     rentCar : RentACar;
+    price : number;
 }

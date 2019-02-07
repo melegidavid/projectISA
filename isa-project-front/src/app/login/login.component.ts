@@ -30,20 +30,23 @@ export class LoginComponent implements OnInit {
       alert('Uspesno logovanje!');
       localStorage.setItem('userToken',data.accessToken);
       localStorage.setItem('username',this.loginRequest.username);
+      
       //da li expires isto
       //localStorage.setItem('roles', data.), mozda novi http poziv za getRoles ili mozda ne treba pa svaki put zahtev
       this.getRoles(this.loginRequest.username)
       .subscribe(data => {
           this.autoDTO = data;
           this.roles = this.autoDTO.authorities;
+          
 
           console.log(this.roles); 
          
           this.router.navigate(['home']);
           this.roles.forEach((role) => {
-            console.log(role);
+            console.log('Uloga u local storage-u je : ');
             console.log(role.authority);
-            
+            localStorage.setItem('role',role.authority);
+
             if(role.authority === 'SERVICE_ADMIN') {
                 this.router.navigate(['admin']);
             }else if(role.authority === 'AVIO_COMPANY_ADMIN'){
@@ -57,7 +60,7 @@ export class LoginComponent implements OnInit {
     },
     (err: any) => { 
       console.log(err.status); console.log(err); 
-      alert('Neuspesno logovanje');
+      alert('Unsuccessfull login. Please check your username and password!');
     });
     
     console.log('Ulogovan korisnik ' + this.loginRequest.username + ' ' + this.loginRequest.password);  

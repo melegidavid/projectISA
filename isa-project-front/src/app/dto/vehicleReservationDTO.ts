@@ -10,4 +10,5 @@ export class VehicleReservationDTO {
 	vehicleRating : number;
 	rentCarRating : number;
 	id : number;
+	price : number;
 }

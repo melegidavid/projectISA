@@ -49,7 +49,7 @@
         <div class="col-md-3 register-left">
             <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
             <h3>Welcome</h3>
-            <p>Register now by filling all required field, and get started!</p>
+            <p>Register now by filling all required fields (*), and get started!</p>
         </div>
         <form (ngSubmit)="onSubmit()">
             <div class="col-md-9 register-right">
@@ -61,33 +61,33 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" [(ngModel)]="user.name" name="name" placeholder="First Name *" value="" />
+                                    <input type="text" class="form-control" [(ngModel)]="user.name" [style.border-color]=" colors[0]" name="name" placeholder="First Name *" value="" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" [(ngModel)]="user.lastName" name="lastname" placeholder="Last Name *" value="" />
+                                    <input type="text" class="form-control" [(ngModel)]="user.lastName" [style.border-color]=" colors[1]" name="lastname" placeholder="Last Name *" value="" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="Password *" value=""
+                                    <input type="password" class="form-control" [(ngModel)]="user.password" [style.border-color]=" colors[2]" name="password" placeholder="Password *" value=""
                                     />
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Confirm Password *"  [(ngModel)]="confPassword" name="confPassword" value="" />
+                                    <input type="password" class="form-control" placeholder="Confirm Password *" [style.border-color]=" colors[3]"  [(ngModel)]="confPassword" name="confPassword" value="" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" [(ngModel)]="user.email" name="email" placeholder="Your Email *" value="" />
+                                    <input type="email" class="form-control" [(ngModel)]="user.email" [style.border-color]=" colors[4]" name="email" placeholder="E-mail *" value="" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" [(ngModel)]="user.telephoneNumber"
-                                        name="telephone" placeholder="Your Phone *" value="" />
+                                    <input type="text" minlength="9" maxlength="11" name="txtEmpPhone" class="form-control" [style.border-color]=" colors[5]" [(ngModel)]="user.telephoneNumber"
+                                        name="telephone" placeholder="Telephone number *" value="" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="txtCity" class="form-control" [(ngModel)]="user.city" name="city" placeholder="Your City *" value=""
+                                    <input type="text" name="txtCity" class="form-control" [style.border-color]=" colors[6]" [(ngModel)]="user.city" [style.border-color]=" colors[6]" name="city" placeholder="City *" value=""
                                     />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" [(ngModel)]="user.username" name="username" placeholder="Username *" value="" />
+                                    <input type="text" class="form-control"  [(ngModel)]="user.username" [style.border-color]=" colors[7]" name="username" placeholder="Username *" value="" />
                                 </div>
                                 <input type="submit" class="btnRegister" value="Register" />
                             </div>
