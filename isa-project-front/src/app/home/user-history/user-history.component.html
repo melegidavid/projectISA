@@ -11,7 +11,7 @@
 
 
 
-<div>
+<div *ngIf="avioReservations.length">
   <h3 class="display-4">Flight reservations</h3>
 </div>
 
@@ -28,39 +28,42 @@
         <p class="card-text">Distance: {{aReservation.avioFlight.flightDistance}} </p>
         <p class="card-text">Avio Company: {{aReservation.avioFlight.avioCompany.name}} </p>
         <div class="form-group" id="rating-ability-wrapper-1">
-            <button type="button" *ngIf="aReservation.avioRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-11" (click)="updateAvioRating(aReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(aReservation.avioRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-11" (click)="updateAvioRating(aReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="aReservation.avioRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-11" (click)="updateAvioRating(aReservation.id, 1, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(aReservation.avioRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-11" (click)="updateAvioRating(aReservation.id, 1, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="aReservation.avioRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-12" (click)="updateAvioRating(aReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(aReservation.avioRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-12" (click)="updateAvioRating(aReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="aReservation.avioRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-12" (click)="updateAvioRating(aReservation.id, 2, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(aReservation.avioRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-12" (click)="updateAvioRating(aReservation.id, 2, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="aReservation.avioRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-13" (click)="updateAvioRating(aReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(aReservation.avioRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-13" (click)="updateAvioRating(aReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="aReservation.avioRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-13" (click)="updateAvioRating(aReservation.id, 3, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(aReservation.avioRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-13" (click)="updateAvioRating(aReservation.id, 3, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="aReservation.avioRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-14" (click)="updateAvioRating(aReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(aReservation.avioRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-14" (click)="updateAvioRating(aReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="aReservation.avioRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-14" (click)="updateAvioRating(aReservation.id, 4, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(aReservation.avioRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-14" (click)="updateAvioRating(aReservation.id, 4, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="aReservation.avioRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-15" (click)="updateAvioRating(aReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(aReservation.avioRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-15" (click)="updateAvioRating(aReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="aReservation.avioRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-15" (click)="updateAvioRating(aReservation.id, 5, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(aReservation.avioRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-15" (click)="updateAvioRating(aReservation.id, 5, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
         </div>
         <p class="card-text">Flight rating: </p>
         <div class="form-group" id="rating-ability-wrapper-1">
-                <button type="button" *ngIf="aReservation.flightRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-111" (click)="updateFlightRating(aReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(aReservation.flightRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-111" (click)="updateFlightRating(aReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="aReservation.flightRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-111" (click)="updateFlightRating(aReservation.id, 1, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(aReservation.flightRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-111" (click)="updateFlightRating(aReservation.id, 1, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="aReservation.flightRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-112" (click)="updateFlightRating(aReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(aReservation.flightRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-112" (click)="updateFlightRating(aReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="aReservation.flightRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-112" (click)="updateFlightRating(aReservation.id, 2, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(aReservation.flightRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-112" (click)="updateFlightRating(aReservation.id, 2, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="aReservation.flightRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-113" (click)="updateFlightRating(aReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(aReservation.flightRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-113" (click)="updateFlightRating(aReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="aReservation.flightRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-113" (click)="updateFlightRating(aReservation.id, 3, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(aReservation.flightRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-113" (click)="updateFlightRating(aReservation.id, 3, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="aReservation.flightRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-114" (click)="updateFlightRating(aReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(aReservation.flightRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-114" (click)="updateFlightRating(aReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="aReservation.flightRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-114" (click)="updateFlightRating(aReservation.id, 4, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(aReservation.flightRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-114" (click)="updateFlightRating(aReservation.id, 4, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="aReservation.flightRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-115" (click)="updateFlightRating(aReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(aReservation.flightRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-115" (click)="updateFlightRating(aReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            </div>
-        <p class="card-text"><small class="text-muted">{{aReservation.startReservation}}-{{aReservation.endReservation}}</small></p>
+                <button type="button" *ngIf="aReservation.flightRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-115" (click)="updateFlightRating(aReservation.id, 5, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(aReservation.flightRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-115" (click)="updateFlightRating(aReservation.id, 5, aReservation.avioFlight.dateTimeStart)"><i class="fa fa-star" aria-hidden="true"></i></button>
+        </div>
+        <div class="col-md-2" *ngIf="yetToCome(aReservation.avioFlight.dateTimeStart)">
+          <button class="btn btn-primary" (click)="cancelAvioReservation(aReservation.id)">Cancel</button>
+        </div>
+        <p class="card-text"><small class="text-muted">{{aReservation.avioFlight.dateTimeStart}}-{{aReservation.avioFlight.dateTimeFinish}}</small></p>
       </div>
     </div>
   </div>
@@ -72,7 +75,7 @@
 
 
 
-<div>
+<div *ngIf="roomReservations.length">
   <h3 class="display-4">Room reservations</h3>
 </div>
 
@@ -85,38 +88,41 @@
         <h5 class="card-title">{{rReservation.room.hotel.name}}, Room {{rReservation.room.number}}</h5>
         <p class="card-text">Hotel: {{rReservation.room.hotel.name}} </p>
         <div class="form-group" id="rating-ability-wrapper-1">
-            <button type="button" *ngIf="rReservation.hotelRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-11" (click)="updateHotelRating(rReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(rReservation.hotelRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-11" (click)="updateHotelRating(rReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="rReservation.hotelRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-11" (click)="updateHotelRating(rReservation.id, 1,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(rReservation.hotelRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-11" (click)="updateHotelRating(rReservation.id, 1,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="rReservation.hotelRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-12" (click)="updateHotelRating(rReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(rReservation.hotelRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-12" (click)="updateHotelRating(rReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="rReservation.hotelRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-12" (click)="updateHotelRating(rReservation.id, 2,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(rReservation.hotelRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-12" (click)="updateHotelRating(rReservation.id, 2,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="rReservation.hotelRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-13" (click)="updateHotelRating(rReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(rReservation.hotelRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-13" (click)="updateHotelRating(rReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="rReservation.hotelRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-13" (click)="updateHotelRating(rReservation.id, 3,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(rReservation.hotelRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-13" (click)="updateHotelRating(rReservation.id, 3,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="rReservation.hotelRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-14" (click)="updateHotelRating(rReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(rReservation.hotelRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-14" (click)="updateHotelRating(rReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="rReservation.hotelRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-14" (click)="updateHotelRating(rReservation.id, 4,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(rReservation.hotelRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-14" (click)="updateHotelRating(rReservation.id, 4,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="rReservation.hotelRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-15" (click)="updateHotelRating(rReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(rReservation.hotelRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-15" (click)="updateHotelRating(rReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="rReservation.hotelRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-15" (click)="updateHotelRating(rReservation.id, 5,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(rReservation.hotelRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-15" (click)="updateHotelRating(rReservation.id, 5,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
         </div>
         <p class="card-text">Room rating: </p>
         <div class="form-group" id="rating-ability-wrapper-1">
-                <button type="button" *ngIf="rReservation.roomRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-111" (click)="updateRoomRating(rReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(rReservation.roomRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-111" (click)="updateRoomRating(rReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="rReservation.roomRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-111" (click)="updateRoomRating(rReservation.id, 1,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(rReservation.roomRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-111" (click)="updateRoomRating(rReservation.id, 1,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="rReservation.roomRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-112" (click)="updateRoomRating(rReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(rReservation.roomRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-112" (click)="updateRoomRating(rReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="rReservation.roomRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-112" (click)="updateRoomRating(rReservation.id, 2,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(rReservation.roomRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-112" (click)="updateRoomRating(rReservation.id, 2,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="rReservation.roomRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-113" (click)="updateRoomRating(rReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(rReservation.roomRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-113" (click)="updateRoomRating(rReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="rReservation.roomRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-113" (click)="updateRoomRating(rReservation.id, 3,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(rReservation.roomRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-113" (click)="updateRoomRating(rReservation.id, 3,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="rReservation.roomRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-114" (click)="updateRoomRating(rReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(rReservation.roomRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-114" (click)="updateRoomRating(rReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="rReservation.roomRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-114" (click)="updateRoomRating(rReservation.id, 4,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(rReservation.roomRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-114" (click)="updateRoomRating(rReservation.id, 4,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="rReservation.roomRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-115" (click)="updateRoomRating(rReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(rReservation.roomRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-115" (click)="updateRoomRating(rReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            </div>
+                <button type="button" *ngIf="rReservation.roomRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-115" (click)="updateRoomRating(rReservation.id, 5,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(rReservation.roomRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-115" (click)="updateRoomRating(rReservation.id, 5,rReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+        </div>
+        <div class="col-md-2" *ngIf="yetToCome(rReservation.startReservation)">
+          <button class="btn btn-primary" (click)="cancelHotelReservation(rReservation.id)">Cancel</button>
+        </div>
         <p class="card-text"><small class="text-muted">{{rReservation.startReservation}}-{{rReservation.endReservation}}</small></p>
       </div>
     </div>
@@ -128,7 +134,7 @@
 
 
 
-<div>
+<div *ngIf="vehicleReservations.length">
   <h3 class="display-4">Vehicle reservations</h3>
 </div>
 
@@ -144,37 +150,37 @@
           ({{vReservation.vehicle.yearProduced}}) </h5>
         <p class="card-text">RentCar: {{vReservation.vehicle.rentCar.name}} </p>
         <div class="form-group" id="rating-ability-wrapper-1">
-            <button type="button" *ngIf="vReservation.rentCarRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-11" (click)="updateRentCarRating(vReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(vReservation.rentCarRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-11" (click)="updateRentCarRating(vReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="vReservation.rentCarRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-11" (click)="updateRentCarRating(vReservation.id, 1,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(vReservation.rentCarRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-11" (click)="updateRentCarRating(vReservation.id, 1,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="vReservation.rentCarRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-12" (click)="updateRentCarRating(vReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(vReservation.rentCarRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-12" (click)="updateRentCarRating(vReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="vReservation.rentCarRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-12" (click)="updateRentCarRating(vReservation.id, 2,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(vReservation.rentCarRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-12" (click)="updateRentCarRating(vReservation.id, 2,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="vReservation.rentCarRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-13" (click)="updateRentCarRating(vReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(vReservation.rentCarRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-13" (click)="updateRentCarRating(vReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="vReservation.rentCarRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-13" (click)="updateRentCarRating(vReservation.id, 3,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(vReservation.rentCarRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-13" (click)="updateRentCarRating(vReservation.id, 3,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="vReservation.rentCarRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-14" (click)="updateRentCarRating(vReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(vReservation.rentCarRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-14" (click)="updateRentCarRating(vReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="vReservation.rentCarRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-14" (click)="updateRentCarRating(vReservation.id, 4,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(vReservation.rentCarRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-14" (click)="updateRentCarRating(vReservation.id, 4,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
             
-            <button type="button" *ngIf="vReservation.rentCarRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-15" (click)="updateRentCarRating(vReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
-            <button type="button" *ngIf="!(vReservation.rentCarRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-15" (click)="updateRentCarRating(vReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="vReservation.rentCarRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-15" (click)="updateRentCarRating(vReservation.id, 5,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+            <button type="button" *ngIf="!(vReservation.rentCarRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-15" (click)="updateRentCarRating(vReservation.id, 5,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
         </div>
         <p class="card-text">Vehicle rating: </p>
         <div class="form-group" id="rating-ability-wrapper-1">
-                <button type="button" *ngIf="vReservation.vehicleRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-111" (click)="updateVehicleRating(vReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(vReservation.vehicleRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-111" (click)="updateVehicleRating(vReservation.id, 1)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="vReservation.vehicleRating >= 1" class="btnrating btn btn-default btn-lg-da" data-attr="1" id="rating-star-111" (click)="updateVehicleRating(vReservation.id, 1,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(vReservation.vehicleRating >= 1)" class="btnrating btn btn-default btn-lg-ne" data-attr="1" id="rating-star-111" (click)="updateVehicleRating(vReservation.id, 1,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="vReservation.vehicleRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-112" (click)="updateVehicleRating(vReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(vReservation.vehicleRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-112" (click)="updateVehicleRating(vReservation.id, 2)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="vReservation.vehicleRating >= 2" class="btnrating btn btn-default btn-lg-da" data-attr="2" id="rating-star-112" (click)="updateVehicleRating(vReservation.id, 2,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(vReservation.vehicleRating >= 2)" class="btnrating btn btn-default btn-lg-ne" data-attr="2" id="rating-star-112" (click)="updateVehicleRating(vReservation.id, 2,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="vReservation.vehicleRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-113" (click)="updateVehicleRating(vReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(vReservation.vehicleRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-113" (click)="updateVehicleRating(vReservation.id, 3)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="vReservation.vehicleRating >= 3" class="btnrating btn btn-default btn-lg-da" data-attr="3" id="rating-star-113" (click)="updateVehicleRating(vReservation.id, 3,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(vReservation.vehicleRating >= 3)" class="btnrating btn btn-default btn-lg-ne" data-attr="3" id="rating-star-113" (click)="updateVehicleRating(vReservation.id, 3,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="vReservation.vehicleRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-114" (click)="updateVehicleRating(vReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(vReservation.vehicleRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-114" (click)="updateVehicleRating(vReservation.id, 4)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="vReservation.vehicleRating >= 4" class="btnrating btn btn-default btn-lg-da" data-attr="4" id="rating-star-114" (click)="updateVehicleRating(vReservation.id, 4,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(vReservation.vehicleRating >= 4)" class="btnrating btn btn-default btn-lg-ne" data-attr="4" id="rating-star-114" (click)="updateVehicleRating(vReservation.id, 4,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
                 
-                <button type="button" *ngIf="vReservation.vehicleRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-115" (click)="updateVehicleRating(vReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
-                <button type="button" *ngIf="!(vReservation.vehicleRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-115" (click)="updateVehicleRating(vReservation.id, 5)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="vReservation.vehicleRating >= 5" class="btnrating btn btn-default btn-lg-da" data-attr="5" id="rating-star-115" (click)="updateVehicleRating(vReservation.id, 5,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
+                <button type="button" *ngIf="!(vReservation.vehicleRating >= 5)" class="btnrating btn btn-default btn-lg-ne" data-attr="5" id="rating-star-115" (click)="updateVehicleRating(vReservation.id, 5,vReservation.startReservation)"><i class="fa fa-star" aria-hidden="true"></i></button>
         </div>
         <div class="col-md-2" *ngIf="yetToCome(vReservation.startReservation)">
             <button class="btn btn-primary" (click)="cancelVehicleReservation(vReservation.id)">Cancel</button>

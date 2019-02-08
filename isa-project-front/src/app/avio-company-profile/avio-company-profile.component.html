@@ -47,7 +47,8 @@
     <div class="row">
       <div class="col-md-4">
         <div class="profile-img">
-          <img src="https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg" alt="" />
+          <img src="https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg"
+            alt="" />
 
         </div>
       </div>
@@ -62,8 +63,8 @@
           <h6 *ngIf="avioCompany">
             {{avioCompany.address.city + ', '}} {{avioCompany.address.country}}
           </h6>
-          <p class="proile-rating">Prosecna ocena :
-            <span>8/10</span>
+          <p class="proile-rating">Average rating :
+            <span>{{avgRatingAvio}}/5</span>
           </p>
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
@@ -76,9 +77,6 @@
             </li>
           </ul>
         </div>
-      </div>
-      <div class="col-md-2">
-        <button class="profile-edit-btn" name="btnAddMore" routerLink="/rentACar/edit">Edit Profile</button>
       </div>
     </div>
     <div class="row">
@@ -162,7 +160,8 @@
         <div class="card-image">
           <span class="card-notify-badge">{{room.price}}e</span>
           <!-- <span class="card-notify-year">yearproduced</span> -->
-          <img class="img-fluid" src="https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg"
+          <img class="img-fluid"
+            src="https://wallpapersite.com/images/wallpapers/airplane-4200x2608-aircraft-air-travel-4k-1028.jpg"
             alt="Alternate Text" />
         </div>
         <div class="card-image-overlay m-auto">
@@ -198,6 +197,40 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showAdminControls">
+    <h3>Generisanje izvestaja</h3>
+    <div class="row">
+      <div class="col">
+        <label for="date1">Pocetni datum</label>
+      </div>
+      <div class="col">
+        <label for="date1">Krajnji datum</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <input type="date" [(ngModel)]="startDateMy" class="form-control" name="dateFrom" id="date1">
+      </div>
+      <div class="col">
+        <input type="date" [(ngModel)]="endDateMy" class="form-control" name="dateTo" id="date1">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" *ngIf="showAdminControls" (click)="generateReport()">Generate report</button>
+  </div>
+
+
+  <div *ngIf="showReport" class="row">
+    <div class="col">
+      <p>{{report.avgRatingReport}}</p>
+      <p>{{report.prihodPerioda}}</p>
+      <div *ngFor="let flight of report.flightReports">
+        {{flight}}
       </div>
     </div>
   </div>

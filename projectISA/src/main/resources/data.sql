@@ -16,7 +16,7 @@ insert into user_authority (user_id, authority_id) VALUES (22, 4);
 insert into user_authority (user_id, authority_id) VALUES (23, 3);
 insert into user_authority (user_id, authority_id) VALUES (24, 1);
 insert into user_authority (user_id, authority_id) VALUES (25, 1);
-insert into user_authority (user_id, authority_id) VALUES (26, 1);
+insert into user_authority (user_id, authority_id) VALUES (26, 5);
 
 
 insert into friendship (id, accepted, user1_id, user2_id) values (21, true, 21, 22);
@@ -60,8 +60,7 @@ insert into avio_company (id,name,address_id,description,average_rating, is_dele
 
 insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (112,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 130, 3500, 350, 102, 103, 121, false, 20, 20, 20);
 insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (113,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 140, 3500, 350, 103, 102, 122, false, 20, 20, 20);
-insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (114,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 150, 3500, 350, 104, 101, 122, false, 20, 20, 20);
-
+insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (114,"2019-06-03 02:48:03", "2019-06-01 02:48:03", 150, 3500, 350, 104, 101, 122, false, 20, 20, 20);
 
 insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (115,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 102, 121, false, 20, 20, 20);
 insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (116,"2019-02-04 02:48:03", "2019-02-04 02:48:03", 120, 2000, 300, 101, 102, 122, false, 20, 20, 20);
@@ -122,6 +121,7 @@ insert into hotel_room (id, number, free, hotel_id, description, price, bed_numb
 insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price, room_rating, hotel_rating) values (102, '2019-01-21', '2019-01-15', 102, 21, 350, 3, 4);
 insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price, room_rating, hotel_rating) values (103, '2019-01-21', '2019-01-15', 103, 21, 450, 4, 5);
 insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price, room_rating, hotel_rating) values (104, '2019-01-21', '2019-01-15', 104, 21, 600, 2, 1);
+insert into room_reservation(id, end_reservation, start_reservation, belongs_to_room_id, user_id, price, room_rating, hotel_rating) values (105, '2019-04-21', '2019-04-15', 103, 22, 600, -1, -1);
 
 insert into rent_car (id, name, address_id, description) values (101,'Mica rentakar', 101, 'Imamo sve.');
 insert into rent_car (id, name, address_id, description) values (102,'Novi rentakar', 113, 'NEma opisa.');
@@ -175,7 +175,6 @@ insert into avio_flight_seats (avio_flight_id, seats_id) values (112, 511);
 --insert into avio_flight_reservation (id, is_deleted, rating_company, rating_flight, avio_flight_id, seat_id, user_id) values (51, false, 2, 3, 112, 500, 24);
 insert into avio_flight_reservation (id, user_id, avio_flight_id, rating_flight, rating_company, is_deleted,seat_id) values (101, 21, 115,4,5,0,500);
 insert into avio_flight_reservation (id, user_id, avio_flight_id, rating_flight, rating_company, is_deleted,seat_id) values (102, 22, 118,3,2,0,501);
-insert into avio_flight_reservation (id, user_id, avio_flight_id, rating_flight, rating_company, is_deleted,seat_id) values (103, 21, 115,4,2,0,502);
-
+insert into avio_flight_reservation (id, user_id, avio_flight_id, rating_flight, rating_company, is_deleted,seat_id) values (104, 22, 114,-1,-1,0,502);
 
 

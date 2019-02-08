@@ -5,13 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.mail.search.AddressTerm;
-
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +20,8 @@ import ftn.isa.dto.AvioFlightDTO;
 import ftn.isa.dto.AvioFlightReservationDTO;
 import ftn.isa.dto.AvioFlightSearchDTO;
 import ftn.isa.dto.AvioFlightSeatDTO;
+import ftn.isa.dto.AvioReport;
+import ftn.isa.dto.DateRange;
 import ftn.isa.model.Address;
 import ftn.isa.model.AvioCompany;
 import ftn.isa.model.AvioFlight;
@@ -644,6 +642,21 @@ public class AvioCompanyController {
 		}
 
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value="/{id}/avgAvioRating", method=RequestMethod.GET)
+	public Double getAvioAvgRating(@PathVariable Long id){
+		
+		return avioCompanyService.getAvgRating(id);
+	}
+	
+	//generisanje izvestaja od strane admina, preutorize admin, prima id rentCara
+	@RequestMapping(value="/{idAvio}/generate", method=RequestMethod.POST) 
+	public ResponseEntity<AvioReport> generateReport(@PathVariable Long idAvio, @RequestBody DateRange dateRange) {
+		
+		AvioReport rcr = avioCompanyService.generateReport(idAvio, dateRange);
+		
+		return new ResponseEntity<>(rcr, HttpStatus.CREATED);
 	}
 
 }

@@ -25,6 +25,7 @@ public class AvioFlightReservation {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(referencedColumnName = "id", nullable = false, unique = true)
 	private AvioFlightSeat seat;
+	
 
 	public AvioFlightReservation() {
 	}

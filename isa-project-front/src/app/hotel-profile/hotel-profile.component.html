@@ -47,7 +47,8 @@
     <div class="row">
       <div class="col-md-4">
         <div class="profile-img">
-          <img src="http://districtnabarangpur.com/wp-content/uploads/2019/09/intersectant-Design-Hotel-Room.jpg" alt="" />
+          <img src="http://districtnabarangpur.com/wp-content/uploads/2019/09/intersectant-Design-Hotel-Room.jpg"
+            alt="" />
 
         </div>
       </div>
@@ -62,18 +63,20 @@
           <h6 *ngIf="hotel">
             {{hotel.addressDTO.city + ', '}} {{hotel.addressDTO.country}}
           </h6>
-          <p class="proile-rating">Prosecna ocena :
-            <span>8/10</span>
+          <p class="proile-rating">Average rating :
+            <span>{{avgRatingHotel}}/5</span>
           </p>
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Menu</a>
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">Menu</a>
             </li>
           </ul>
         </div>
       </div>
       <div class="col-md-2">
-        <button *ngIf="hotel" class="profile-edit-btn" name="btnAddMore" [routerLink]="['/hotels/edit', hotel.id]">Edit Profile</button>
+        <button *ngIf="hotel" class="profile-edit-btn" name="btnAddMore" [routerLink]="['/hotels/edit', hotel.id]">Edit
+          Profile</button>
       </div>
     </div>
     <div class="row">
@@ -81,7 +84,7 @@
         <div class="profile-work">
           <h3>Description</h3>
           <p *ngIf="hotel">{{hotel.description}}</p>
-          <br/>
+          <br />
         </div>
       </div>
       <div class="col-md-8">
@@ -116,13 +119,15 @@
       <div class="row">
         <div class="col">
           <div class="md-form mt-0">
-            <input class="form-control" min="1" type="number" name="price" [(ngModel)]="startPrice" placeholder="From price" aria-label="Search">
+            <input class="form-control" min="1" type="number" name="price" [(ngModel)]="startPrice"
+              placeholder="From price" aria-label="Search">
           </div>
         </div>
 
         <div class="col">
           <div class="md-form mt-0">
-            <input class="form-control" min="1" type="number" name="rooms" [(ngModel)]="roomsNumber" placeholder="Rooms" aria-label="Search">
+            <input class="form-control" min="1" type="number" name="rooms" [(ngModel)]="roomsNumber" placeholder="Rooms"
+              aria-label="Search">
           </div>
         </div>
       </div>
@@ -130,13 +135,14 @@
       <div class="row">
         <div class="col">
           <div class="md-form mt-0">
-            <input class="form-control" min="1" max="1000" type="number" name="price" [(ngModel)]="endPrice" placeholder="To price" aria-label="Search">
+            <input class="form-control" min="1" max="1000" type="number" name="price" [(ngModel)]="endPrice"
+              placeholder="To price" aria-label="Search">
           </div>
         </div>
         <div class="col">
           <div class="md-form mt-0">
-            <input class="form-control" min="1" max="100000" type="number" name="guests" [(ngModel)]="guestsNumber" placeholder="Number of guests"
-              aria-label="Search">
+            <input class="form-control" min="1" max="100000" type="number" name="guests" [(ngModel)]="guestsNumber"
+              placeholder="Number of guests" aria-label="Search">
           </div>
         </div>
       </div>
@@ -159,23 +165,23 @@
         <h1 class="display-4">Hotel rooms</h1>
         <hr>
         <div class="col-12">
-          <p class="lead">For period {{startDate + ' - '}}  {{endDate}}</p>
+          <p class="lead">For period {{startDate + ' - '}} {{endDate}}</p>
         </div>
       </div>
     </div>
   </div>
 
   <div class="container-fluid padding" *ngIf="startDate == undefined">
-      <div class="row welcome text-centre">
+    <div class="row welcome text-centre">
+      <div class="col-12">
+        <h1 class="display-4">Hotel rooms</h1>
+        <hr>
         <div class="col-12">
-          <h1 class="display-4">Hotel rooms</h1>
-          <hr>
-          <div class="col-12">
-            <p class="lead">List of hotel rooms </p>
-          </div>
+          <p class="lead">List of hotel rooms </p>
         </div>
       </div>
     </div>
+  </div>
 
   <div class="row" id="ads">
     <!-- Category Card -->
@@ -185,7 +191,8 @@
           <span class="card-notify-badge" *ngIf="startDate">{{room.price*period}}e</span>
           <span class="card-notify-badge" *ngIf="startDate == undefined">{{room.price}}e</span>
           <!-- <span class="card-notify-year">yearproduced</span> -->
-          <img class="img-fluid" src="https://www.rd.com/wp-content/uploads/2016/01/05-13-things-your-hotel-desk-clerk-wont-tell-you-hotel-room.jpg"
+          <img class="img-fluid"
+            src="https://www.rd.com/wp-content/uploads/2016/01/05-13-things-your-hotel-desk-clerk-wont-tell-you-hotel-room.jpg"
             alt="Alternate Text" />
         </div>
         <div class="card-image-overlay m-auto">
@@ -265,7 +272,40 @@
 
 <div class="container-fluid">
   <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px;">
-    <iframe src="https://maps.google.com/maps?q=novisad&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0"
-      allowfullscreen></iframe>
+    <iframe src="https://maps.google.com/maps?q=novisad&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+      style="border:0" allowfullscreen></iframe>
+  </div>
+
+  <div *ngIf="showAdminControls">
+    <h3>Generisanje izvestaja</h3>
+    <div class="row">
+  <div class="col">
+    <label for="date1">Pocetni datum</label>
+  </div>
+  <div class="col">
+    <label for="date1">Krajnji datum</label>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <input type="date" [(ngModel)]="startDateMy" class="form-control" name="dateFrom" id="date1">
+  </div>
+  <div class="col">
+    <input type="date" [(ngModel)]="endDateMy" class="form-control" name="dateTo" id="date1">
+  </div>
+</div>
+<button class="btn btn-primary" *ngIf="showAdminControls" (click)="generateReport()">Generate report</button>
+    </div>
+
+
+  <div *ngIf="showReport" class="row">
+    <div class="col">
+      <p>{{report.avgRatingReport}}</p>
+      <p>{{report.prihodPerioda}}</p>
+      <div *ngFor="let room of report.roomReports">
+        {{room}}
+      </div>
+    </div>
   </div>
 </div>

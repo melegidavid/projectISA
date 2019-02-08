@@ -1,8 +1,6 @@
 package ftn.isa.controller;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,16 +56,20 @@ public class VehicleReservationController {
 		return new ResponseEntity<>(reservationDTOs, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/{idReservation}/cancelReservation" , method = RequestMethod.GET)
-	public ResponseEntity<List<ReservationDTO>> cancelReservations(@PathVariable Long idReservation) {
+	@RequestMapping(value = "/{idReservation}/cancelVehicleReservation" , method = RequestMethod.GET)
+	public ResponseEntity<List<ReservationDTO>> cancelVehicleReservation(@PathVariable Long idReservation) {
 
 		User user = vehicleReservationService.findOne(idReservation).getUser();
 		
-		System.out.println(idReservation);
-		System.out.println(user.getUsername());
+		System.out.println("duzina je bila " + vehicleReservationService.findAll().size() );
+		
 		
 		vehicleReservationService.remove(idReservation);
 		
+		System.out.println("duzina je sad " + vehicleReservationService.findAll().size() );
+		
+		System.out.println("Usao u kontroler, brise " + idReservation + " a user je" + user.getUsername() );
+		 
 		List<VehicleReservation> reservations = user.getVehicleReservations();		
 		List<ReservationDTO> reservationDTOs = new ArrayList<ReservationDTO>();
 
@@ -78,15 +80,65 @@ public class VehicleReservationController {
 		return new ResponseEntity<>(reservationDTOs, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/{idReservation}/cancelRoomReservation" , method = RequestMethod.GET)
+	public ResponseEntity<List<RoomReservationDTO>> cancelRoomReservation(@PathVariable Long idReservation) {
+
+		
+		User user = roomReservationService.findRoomReservation(idReservation).getUser();
+		
+		System.out.println("duzina je bila " + user.getRoomReservations().size() );
+		
+		roomReservationService.removeRoomReservation(idReservation);	
+		System.out.println(roomReservationService.findRoomReservation(idReservation));
+		
+		
+        System.out.println("duzina je sad " + user.getRoomReservations().size() );
+		
+		System.out.println("Usao u kontroler, brise " + idReservation + " a user je" + user.getUsername() );
+		 
+		
+		List<RoomReservation> reservations = user.getRoomReservations();
+		List<RoomReservationDTO> reservationDTOs = new ArrayList<RoomReservationDTO>();
+
+		for (RoomReservation vr : reservations) {
+			reservationDTOs.add(new RoomReservationDTO(vr));
+		}
+
+		return new ResponseEntity<>(reservationDTOs, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/{idReservation}/cancelAvioReservation" , method = RequestMethod.GET)
+	public ResponseEntity<List<AvioFlightReservationDTO>> cancelAvioReservation(@PathVariable Long idReservation) {
+
+		User user = avioReservationService.findReservation(idReservation).getUser();
+
+		System.out.println("duzina je bila " + this.avioReservationService.getAllReservation().size());
+		
+		
+		avioReservationService.removeReservation(idReservation);
+		
+		System.out.println("duzina je sad " + this.avioReservationService.getAllReservation().size());
+		
+		System.out.println("Usao u kontroler, brise " + idReservation + " a user je" + user.getUsername() );
+		 
+		List<AvioFlightReservation> reservations = user.getAvioReservations();
+		List<AvioFlightReservationDTO> reservationDTOs = new ArrayList<AvioFlightReservationDTO>();
+
+		for (AvioFlightReservation vr : reservations) {
+			reservationDTOs.add(new AvioFlightReservationDTO(vr));
+		}
+
+		return new ResponseEntity<>(reservationDTOs, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/updateVehicleRating" , method = RequestMethod.POST)
 	public ResponseEntity<List<ReservationDTO>> updateVehicleRating(@RequestBody RatingUpdateDTO ratingUpdate) {
 
 		VehicleReservation vr = vehicleReservationService.findOne(ratingUpdate.getIdReservation());
 		
-		if(vr.getEndReseravtion().before(new Date())) {
-		  vr.setVehicleRating(ratingUpdate.getNewValue());
-		  vehicleReservationService.update(vr);
-		}
+		vr.setVehicleRating(ratingUpdate.getNewValue());
+		vehicleReservationService.update(vr);
+		
 		
         User user = vr.getUser();
 		
@@ -105,10 +157,8 @@ public class VehicleReservationController {
 
 		RoomReservation vr = roomReservationService.findRoomReservation(ratingUpdate.getIdReservation());
 		
-		if(vr.getEndReservation().before(new Date())) {
-		  vr.setRoomRating(ratingUpdate.getNewValue());
-		  roomReservationService.updateReservation(vr);
-		}
+		vr.setRoomRating(ratingUpdate.getNewValue());
+		roomReservationService.updateReservation(vr);
 		
         User user = vr.getUser();
 		
@@ -127,10 +177,8 @@ public class VehicleReservationController {
 
 		VehicleReservation vr = vehicleReservationService.findOne(ratingUpdate.getIdReservation());
 		
-		if(vr.getEndReseravtion().before(new Date())) {
-			vr.setRentCarRating(ratingUpdate.getNewValue());
-			vehicleReservationService.update(vr);	
-		}
+		vr.setRentCarRating(ratingUpdate.getNewValue());
+		vehicleReservationService.update(vr);	
 		
 		User user = vr.getUser();
 		
@@ -149,10 +197,8 @@ public class VehicleReservationController {
 
 		RoomReservation vr = roomReservationService.findRoomReservation(ratingUpdate.getIdReservation());
 		
-		if(vr.getEndReservation().before(new Date())) {
-		  vr.setHotelRating(ratingUpdate.getNewValue());
-		  roomReservationService.updateReservation(vr);
-		}
+		vr.setHotelRating(ratingUpdate.getNewValue());
+		roomReservationService.updateReservation(vr);
 		
 		User user = vr.getUser();
 		
@@ -171,10 +217,9 @@ public class VehicleReservationController {
 
 		AvioFlightReservation vr = avioReservationService.findReservation(ratingUpdate.getIdReservation());
 		
-		if(vr.getAvioFlight().getDateTimeFinish().isBefore(LocalDateTime.now())) {
-		  vr.setRatingFlight(ratingUpdate.getNewValue());
-		  avioReservationService.updateReservation(vr);
-		}
+		vr.setRatingFlight(ratingUpdate.getNewValue());
+		avioReservationService.updateReservation(vr);
+		
 		User user = vr.getUser();
 		
 		List<AvioFlightReservation> reservations = user.getAvioReservations();		
@@ -192,10 +237,8 @@ public class VehicleReservationController {
 
 		AvioFlightReservation vr = avioReservationService.findReservation(ratingUpdate.getIdReservation());
 		
-		if(vr.getAvioFlight().getDateTimeFinish().isBefore(LocalDateTime.now())) {
-		  vr.setRatingCompany(ratingUpdate.getNewValue());
-	  	  avioReservationService.updateReservation(vr);
-		}
+		vr.setRatingCompany(ratingUpdate.getNewValue());
+	  	avioReservationService.updateReservation(vr);
 		
 		User user = vr.getUser();
 		

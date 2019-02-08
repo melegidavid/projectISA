@@ -5,6 +5,8 @@ import { AvioCompany } from '../dto/avio-company.model';
 import { Observable } from '../../../node_modules/rxjs';
 import { UserService } from '../user.service';
 import { AvioFlight } from '../dto/avio-flight.model';
+import { AvioReport } from '../dto/avio-report';
+import { DateRange } from '../dto/date-range';
 
 @Component({
   selector: 'app-avio-company-profile',
@@ -19,6 +21,13 @@ export class AvioCompanyProfileComponent implements OnInit {
   flights: AvioFlight[] = [];
   sub: any;
   id: number;
+  avgRatingAvio : number;
+  report : AvioReport;
+  showReport : boolean;
+  dateRange : DateRange;
+  startDateMy : Date;
+  endDateMy : Date;
+  showAdminControls : boolean;
   
   constructor(private avioCompaniesService: AvioCompaniesService, 
     private route: ActivatedRoute,
@@ -29,11 +38,30 @@ export class AvioCompanyProfileComponent implements OnInit {
 
   ngOnInit() {
     this.len = localStorage.length;
+    
     this.username = localStorage.getItem('username');
     console.log(localStorage);
 
+    let x = localStorage.getItem('role');
+    if(x == undefined || x == null || x !=  "AVIO_COMPANY_ADMIN") {
+          this.showAdminControls = false;
+    } else {
+      this.showAdminControls = true;
+    }
+
+    this.avgRatingAvio = 1;
+    this.showReport = false;
+    this.dateRange = new DateRange();
+    this.startDateMy = new Date();
+    this.endDateMy = new Date();
+
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
       this.id = + params['id'];
+    });
+
+    this.avioCompaniesService.getAvioAvgRating(this.id).subscribe(data => {
+      this.avgRatingAvio = data;
+      console.log('vratio ' + this.avgRatingAvio);
     });
 
     this.getAvioCompany(this.id).subscribe(data => {
@@ -59,5 +87,19 @@ export class AvioCompanyProfileComponent implements OnInit {
     
     console.log('ostalo ' + localStorage.length);
     this.ngOnInit();
+  }
+
+  generateReport() {
+
+    this.dateRange = new DateRange();
+    this.dateRange.startDate = this.startDateMy;
+    this.dateRange.endDate = this.endDateMy;
+
+    this.userService.generateReportAvio(this.id,this.dateRange).subscribe(data => {
+      console.log(data);
+      this.report = data;
+      this.showReport = true;
+    });
+
   }
 }

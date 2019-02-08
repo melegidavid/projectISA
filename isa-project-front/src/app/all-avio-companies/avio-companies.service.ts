@@ -44,4 +44,8 @@ export class AvioCompaniesService {
     return this.http.get<AvioFlightSeat[]>("http://localhost:9004/avio_companies/flight/" + flightId + "/seats", {responseType: 'json'});
   }
 
+  getAvioAvgRating(id: number) : Observable<number> {
+    return this.http.get<number>("http://localhost:9004/avio_companies/" + id + "/avgAvioRating");
+  }
+
 }

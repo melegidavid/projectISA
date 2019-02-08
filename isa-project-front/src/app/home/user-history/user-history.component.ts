@@ -24,9 +24,6 @@ export class UserHistoryComponent implements OnInit {
     this.getVehicleReservations();
     this.getHotelReservations();
     this.getAvioReservations();
-
- 
-   // document.querySelector("h1").style.background = "#fff";
   }
 
   yetToCome(startReservation : Date) : boolean {
@@ -68,7 +65,7 @@ export class UserHistoryComponent implements OnInit {
         } else if (currentDay < day) {
           return true;
         } else {
-          return false; // ovde moze za sate poredjenje
+          return false;
         }
       }
     }
@@ -77,21 +74,22 @@ export class UserHistoryComponent implements OnInit {
 
   cancelVehicleReservation(id : number) {
 
-    console.log('id je ' + id);
     this.userService.cancelVehicleReservation(id).subscribe(data => {
       this.vehicleReservations = data;
      });
   }
 
   cancelHotelReservation(id : number) {
-    this.userService.cancelVehicleReservation(id).subscribe(data => {
-      this.vehicleReservations = data;
+    console.log('usao u otkazivanje hotelskih rezervacija');
+    this.userService.cancelHotelReservation(id).subscribe(data => {
+      this.roomReservations = data;
      });
   }
 
   cancelAvioReservation(id : number) {
-    this.userService.cancelVehicleReservation(id).subscribe(data => {
-      this.vehicleReservations = data;
+    console.log('usao u otkazivanje avio rezervacija');
+    this.userService.cancelAvioReservation(id).subscribe(data => {
+      this.avioReservations = data;
      });
   }
 
@@ -119,64 +117,82 @@ export class UserHistoryComponent implements OnInit {
     });
   }
 
-  updateRentCarRating(idReservation : number, newValue : number) {
-      console.log('Usao u update ocene rent a cara');
-      console.log('Id rezervacije : ' + idReservation);
-      console.log('Nova ocena : ' + newValue);
-
-
+  updateRentCarRating(idReservation : number, newValue : number, startReservation : Date) {
       
-
-      this.userService.updateRentCarRating(idReservation,newValue).subscribe (data => {
+    if(!this.yetToCome(startReservation)) {
+        this.userService.updateRentCarRating(idReservation,newValue).subscribe (data => {
           this.vehicleReservations = data;
         });
-        
+      } else {
+        alert('You can\'t  set rating to upcoming reservation!');
+      }
+      
+
+      
+      
   }
 
-  updateHotelRating(idReservation : number, newValue : number) {
-    console.log('Id rezervacije : ' + idReservation);
-    console.log('Nova ocena : ' + newValue);
-
-    this.userService.updateHotelRating(idReservation,newValue).subscribe (data => {
+  updateHotelRating(idReservation : number, newValue : number, startReservation : Date) {
+    if(!this.yetToCome(startReservation)) {
+      this.userService.updateHotelRating(idReservation,newValue).subscribe (data => {
         this.roomReservations = data;
-    });
+      });
+    } else {
+      alert('You can\'t  set rating to upcoming reservation!');
+    }
     
   }
 
-  updateAvioRating(idReservation : number, newValue : number) {
-    console.log('Id rezervacije : ' + idReservation);
-    console.log('Nova ocena : ' + newValue);
-
+  updateAvioRating(idReservation : number, newValue : number, startReservation : Date) {
+    if(!this.yetToCome(startReservation)) {
       this.userService.updateAvioRating(idReservation,newValue).subscribe (data => {
         this.avioReservations = data;
       });
     
+    } else {
+      alert('You can\'t  set rating to upcoming reservation!');
+    }
+    
   }
 
-  updateVehicleRating(idReservation : number, newValue : number) {
-    console.log('Usao u update ocene vehicla');
-    console.log('Id rezervacije : ' + idReservation);
-    console.log('Nova ocena : ' + newValue);
-
+  updateVehicleRating(idReservation : number, newValue : number, startReservation : Date) {
+    
+    if(!this.yetToCome(startReservation)) { 
       this.userService.updateVehicleRating(idReservation,newValue).subscribe (data => {
         this.vehicleReservations = data;
       });
     
+    } else {
+      alert('You can\'t  set rating to upcoming reservation!');
+    }
+    
+    
   }
 
-  updateRoomRating(idReservation : number, newValue : number) {
+  updateRoomRating(idReservation : number, newValue : number, startReservation : Date) {
+    
+    if(!this.yetToCome(startReservation)) { 
       this.userService.updateRoomRating(idReservation,newValue).subscribe (data => {
         this.roomReservations = data;
       });
     
+    } else {
+      alert('You can\'t  set rating to upcoming reservation!');
+    }
+    
+    
   }
 
-  updateFlightRating(idReservation : number, newValue : number) {
+  updateFlightRating(idReservation : number, newValue : number, startReservation : Date) {
 
-        this.userService.updateFlightRating(idReservation,newValue).subscribe (data => {
-          this.avioReservations = data;
-        });    
-
+    if(!this.yetToCome(startReservation)) { 
+      this.userService.updateFlightRating(idReservation,newValue).subscribe (data => {
+        this.avioReservations = data;
+      });    
+    } else {
+      alert('You can\'t  set rating to upcoming reservation!');
+    }
+    
   }
 
 }

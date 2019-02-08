@@ -72,6 +72,12 @@ public class HotelRoomService {
 	public RoomReservation findRoomReservation(Long roomId) {
 		return roomReservationRepository.getOne(roomId);
 	}
+	
+	public void removeRoomReservation(Long id) {
+		System.out.println("STIGLO: " + id);
+		RoomReservation rr = this.findRoomReservation(id);
+		this.roomReservationRepository.delete(rr);
+	}
 }
 
 

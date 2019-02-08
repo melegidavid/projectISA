@@ -8,6 +8,8 @@ import { HotelMenuItem } from '../dto/hotel-menu-item.model';
 import { UserService } from '../user.service';
 import { RoomSearch } from '../dto/room-search.model';
 import { RoomReservation } from '../dto/room-reservation.model';
+import { HotelReport } from '../dto/hotel-report';
+import { DateRange } from '../dto/date-range';
 import * as $ from 'jquery';
 
 
@@ -33,8 +35,18 @@ export class HotelProfileComponent implements OnInit {
   rooms: HotelRoom[] = [];
   selectedRooms: HotelRoom[] = [];
   menu: HotelMenuItem[] = [];
+  avgRatingHotel : number;
+
+  report : HotelReport;
+  showReport : boolean;
+  dateRange : DateRange;
+  startDateMy : Date;
+  endDateMy : Date;
 
   private sub: any;
+
+  showAdminControls : boolean;
+
   id: number;
   len: number;
   username: string;
@@ -52,10 +64,29 @@ export class HotelProfileComponent implements OnInit {
 
   ngOnInit() {
     this.len = localStorage.length;
+    this.avgRatingHotel = 1;
+    this.showReport = false;
+    this.dateRange = new DateRange();
+    this.startDateMy = new Date();
+    this.endDateMy = new Date();
+
     this.username = localStorage.getItem('username');
+    console.log(localStorage);
+
+    let x = localStorage.getItem('role');
+    if(x == undefined || x == null || x !=  "HOTEL_ADMIN") {
+          this.showAdminControls = false;
+    } else {
+      this.showAdminControls = true;
+    }
 
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
       this.id = + params['id'];
+    });
+
+    this.hotelService.getHotelAvgRating(this.id).subscribe(data => {
+      this.avgRatingHotel = data;
+      console.log('vratio ' + this.avgRatingHotel);
     });
 
     this.getHotel(this.id).subscribe(data => {
@@ -201,6 +232,20 @@ export class HotelProfileComponent implements OnInit {
 
     console.log('ostalo ' + localStorage.length);
     this.ngOnInit();
+  }
+
+  generateReport() {
+
+    this.dateRange = new DateRange();
+    this.dateRange.startDate = this.startDateMy;
+    this.dateRange.endDate = this.endDateMy;
+
+    this.userService.generateReportHotel(this.id,this.dateRange).subscribe(data => {
+      console.log(data);
+      this.report = data;
+      this.showReport = true;
+    });
+
   }
 
 }

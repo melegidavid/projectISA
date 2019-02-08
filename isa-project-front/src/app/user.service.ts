@@ -13,6 +13,8 @@ import { RoomReservation } from './dto/room-reservation.model';
 import { AvioFlightReservation } from './dto/avio-flight-reservation';
 import { DateRange } from './dto/date-range';
 import { RentCarReport } from './dto/rent-car-report';
+import { HotelReport } from './dto/hotel-report';
+import { AvioReport } from './dto/avio-report';
 
 
 
@@ -53,38 +55,37 @@ export class UserService {
     return this.http.delete("http://localhost:9004/users/" + id + "/friends/" + idFriend, { responseType: 'text' });
   }
 
-  getVehicleReservations(username: string): Observable<VehicleReservationDTO[]> {
-    return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + username);
+  cancelVehicleReservation(id: number): Observable<VehicleReservationDTO[]> {
+    return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + id + "/cancelVehicleReservation");
   }
 
-  cancelVehicleReservation(id: number): Observable<VehicleReservationDTO[]> {
-    return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + id + "/cancelReservation");
+  cancelHotelReservation(id: number): Observable<RoomReservation[]> {
+    console.log('usao u otkazivanje hotelskih rezervacija SERVIS');
+    return this.http.get<RoomReservation[]>("http://localhost:9004/vehicle_reservations/" + id + "/cancelRoomReservation");
+  }
+
+  cancelAvioReservation(id: number): Observable<AvioFlightReservation[]> {
+    console.log('usao u otkazivanje avio rezervacija SERVIS');
+    return this.http.get<AvioFlightReservation[]>("http://localhost:9004/vehicle_reservations/" + id + "/cancelAvioReservation");
+  }
+
+  getVehicleReservations(username: string): Observable<VehicleReservationDTO[]> {
+    return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + username);
   }
 
   getHotelReservations(username: string): Observable<RoomReservation[]> {
     return this.http.get<RoomReservation[]>("http://localhost:9004/users/room_reservations/" + username);
   }
 
-  cancelHotelReservation(id: number): Observable<VehicleReservationDTO[]> {
-    //return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + username);
-    return null;
-  }
-
   getAvioReservations(username: string): Observable<AvioFlightReservation[]> {
     return this.http.get<AvioFlightReservation[]>("http://localhost:9004/users/avio_reservations/" + username);
   }
-
-  cancelAvioReservation(id: number): Observable<VehicleReservationDTO[]> {
-    //return this.http.get<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/" + username);
-    return null;
-  }
-
-
 
   updateVehicleRating(idRes: number, newValue: number): Observable<VehicleReservationDTO[]> {
     let ratingDTO = new RatingUpdateDTO();
     ratingDTO.idReservation = idRes;
     ratingDTO.newValue = newValue;
+    console.log('dada1');
     return this.http.post<VehicleReservationDTO[]>("http://localhost:9004/vehicle_reservations/updateVehicleRating/", ratingDTO);
   }
 
@@ -131,6 +132,14 @@ export class UserService {
 
   generateReport(id: number, range: DateRange): Observable<RentCarReport> {
     return this.http.post<RentCarReport>("http://localhost:9004/rent_a_cars/" + id + "/generate", range);
+  }
+
+  generateReportHotel(id: number, range: DateRange): Observable<HotelReport> {
+    return this.http.post<HotelReport>("http://localhost:9004/hotels/" + id + "/generate", range);
+  }
+
+  generateReportAvio(id: number, range: DateRange): Observable<AvioReport> {
+    return this.http.post<AvioReport>("http://localhost:9004/avio_companies/" + id + "/generate", range);
   }
 
   getUsersForSearch(username: string): Observable<any> {

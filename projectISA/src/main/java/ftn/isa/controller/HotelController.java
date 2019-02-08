@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ftn.isa.dto.DateRange;
 import ftn.isa.dto.HotelDTO;
 import ftn.isa.dto.HotelMenuItemDTO;
 import ftn.isa.dto.HotelMenuItemReservationDTO;
+import ftn.isa.dto.HotelReport;
 import ftn.isa.dto.HotelRoomDTO;
 import ftn.isa.dto.RoomReservationDTO;
 import ftn.isa.dto.RoomSearchDTO;
@@ -458,6 +460,22 @@ public class HotelController {
 		reservation = hotelMenuItemService.makeReservation(reservation);
 		
 		return new ResponseEntity<>(new HotelMenuItemReservationDTO(reservation), HttpStatus.CREATED);
+	}
+	
+	
+	@RequestMapping(value="/{id}/avgHotelRating", method=RequestMethod.GET)
+	public Double getHotelAvgRating(@PathVariable Long id){
+		
+		return hotelService.getAvgRating(id);
+	}
+	
+	//generisanje izvestaja od strane admina, preutorize admin, prima id rentCara
+	@RequestMapping(value="/{idHotel}/generate", method=RequestMethod.POST) 
+	public ResponseEntity<HotelReport> generateReport(@PathVariable Long idHotel, @RequestBody DateRange dateRange) {
+		
+		HotelReport hr = hotelService.generateReport(idHotel, dateRange);
+		
+		return new ResponseEntity<>(hr, HttpStatus.CREATED);
 	}
 } 
 

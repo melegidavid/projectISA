@@ -8,4 +8,6 @@ import ftn.isa.model.RoomReservation;
 @Repository
 public interface RoomReservationRepository extends JpaRepository<RoomReservation, Long> {
 
+	void deleteById(Long id);
+	
 }

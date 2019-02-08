@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   logIn() {
     this.userService.logInUser(this.loginRequest).subscribe((data) => {
-      alert('Uspesno logovanje!');
+      alert('Successful login!');
       localStorage.setItem('userToken',data.accessToken);
       localStorage.setItem('username',this.loginRequest.username);
       
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     },
     (err: any) => { 
       console.log(err.status); console.log(err); 
-      alert('Unsuccessfull login. Please check your username and password!');
+      alert('Unsuccessful login. Please check your username and password!');
     });
     
     console.log('Ulogovan korisnik ' + this.loginRequest.username + ' ' + this.loginRequest.password);  
