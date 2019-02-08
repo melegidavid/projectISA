@@ -40,7 +40,6 @@ export class AdminComponent implements OnInit {
 
   logOut() {
     this.userService.logOut();
-    //this.ngOnInit();
     this.router.navigate['home'];
   }
 

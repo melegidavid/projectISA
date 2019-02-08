@@ -9,28 +9,36 @@
 
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item ">
+        <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
           <a class="nav-link" routerLink="/home">Home</a>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
           <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="adminRent == false">
           <a class="nav-link" routerLink="/hotels">Hotels</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="adminHotel == false">
           <a class="nav-link" routerLink="/rentACar">Rent a car</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
+        <li class="nav-item " *ngIf="adminRent == false && adminHotel == false && user == false">
+          <a class="nav-link" routerLink="/register">Register</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
+        <li class="nav-item " *ngIf="adminRent == false && adminHotel == false && user == false">
+          <a class="nav-link" routerLink="/auth/login">Login</a>
         </li>
-        <li class="nav-item " *ngIf="username">
-          <a class="nav-link" routerLink="/home" (click)="logOut()" >Logout</a>
+        <li class="nav-item " *ngIf="adminRent == true || adminHotel == true || user == true">
+          <a class="nav-link" routerLink="/home" (click)="logOut()"
+            >Logout</a>
         </li>
-        <li class="nav-item " *ngIf="username">
+
+        <li class="nav-item " *ngIf="adminRent == true">
+          <a class="nav-link" [routerLink]="['/admin-rent', username]" >{{username}}</a>
+        </li>
+        <li class="nav-item " *ngIf="adminHotel == true">
+          <a class="nav-link" [routerLink]="['/admin-hotel', username]" >{{username}}</a>
+        </li>
+        <li class="nav-item " *ngIf="user == true">
           <a class="nav-link" [routerLink]="['/users', username]" >{{username}}</a>
         </li>
       </ul>
@@ -97,7 +105,8 @@
 </div>
 
 
-<!----><router-outlet></router-outlet>
+<!---->
+<router-outlet></router-outlet>
 
 <div *ngIf="len > 0">
   <app-user-history></app-user-history>

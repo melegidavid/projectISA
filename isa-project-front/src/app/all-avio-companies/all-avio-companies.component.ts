@@ -7,6 +7,8 @@ import { Address } from '../dto/address.model';
 import { AvioflightSearchDTO } from '../dto/avio-flight-search';
 import { AvioFlight } from '../dto/avio-flight.model';
 import { Router } from '../../../node_modules/@angular/router';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
 
 @Component({
   selector: 'app-all-avio-companies',
@@ -20,15 +22,20 @@ export class AllAvioCompaniesComponent implements OnInit {
   username: string;
   avioCompanies: AvioCompany[] = [];
 
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
 
+
+  user: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
   searchFlight: AvioflightSearchDTO;
-
 
   roundTrip: boolean = false;
   oneWay: boolean = true;
   multiCity: boolean = false;
   typeOfFlight: string = "oneWay";
-
 
   selectedFromLocation: boolean = false;
   selectedToLocation: boolean = false;
@@ -65,6 +72,27 @@ export class AllAvioCompaniesComponent implements OnInit {
     this.username = localStorage.getItem('username');
     this.alreadyExistingFlight = JSON.parse(localStorage.getItem('flight'));
     console.log(localStorage);
+
+    if (this.username) {
+      this.getRoles(this.username).subscribe(data => {
+        this.autoDTO = data;
+        this.roles = this.autoDTO.authorities;
+
+        if (this.roles[0].authority === 'HOTEL_ADMIN') {
+          this.user = false;
+          this.adminHotel = true;
+          this.adminRent = false;
+        } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+          this.user = false;
+          this.adminHotel = false;
+          this.adminRent = true;
+        } else if (this.roles[0].authority === 'REGISTERED_USER') {
+          this.user = true;
+          this.adminHotel = false;
+          this.adminRent = false;
+        }
+      });
+    }
 
 
     this.getAvioCompanies().subscribe(data => {
@@ -122,7 +150,7 @@ export class AllAvioCompaniesComponent implements OnInit {
     this.travelers = 1;
   }
 
-  reservationFlight(flight: AvioFlight){
+  reservationFlight(flight: AvioFlight) {
     console.log(flight.startLocation.city);
     console.log(flight.endLocation.city);
     console.log(this.username);
@@ -147,11 +175,12 @@ export class AllAvioCompaniesComponent implements OnInit {
   }
 
   logOut() {
-    console.log('usao u logout');
+    this.roles = [];
     this.userService.logOut();
-
-    console.log('ostalo ' + localStorage.length);
-    this.ngOnInit();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.user = false;
+    this.router.navigate['home'];
   }
 
   public getAvioCompanies(): Observable<AvioCompany[]> {
@@ -166,4 +195,7 @@ export class AllAvioCompaniesComponent implements OnInit {
     return this.avioCompanyService.searchFlights(tempSearch);
   }
 
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
+  }
 }

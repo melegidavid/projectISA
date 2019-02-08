@@ -9,11 +9,11 @@
 
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+        <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
+          <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
         </li>
         <li class="nav-item ">
-          <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
         </li>
         <li class="nav-item ">
           <a class="nav-link" *ngIf="len > 0">{{username}}</a>
@@ -43,7 +43,8 @@
           </select>
           <hr>
           <div *ngIf="id">
-            <button type="button" class="btn btn-outline-primary" (click)="select = true; setAvioCompany(id)">Select</button>
+            <button type="button" class="btn btn-outline-primary"
+              (click)="select = true; setAvioCompany(id)">Select</button>
           </div>
         </div>
         <hr>
@@ -307,7 +308,8 @@
                   Avio Company: {{avioCompany.name}}
                 </h4>
                 <h5>
-                  <button *ngIf="select == true" type="button" class="btn btn-outline-primary" (click)="select = false">Choose
+                  <button *ngIf="select == true" type="button" class="btn btn-outline-primary"
+                    (click)="select = false">Choose
                     another company</button>
                 </h5>
               </div>
@@ -327,12 +329,12 @@
                   aria-controls="destinations" aria-selected="true">Destinations</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="flights-tab" data-toggle="tab" href="#flights" role="tab" aria-controls="flights"
-                  aria-selected="true">Flights</a>
+                <a class="nav-link" id="flights-tab" data-toggle="tab" href="#flights" role="tab"
+                  aria-controls="flights" aria-selected="true">Flights</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="myProfile-tab" data-toggle="tab" href="#myProfile" role="tab" aria-controls="myProfile"
-                  aria-selected="true">My Profile</a>
+                <a class="nav-link" id="myProfile-tab" data-toggle="tab" href="#myProfile" role="tab"
+                  aria-controls="myProfile" aria-selected="true">My Profile</a>
               </li>
 
             </ul>
@@ -341,7 +343,8 @@
 
             <div class="tab-content ml-1" id="myTabContent">
               <!--avio company tab-->
-              <div class="tab-pane fade show active" id="avioCompanyInfo" role="tabpanel" aria-labelledby="avioCompanyInfo-tab">
+              <div class="tab-pane fade show active" id="avioCompanyInfo" role="tabpanel"
+                aria-labelledby="avioCompanyInfo-tab">
                 <div class="row">
                   <div class="col-sm-3 col-md-2 col-5">
                     <label style="font-weight:bold;">Name:</label>
@@ -405,10 +408,12 @@
                 <hr />
                 <div *ngIf="editAvioCompany == true" class="row">
                   <div class="col-sm-3 col-md-2 col-5">
-                    <button type="button" class="btn btn-outline-danger" (click)="saveChangedAvioCompany()">Save</button>
+                    <button type="button" class="btn btn-outline-danger"
+                      (click)="saveChangedAvioCompany()">Save</button>
                   </div>
                   <div class="col-sm-8 col-6">
-                    <button type="button" class="btn btn-outline-danger" (click)="discardChangedAvioCompany()">Discard</button>
+                    <button type="button" class="btn btn-outline-danger"
+                      (click)="discardChangedAvioCompany()">Discard</button>
                   </div>
                 </div>
               </div>
@@ -417,7 +422,8 @@
                 <div>
                   <div class="row">
                     <div class="col-md-2">
-                      <button type="button" class="btn btn-outline-primary" (click)="addDestinationFlag = true">Add</button>
+                      <button type="button" class="btn btn-outline-primary"
+                        (click)="addDestinationFlag = true">Add</button>
                     </div>
                   </div>
 
@@ -475,13 +481,15 @@
                         </div>
                         <div class="col-md-3 col-2">
                           <div>
-                            <button type="button" class="btn btn-outline-primary" (click)="addDestination()">Save</button>
+                            <button type="button" class="btn btn-outline-primary"
+                              (click)="addDestination()">Save</button>
                           </div>
 
                         </div>
                         <div class="col-md-3 col-2">
                           <div>
-                            <button type="button" class="btn btn-outline-danger" (click)="addDestinationFlag = false">Cancel</button>
+                            <button type="button" class="btn btn-outline-danger"
+                              (click)="addDestinationFlag = false">Cancel</button>
                           </div>
 
                         </div>
@@ -544,7 +552,8 @@
                       </div>
                       <div class="col-md-3 col-2">
                         <div>
-                          <button type="button" class="btn btn-outline-danger" (click)="removeDestination(destination.id)">Remove</button>
+                          <button type="button" class="btn btn-outline-danger"
+                            (click)="removeDestination(destination.id)">Remove</button>
                         </div>
                       </div>
                     </div>
@@ -588,7 +597,8 @@
                         </div>
                         <div class="col-md-3 col-2">
                           <div>
-                            <label type="datetime-local" *ngIf="flight"> {{flight.dateTimeStart | date: 'medium'}}</label>
+                            <label type="datetime-local" *ngIf="flight">
+                              {{flight.dateTimeStart | date: 'medium'}}</label>
                           </div>
                         </div>
 
@@ -633,10 +643,12 @@
                           </div>
                         </div>
                         <div class="col-sm-3 col-md-2 col-5">
-                          <button type="button" class="btn btn-outline-primary" (click)="editFlight = true; addFlightFlag = false; setflight(flight)">Edit</button>
+                          <button type="button" class="btn btn-outline-primary"
+                            (click)="editFlight = true; addFlightFlag = false; setflight(flight)">Edit</button>
                         </div>
                         <div class="col-sm-3 col-md-2 col-5">
-                          <button type="button" class="btn btn-outline-danger" (click)="removeFlight(flight.id)">Remove</button>
+                          <button type="button" class="btn btn-outline-danger"
+                            (click)="removeFlight(flight.id)">Remove</button>
                         </div>
                       </div>
                       <div class="row">

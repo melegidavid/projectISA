@@ -7,6 +7,9 @@ import { UserService } from '../user.service';
 import { RoomReservation } from '../dto/room-reservation.model';
 import { RoomSearch } from '../dto/room-search.model';
 import { AvioFlight } from '../dto/avio-flight.model';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-hotels',
@@ -16,7 +19,13 @@ import { AvioFlight } from '../dto/avio-flight.model';
 })
 
 export class AllHotelsComponent implements OnInit {
-  
+
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
+  user: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
   searchClicked: boolean = false;
   nameSearch: string;
   countrySearch: string;
@@ -24,26 +33,50 @@ export class AllHotelsComponent implements OnInit {
   roomsSearch: number;
   startDate: Date;
   endDate: Date;
- // roomReservation: RoomReservation;
+  // roomReservation: RoomReservation;
 
   len: number;
   username: string;
-  hotels : Hotel[] = [];
+  hotels: Hotel[] = [];
   hotel: Hotel;
 
   flight: AvioFlight;
-  
+
   constructor(
     private http: HttpClient,
     private hotelsService: HotelsService,
-    private userService: UserService) {
+    private userService: UserService,
+    private router: Router) {
   }
-  
+
   ngOnInit() {
     this.len = localStorage.length;
     this.username = localStorage.getItem('username');
     this.flight = JSON.parse(localStorage.getItem('flight'));
-    if(this.flight == undefined) {
+
+    if (this.username) {
+      this.getRoles(this.username).subscribe(data => {
+        this.autoDTO = data;
+        this.roles = this.autoDTO.authorities;
+
+        if (this.roles[0].authority === 'HOTEL_ADMIN') {
+          this.user = false;
+          this.adminHotel = true;
+          this.adminRent = false;
+        } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+          this.user = false;
+          this.adminHotel = false;
+          this.adminRent = true;
+        } else if (this.roles[0].authority === 'REGISTERED_USER') {
+          this.user = true;
+          this.adminHotel = false;
+          this.adminRent = false;
+        }
+      });
+    }
+
+
+    if (this.flight == undefined) {
       localStorage.removeItem('startDate');
       localStorage.removeItem('endDate');
     } else {
@@ -59,20 +92,20 @@ export class AllHotelsComponent implements OnInit {
   }
 
   public search() {
-    if(this.startDate >= this.endDate) {
+    if (this.startDate >= this.endDate) {
       alert("You can't check out before you check in");
-    } else if(this.startDate == undefined || this.endDate == undefined) {
+    } else if (this.startDate == undefined || this.endDate == undefined) {
       alert("Choose both check in and check out date");
     } else {
       let roomSearch = new RoomSearch();
       console.log("pocetni u searchu" + this.startDate);
       roomSearch.startDate = this.startDate;
       roomSearch.endDate = this.endDate;
-      
+
       localStorage.setItem('startDate', JSON.stringify(this.startDate));
       localStorage.setItem('endDate', JSON.stringify(this.endDate));
       this.searchClicked = true;
-      
+
       this.searchHotels(roomSearch).subscribe(data => {
         this.hotels = data;
       });
@@ -80,22 +113,27 @@ export class AllHotelsComponent implements OnInit {
   }
 
   public roomsReservation() {
-        
+
   }
 
   public getHotels(): Observable<Hotel[]> {
     return this.hotelsService.getHotels();
   }
 
-  public searchHotels(roomSearch: RoomSearch) : Observable<Hotel[]> {
+  public searchHotels(roomSearch: RoomSearch): Observable<Hotel[]> {
     return this.hotelsService.searchHotels(roomSearch);
   }
-
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
+  }
+  
   logOut() {
-    console.log('usao u logout');
+    this.roles = [];
     this.userService.logOut();
-    
-    console.log('ostalo ' + localStorage.length);
-    this.ngOnInit();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.user = false;
+
+    this.router.navigate['home'];
   }
 }

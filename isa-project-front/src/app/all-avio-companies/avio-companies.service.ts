@@ -42,20 +42,20 @@ export class AvioCompaniesService {
     return this.http.post("http://localhost:9004/avio_companies/search", search, { responseType: 'json' });
   }
 
-  getAvioFlightSeats(flightId: number | string) : Observable<AvioFlightSeat[]> {
-    return this.http.get<AvioFlightSeat[]>("http://localhost:9004/avio_companies/flight/" + flightId + "/seats", {responseType: 'json'});
+  getAvioFlightSeats(flightId: number | string): Observable<AvioFlightSeat[]> {
+    return this.http.get<AvioFlightSeat[]>("http://localhost:9004/avio_companies/flight/" + flightId + "/seats", { responseType: 'json' });
   }
 
-  getAvioAvgRating(id: number) : Observable<number> {
+  getAvioAvgRating(id: number): Observable<number> {
     return this.http.get<number>("http://localhost:9004/avio_companies/" + id + "/avgAvioRating");
   }
 
-  makeReservation(reservation: AvioFlightReservation) :Observable<any>{
-    return this.http.post("http://localhost:9004/avio_companies/flight/reservation", reservation, {responseType: 'json'});
+  makeReservation(reservation: AvioFlightReservation): Observable<any> {
+    return this.http.post("http://localhost:9004/avio_companies/flight/reservation", reservation, { responseType: 'json' });
   }
 
-  declineInvite(idFlight: number, idUser: number, idInvite: number){
-    return this.http.delete("http://localhost:9004/avio_companies/"+ idFlight + "/flight/" +idUser + "/declineReservation/" + idInvite);
+  declineInvite(idFlight: number, idUser: number, idInvite: number) {
+    return this.http.delete("http://localhost:9004/avio_companies/" + idFlight + "/flight/" + idUser + "/declineReservation/" + idInvite);
   }
 
 }

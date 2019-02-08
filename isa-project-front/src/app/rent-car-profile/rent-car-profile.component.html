@@ -14,32 +14,42 @@
 
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item ">
+                <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
                     <a class="nav-link" routerLink="/home">Home</a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
                     <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="adminRent == false">
                     <a class="nav-link" routerLink="/hotels">Hotels</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="adminHotel == false">
                     <a class="nav-link" routerLink="/rentACar">Rent a car</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
+                <li class="nav-item " *ngIf="adminRent == false && adminHotel == false && userFlag == false">
+                    <a class="nav-link" routerLink="/register">Register</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
+                <li class="nav-item " *ngIf="adminRent == false && adminHotel == false && userFlag == false">
+                    <a class="nav-link" routerLink="/auth/login">Login</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+                <li class="nav-item " *ngIf="adminRent == true || adminHotel == true || userFlag == true">
+                    <a class="nav-link" routerLink="/home" (click)="logOut()">Logout</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" *ngIf="len > 0">{{username}}</a>
+
+                <li class="nav-item " *ngIf="adminRent == true">
+                    <a class="nav-link" [routerLink]="['/admin-rent', username]">{{username}}</a>
+                </li>
+                <li class="nav-item " *ngIf="adminHotel == true">
+                    <a class="nav-link" [routerLink]="['/admin-hotel', username]">{{username}}</a>
+                </li>
+                <li class="nav-item " *ngIf="userFlag == true">
+                    <a class="nav-link" [routerLink]="['/users', username]">{{username}}</a>
                 </li>
             </ul>
         </div>
+
+
+
     </div>
 </nav>
 
@@ -49,7 +59,8 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="http://s1.1zoom.me/b5751/555/Alfa_Romeo_2017_Stelvio_Quadrifoglio_Worldwide_Red_539851_1920x1080.jpg" alt="" />
+                    <img src="http://s1.1zoom.me/b5751/555/Alfa_Romeo_2017_Stelvio_Quadrifoglio_Worldwide_Red_539851_1920x1080.jpg"
+                        alt="" />
                 </div>
             </div>
             <div class="col-md-6">
@@ -68,16 +79,19 @@
                     </p>
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Cenovnik</a>
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">Cenovnik</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Filijale</a>
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                aria-controls="profile" aria-selected="false">Filijale</a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary" *ngIf="showAdminControls" routerLink="/rentACar/edit/{{id}}">Edit Profile</button>
+            <div class="col-md-2" *ngIf="adminRent == true">
+                <button class="btn btn-primary" *ngIf="showAdminControls" routerLink="/rentACar/edit/{{id}}">Edit
+                    Profile</button>
             </div>
         </div>
         <div class="row">
@@ -129,7 +143,8 @@
                                     <label for="date1">Take date</label>
                                 </div>
                                 <div class="col">
-                                    <input type="date" [(ngModel)]="startDateSearch" class="form-control" name="dateFrom" id="date1">
+                                    <input type="date" [(ngModel)]="startDateSearch" class="form-control"
+                                        name="dateFrom" id="date1">
                                 </div>
                             </div>
 
@@ -138,12 +153,14 @@
                                     <label for="date1">Return date</label>
                                 </div>
                                 <div class="col">
-                                    <input type="date" [(ngModel)]="endDateSearch" class="form-control" name="dateTo" id="date1">
+                                    <input type="date" [(ngModel)]="endDateSearch" class="form-control" name="dateTo"
+                                        id="date1">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <select name="roles" class="form-control input-sm" [(ngModel)]="vehicleTypeSearch" id="role1" required>
+                                <select name="roles" class="form-control input-sm" [(ngModel)]="vehicleTypeSearch"
+                                    id="role1" required>
                                     <option value="CAR" selected="true">Car</option>
                                     <option value="BIKE">Bike</option>
                                     <option value="QUAD">Quad</option>
@@ -151,8 +168,8 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="number" min="1" [(ngModel)]="numberOfPassengersSearch" name="email" id="broj" class="form-control input-sm"
-                                    placeholder="Number of passengers">
+                                <input type="number" min="1" [(ngModel)]="numberOfPassengersSearch" name="email"
+                                    id="broj" class="form-control input-sm" placeholder="Number of passengers">
                             </div>
 
                             <input type="submit" value="Search" class="btn btn-info btn-block">
@@ -183,9 +200,12 @@
             <div class="card rounded">
                 <div class="card-image">
                     <span class="card-notify-badge">{{vehicle.yearProduced}}</span>
-                    <img class="img-fluid" *ngIf="vehicle.type === 'CAR'" src="images/carVehicleType2.jpg" alt="Alternate Text" />
-                    <img class="img-fluid" *ngIf="vehicle.type === 'BIKE'" src="images/bikeVehicleType2.jpg" alt="Alternate Text" />
-                    <img class="img-fluid" *ngIf="vehicle.type === 'QUAD'" src="images/quadVehicleType.jpg" alt="Alternate Text" />
+                    <img class="img-fluid" *ngIf="vehicle.type === 'CAR'" src="images/carVehicleType2.jpg"
+                        alt="Alternate Text" />
+                    <img class="img-fluid" *ngIf="vehicle.type === 'BIKE'" src="images/bikeVehicleType2.jpg"
+                        alt="Alternate Text" />
+                    <img class="img-fluid" *ngIf="vehicle.type === 'QUAD'" src="images/quadVehicleType.jpg"
+                        alt="Alternate Text" />
                 </div>
                 <div class="card-body text-center">
                     <div class="ad-title m-auto">

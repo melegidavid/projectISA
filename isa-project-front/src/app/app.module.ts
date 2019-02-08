@@ -33,6 +33,8 @@ import { HotelEditComponent } from './hotel-edit/hotel-edit.component';
 import { AvioFlightSeatsComponent } from './avio-flight-seats/avio-flight-seats.component';
 import { InviteFriendsComponent } from './invite-friends/invite-friends.component';
 import { FinalReservationComponent } from './final-reservation/final-reservation.component';
+import { AdminRentCarProfileComponent } from './admin-rent-car-profile/admin-rent-car-profile.component';
+import { AdminHotelProfileComponent } from './admin-hotel-profile/admin-hotel-profile.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { FinalReservationComponent } from './final-reservation/final-reservation
     HotelEditComponent,
     AvioFlightSeatsComponent,
     InviteFriendsComponent,
-    FinalReservationComponent
+    FinalReservationComponent,
+    AdminHotelProfileComponent,
+    AdminRentCarProfileComponent
   ],
   imports: [
     BrowserModule,

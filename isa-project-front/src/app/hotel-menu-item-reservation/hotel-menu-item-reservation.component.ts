@@ -6,6 +6,8 @@ import { Hotel } from '../dto/hotel.model';
 import { Observable } from '../../../node_modules/rxjs';
 import { HotelMenuItem } from '../dto/hotel-menu-item.model';
 import { HotelMenuItemReservation } from '../dto/hotel-menu-item-reservation.model';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
 
 @Component({
   selector: 'app-hotel-menu-item-reservation',
@@ -13,6 +15,16 @@ import { HotelMenuItemReservation } from '../dto/hotel-menu-item-reservation.mod
   styleUrls: ['./hotel-menu-item-reservation.component.css']
 })
 export class HotelMenuItemReservationComponent implements OnInit {
+
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
+
+
+  user: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
+
 
   startDate: Date;
   endDate: Date;
@@ -38,6 +50,28 @@ export class HotelMenuItemReservationComponent implements OnInit {
   ngOnInit() {
     this.len = localStorage.length;
     this.username = localStorage.getItem('username');
+
+    if (this.username) {
+      this.getRoles(this.username).subscribe(data => {
+        this.autoDTO = data;
+        this.roles = this.autoDTO.authorities;
+
+        if (this.roles[0].authority === 'HOTEL_ADMIN') {
+          this.user = false;
+          this.adminHotel = true;
+          this.adminRent = false;
+        } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+          this.user = false;
+          this.adminHotel = false;
+          this.adminRent = true;
+        } else if (this.roles[0].authority === 'REGISTERED_USER') {
+          this.user = true;
+          this.adminHotel = false;
+          this.adminRent = false;
+        }
+      });
+    }
+
     this.startDate = JSON.parse(localStorage.getItem('startDate'));
     this.endDate = JSON.parse(localStorage.getItem('endDate'));
     this.guestsNumber = JSON.parse(localStorage.getItem('guestsNumber'));
@@ -71,10 +105,10 @@ export class HotelMenuItemReservationComponent implements OnInit {
       let itemReservation = new HotelMenuItemReservation();
       itemReservation.startReservation = this.startDate;
       itemReservation.endReservation = this.endDate;
-      itemReservation.price = item.price*this.period;
+      itemReservation.price = item.price * this.period;
       itemReservation.username = localStorage.getItem('username');
       itemReservation.item = item;
-      
+
       this.hotelsService.makeItemReservation(item.id, itemReservation);
       this.router.navigate(['rentACar']);
     });
@@ -87,7 +121,7 @@ export class HotelMenuItemReservationComponent implements OnInit {
 
   public selectItem(id: number | string) {
     this.menu.forEach(item => {
-      if(item.id == id) {
+      if (item.id == id) {
         item.selected = true;
         this.selectedItems.push(item);
       }
@@ -97,10 +131,10 @@ export class HotelMenuItemReservationComponent implements OnInit {
   public removeItem(id: number | string) {
     let newMenu: HotelMenuItem[] = [];
     this.menu.forEach(item => {
-      if(item.id == id) {
+      if (item.id == id) {
         item.selected = false;
       } else {
-        if(item.selected == true) {
+        if (item.selected == true) {
           newMenu.push(item);
         }
       }
@@ -117,11 +151,16 @@ export class HotelMenuItemReservationComponent implements OnInit {
   }
 
   logOut() {
-    console.log('usao u logout');
+    this.roles = [];
     this.userService.logOut();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.user = false;
+    this.router.navigate['home'];
+  }
 
-    console.log('ostalo ' + localStorage.length);
-    this.ngOnInit();
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
   }
 
 }

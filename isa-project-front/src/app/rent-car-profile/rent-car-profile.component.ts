@@ -15,6 +15,8 @@ import { RentACarSearchDTO } from '../dto/rent-a-car-search';
 import { VehicleReservationDTO } from '../dto/vehicleReservationDTO';
 import { VehicleSearch } from '../dto/vehicle-search.model';
 import { AvioFlight } from '../dto/avio-flight.model';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
 
 
 @Component({
@@ -34,17 +36,17 @@ export class RentCarProfileComponent implements OnInit {
   id: number;
   len: number;
   username: string;
-  avgRatingRentCar : number;
-  showAdminControls : boolean;
-  dateRange : DateRange;
-  report : RentCarReport;
-  showReport : boolean;
+  avgRatingRentCar: number;
+  showAdminControls: boolean;
+  dateRange: DateRange;
+  report: RentCarReport;
+  showReport: boolean;
 
   period: any;
-  startDate : Date;
-  endDate : Date;
+  startDate: Date;
+  endDate: Date;
 
-  rentCarSearch : RentACarSearchDTO;
+  rentCarSearch: RentACarSearchDTO;
   startDateSearch: Date;
   endDateSearch: Date;
   vehicleTypeSearch: string;
@@ -52,18 +54,27 @@ export class RentCarProfileComponent implements OnInit {
 
   addressUrl: string;
   trustedUrl: SafeUrl;
-  
-  searchClicked : boolean = false;
+
+  searchClicked: boolean = false;
   flight: AvioFlight;
-  
+
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
+
+
+  userFlag: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
+
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private rentACarService : RentACarService,
+    private rentACarService: RentACarService,
     private userService: UserService,
     private sanitizer: DomSanitizer
-  ) { 
+  ) {
     this.router = router;
   }
 
@@ -81,11 +92,33 @@ export class RentCarProfileComponent implements OnInit {
     console.log(localStorage);
 
     let x = localStorage.getItem('role');
-    if(x == undefined || x == null || x !=  "RENT_CAR_ADMIN") {
-          this.showAdminControls = false;
+    if (x == undefined || x == null || x != "RENT_CAR_ADMIN") {
+      this.showAdminControls = false;
     } else {
       this.showAdminControls = true;
     }
+
+    if (this.username) {
+      this.getRoles(this.username).subscribe(data => {
+        this.autoDTO = data;
+        this.roles = this.autoDTO.authorities;
+
+        if (this.roles[0].authority === 'HOTEL_ADMIN') {
+          this.userFlag = false;
+          this.adminHotel = true;
+          this.adminRent = false;
+        } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+          this.userFlag = false;
+          this.adminHotel = false;
+          this.adminRent = true;
+        } else if (this.roles[0].authority === 'REGISTERED_USER') {
+          this.userFlag = true;
+          this.adminHotel = false;
+          this.adminRent = false;
+        }
+      });
+    }
+
 
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
       this.id = + params['id'];
@@ -93,7 +126,6 @@ export class RentCarProfileComponent implements OnInit {
 
     this.rentACarService.getRentACarAvgRating(this.id).subscribe(data => {
       this.avgRatingRentCar = data;
-      console.log('vratio ' + this.avgRatingRentCar);
     });
 
     this.getRentACar(this.id).subscribe(data => {
@@ -126,7 +158,7 @@ export class RentCarProfileComponent implements OnInit {
     vehicleSearch.numberOfPassengers = this.numberOfPassengersSearch;
     vehicleSearch.vehicleType = this.vehicleTypeSearch;
 
-    if(this.startDate == undefined || this.endDate == undefined || this.numberOfPassengersSearch == undefined) {
+    if (this.startDate == undefined || this.endDate == undefined || this.numberOfPassengersSearch == undefined) {
       alert("Please enter parameters in all fields");
     } else {
       this.rentACarService.getFreeVehicles(vehicleSearch).subscribe(data => {
@@ -137,7 +169,7 @@ export class RentCarProfileComponent implements OnInit {
   }
 
   public makeReservation(vehicle: Vehicle) {
-    let reservation : VehicleReservationDTO = new VehicleReservationDTO();
+    let reservation: VehicleReservationDTO = new VehicleReservationDTO();
     reservation.vehicle = vehicle;
     reservation.username = localStorage.getItem('username');
     reservation.startReservation = this.startDateSearch;
@@ -148,14 +180,14 @@ export class RentCarProfileComponent implements OnInit {
     reservation.rentCarRating = -1;
     reservation.vehicleRating = -1;
 
-    
+
     this.rentACarService.makeReservation(reservation).subscribe(data => {
     });
 
-    //alert()
-    // this.router.navigate(['home']);
-    localStorage.setItem("vehicle", JSON.stringify(vehicle));
     
+    localStorage.setItem("vehicle", JSON.stringify(vehicle));
+    this.router.navigate(['final-reservation']);
+
   }
 
   public makeAddressUrl(address: Address) {
@@ -163,15 +195,15 @@ export class RentCarProfileComponent implements OnInit {
     let grad = address.city.split(" ");
     let ulica = address.street.split(" ");
 
-    for(let i = 0; i<grad.length; i++) {
-      if(i == 0) {
+    for (let i = 0; i < grad.length; i++) {
+      if (i == 0) {
         this.addressUrl += grad[i];
       } else {
         this.addressUrl += '%20' + grad[i];
       }
     }
 
-    for(let i = 0; i<ulica.length; i++) {
+    for (let i = 0; i < ulica.length; i++) {
       this.addressUrl += '%20' + ulica[i];
     }
     this.addressUrl += '%20' + address.number;
@@ -179,28 +211,29 @@ export class RentCarProfileComponent implements OnInit {
   }
 
 
-  public getRentACar(id: number | string) : Observable<RentACar> {
+  public getRentACar(id: number | string): Observable<RentACar> {
     return this.rentACarService.getRentACar(id);
   }
 
-  public getRentACarMenu(id: number | string) : Observable<RentACarMenuItem[]> {
+  public getRentACarMenu(id: number | string): Observable<RentACarMenuItem[]> {
     return this.rentACarService.getRentACarMenu(id);
   }
 
-  public getRentACarBranches(id: number | string) : Observable<RentACarBranch[]> {
+  public getRentACarBranches(id: number | string): Observable<RentACarBranch[]> {
     return this.rentACarService.getRentACarBranches(id);
   }
 
-  public getVehicles(id: number | string) : Observable<Vehicle[]> {
+  public getVehicles(id: number | string): Observable<Vehicle[]> {
     return this.rentACarService.getVehicles(id);
   }
 
   logOut() {
-    console.log('usao u logout');
+    this.roles = [];
     this.userService.logOut();
-    
-    console.log('ostalo ' + localStorage.length);
-    this.ngOnInit();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.userFlag = false;
+    this.router.navigate['home'];
   }
 
   generateReport() {
@@ -209,12 +242,15 @@ export class RentCarProfileComponent implements OnInit {
     this.dateRange.startDate = this.startDate;
     this.dateRange.endDate = this.endDate;
 
-    this.userService.generateReport(this.id,this.dateRange).subscribe(data => {
-      console.log(data);
+    this.userService.generateReport(this.id, this.dateRange).subscribe(data => {
       this.report = data;
       this.showReport = true;
     });
 
+  }
+
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
   }
 
 }

@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InviteForFlight } from '../dto/inviteForFlight';
 import { AvioCompaniesService } from '../all-avio-companies/avio-companies.service';
 import { AvioFlight } from '../dto/avio-flight.model';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -24,6 +26,16 @@ export class UserProfileComponent implements OnInit {
   private sub: any;
   id: number;
   friendId: number;
+
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
+
+
+  userFlag: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
+
 
   users: UserDTO[] = [];
   firstNameText: string;
@@ -76,13 +88,36 @@ export class UserProfileComponent implements OnInit {
         this.changedUser = this.user;
         this.inputUsername = this.user.username;
         this.inputPassword = this.user.password;
-        console.log(this.inputPassword);
         this.inputName = this.user.name;
         this.inputLastName = this.user.lastName;
         this.inputEmail = this.user.email;
         this.inputCity = this.user.city;
         this.inputTelephoneNumber = this.user.telephoneNumber;
+
       });
+
+
+      if (this.username) {
+        this.getRoles(this.username).subscribe(data => {
+          this.autoDTO = data;
+          this.roles = this.autoDTO.authorities;
+
+          if (this.roles[0].authority === 'HOTEL_ADMIN') {
+            this.userFlag = false;
+            this.adminHotel = true;
+            this.adminRent = false;
+          } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+            this.userFlag = false;
+            this.adminHotel = false;
+            this.adminRent = true;
+          } else if (this.roles[0].authority === 'REGISTERED_USER') {
+            this.userFlag = true;
+            this.adminHotel = false;
+            this.adminRent = false;
+          }
+        });
+      }
+
 
       this.getUserFriendsByUsername(this.username).subscribe(data => {
         this.friends = data;
@@ -104,9 +139,7 @@ export class UserProfileComponent implements OnInit {
 
       this.getInvites(this.username).subscribe(data => {
         this.invites = data;
-        console.log(this.invites);
         this.numberOfInvites = this.invites.length;
-        console.log(this.numberOfInvites);
       });
 
     }
@@ -129,12 +162,10 @@ export class UserProfileComponent implements OnInit {
     this.userService.removeFriend(this.id, this.friendId).subscribe(data => {
       this.getUserFriendsByUsername(this.username).subscribe(data => {
         this.friends = data;
-        console.log(this.friends.length);
 
       });
       this.getUsersToSearch(this.username).subscribe(data => {
         this.usersToSearch = data;
-        console.log(this.usersToSearch);
       });
 
     });
@@ -144,7 +175,6 @@ export class UserProfileComponent implements OnInit {
   acceptFriendship(idFriend: number) {
     this.friendId = idFriend;
     this.userService.acceptFriendship(this.user.id, this.friendId).subscribe(data => {
-      console.log(data);
       this.getUsersRequests(this.username).subscribe(data => {
         this.requests = data;
       });
@@ -168,7 +198,6 @@ export class UserProfileComponent implements OnInit {
   declineFriendship(idFriend: number) {
     this.friendId = idFriend;
     this.userService.declineFriedship(this.id, this.friendId).subscribe(data => {
-      console.log(data);
       this.getUsersToSearch(this.username).subscribe(data => {
         this.usersToSearch = data;
       });
@@ -181,46 +210,35 @@ export class UserProfileComponent implements OnInit {
   }
 
   acceptInvite(invite: InviteForFlight) {
-    console.log(invite);
     this.userService.acceptInvite(this.id, invite).subscribe(data => {
-      console.log(data);
       this.getInvites(this.username).subscribe(data => {
         this.invites = data;
         this.numberOfInvites = this.invites.length;
       });
     });
-
-    
   }
 
   declineInvite(invite: InviteForFlight) {
     this.inviteID = invite.id;
     this.tempFlight = invite.avioFlightDTO;
-    this.avioService.declineInvite(this.tempFlight.id, this.id, this.inviteID).subscribe(data =>{
-      console.log("DECLINE: ");
-      console.log(data);
+    this.avioService.declineInvite(this.tempFlight.id, this.id, this.inviteID).subscribe(data => {
       this.getInvites(this.username).subscribe(data => {
         this.invites = data;
-        console.log(data);
         this.numberOfInvites = this.invites.length;
       });
     });
   }
 
-  showRequests(){
+  showRequests() {
     this.getUsersRequests(this.username).subscribe(data => {
       this.requests = data;
-      console.log(data);
       this.numberOfRequests = this.requests.length;
     });
   }
 
-  showInvites(){
-    this.getInvites(this.username).subscribe(data=>{
+  showInvites() {
+    this.getInvites(this.username).subscribe(data => {
       this.invites = data;
-      console.log("INVITES");
-      console.log(data);
-      
       this.numberOfInvites = this.invites.length;
     });
   }
@@ -262,11 +280,16 @@ export class UserProfileComponent implements OnInit {
   }
 
   logOut() {
-    console.log('usao u logout');
+    this.roles = [];
     this.userService.logOut();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.userFlag = false;
+    this.router.navigate['home'];
+  }
 
-    console.log('ostalo ' + localStorage.length);
-    //this.ngOnInit();
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
   }
 
   public getUserByUsername(username: string): Observable<UserDTO> {

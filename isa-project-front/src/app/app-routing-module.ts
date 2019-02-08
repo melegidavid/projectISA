@@ -22,6 +22,8 @@ import { AvioFlightSeatsComponent } from './avio-flight-seats/avio-flight-seats.
 import { InviteFriendsComponent } from './invite-friends/invite-friends.component';
 import { combineAll } from '../../node_modules/rxjs/operators';
 import { FinalReservationComponent } from './final-reservation/final-reservation.component';
+import { AdminHotelProfileComponent } from './admin-hotel-profile/admin-hotel-profile.component';
+import { AdminRentCarProfileComponent } from './admin-rent-car-profile/admin-rent-car-profile.component';
 
 
 const routes: Routes = [
@@ -51,6 +53,8 @@ const routes: Routes = [
   { path: 'users/:username', component: UserProfileComponent}, 
   { path: 'admin', component: AdminComponent},
   { path: 'admin-avio-company', component: AdminAvioCompanyComponent },
+  { path: 'admin-hotel/:username', component: AdminHotelProfileComponent},
+  { path: 'admin-rent/:username', component: AdminRentCarProfileComponent},
   { path: 'auth/activate/:id', component: ActivateProfileComponent}, 
   { path: 'final-reservation' , component: FinalReservationComponent}
 ];

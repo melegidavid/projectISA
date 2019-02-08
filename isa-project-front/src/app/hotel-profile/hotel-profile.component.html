@@ -13,32 +13,40 @@
 
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item ">
+        <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
           <a class="nav-link" routerLink="/home">Home</a>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
           <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="adminRent == false">
           <a class="nav-link" routerLink="/hotels">Hotels</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="adminHotel == false">
           <a class="nav-link" routerLink="/rentACar">Rent a car</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/register"  *ngIf="username == undefined">Register</a>
+        <li class="nav-item " *ngIf="adminRent == false && adminHotel == false && user == false">
+          <a class="nav-link" routerLink="/register">Register</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/auth/login"  *ngIf="username == undefined">Login</a>
+        <li class="nav-item " *ngIf="adminRent == false && adminHotel == false && user == false">
+          <a class="nav-link" routerLink="/auth/login">Login</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+        <li class="nav-item " *ngIf="adminRent == true || adminHotel == true || user == true">
+          <a class="nav-link" routerLink="/home" (click)="logOut()">Logout</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" *ngIf="len > 0">{{username}}</a>
+
+        <li class="nav-item " *ngIf="adminRent == true">
+          <a class="nav-link" [routerLink]="['/admin-rent', username]">{{username}}</a>
+        </li>
+        <li class="nav-item " *ngIf="adminHotel == true">
+          <a class="nav-link" [routerLink]="['/admin-hotel', username]">{{username}}</a>
+        </li>
+        <li class="nav-item " *ngIf="user == true">
+          <a class="nav-link" [routerLink]="['/users', username]">{{username}}</a>
         </li>
       </ul>
     </div>
+
   </div>
 </nav>
 
@@ -47,7 +55,8 @@
     <div class="row">
       <div class="col-md-4">
         <div class="profile-img">
-          <img src="http://districtnabarangpur.com/wp-content/uploads/2019/09/intersectant-Design-Hotel-Room.jpg" alt="" />
+          <img src="http://districtnabarangpur.com/wp-content/uploads/2019/09/intersectant-Design-Hotel-Room.jpg"
+            alt="" />
 
         </div>
       </div>
@@ -67,13 +76,15 @@
           </p>
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Menu</a>
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">Menu</a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="col-md-2">
-        <button *ngIf="hotel" class="profile-edit-btn" name="btnAddMore" [routerLink]="['/hotels/edit', hotel.id]">Edit Profile
+      <div class="col-md-2" *ngIf="adminHotel == true">
+        <button *ngIf="hotel" class="profile-edit-btn" name="btnAddMore" [routerLink]="['/hotels/edit', hotel.id]">Edit
+          Profile
         </button>
       </div>
     </div>
@@ -117,13 +128,15 @@
       <div class="row">
         <div class="col">
           <div class="md-form mt-0">
-            <input class="form-control" min="1" type="number" name="price" [(ngModel)]="startPrice" placeholder="From price" aria-label="Search">
+            <input class="form-control" min="1" type="number" name="price" [(ngModel)]="startPrice"
+              placeholder="From price" aria-label="Search">
           </div>
         </div>
 
         <div class="col">
           <div class="md-form mt-0">
-            <input class="form-control" min="1" max="10" type="number" name="rooms" [(ngModel)]="roomsNumber" placeholder="Rooms" aria-label="Search">
+            <input class="form-control" min="1" max="10" type="number" name="rooms" [(ngModel)]="roomsNumber"
+              placeholder="Rooms" aria-label="Search">
           </div>
         </div>
       </div>
@@ -131,13 +144,14 @@
       <div class="row">
         <div class="col">
           <div class="md-form mt-0">
-            <input class="form-control" min="1" max="1000" type="number" name="price" [(ngModel)]="endPrice" placeholder="To price" aria-label="Search">
+            <input class="form-control" min="1" max="1000" type="number" name="price" [(ngModel)]="endPrice"
+              placeholder="To price" aria-label="Search">
           </div>
         </div>
         <div class="col">
           <div class="md-form mt-0">
-            <input class="form-control" min="1" [(max)]='maxGuestsNumber' type="number" name="guests" [(ngModel)]="guestsNumber" placeholder="Number of guests"
-              aria-label="Search">
+            <input class="form-control" min="1" [(max)]='maxGuestsNumber' type="number" name="guests"
+              [(ngModel)]="guestsNumber" placeholder="Number of guests" aria-label="Search">
           </div>
         </div>
       </div>
@@ -186,7 +200,8 @@
           <span class="card-notify-badge" *ngIf="startDate">{{room.price*period}}e</span>
           <span class="card-notify-badge" *ngIf="startDate == undefined">{{room.price}}e</span>
           <!-- <span class="card-notify-year">yearproduced</span> -->
-          <img class="img-fluid" src="https://www.rd.com/wp-content/uploads/2016/01/05-13-things-your-hotel-desk-clerk-wont-tell-you-hotel-room.jpg"
+          <img class="img-fluid"
+            src="https://www.rd.com/wp-content/uploads/2016/01/05-13-things-your-hotel-desk-clerk-wont-tell-you-hotel-room.jpg"
             alt="Alternate Text" />
         </div>
         <div class="card-image-overlay m-auto">
@@ -265,7 +280,7 @@
     <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px;">
       <iframe [src]='trustedUrl' frameborder="0" style="border:0" allowfullscreen></iframe>
     </div>
-  
+
     <div *ngIf="showAdminControls">
       <h3>Generisanje izvestaja</h3>
       <div class="row">
@@ -276,7 +291,7 @@
           <label for="date1">Krajnji datum</label>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col">
           <input type="date" [(ngModel)]="startDateMy" class="form-control" name="dateFrom" id="date1">
@@ -287,8 +302,8 @@
       </div>
       <button class="btn btn-primary" *ngIf="showAdminControls" (click)="generateReport()">Generate report</button>
     </div>
-  
-  
+
+
     <div *ngIf="showReport" class="row">
       <div class="col">
         <p>{{report.avgRatingReport}}</p>
@@ -305,6 +320,3 @@
 
 
 </div>
-
-
-

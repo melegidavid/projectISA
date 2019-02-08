@@ -9,6 +9,8 @@ import { AvioReport } from '../dto/avio-report';
 import { DateRange } from '../dto/date-range';
 import { Address } from '../dto/address.model';
 import { DomSanitizer, SafeUrl } from '../../../node_modules/@angular/platform-browser';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
 
 @Component({
   selector: 'app-avio-company-profile',
@@ -17,40 +19,68 @@ import { DomSanitizer, SafeUrl } from '../../../node_modules/@angular/platform-b
 })
 export class AvioCompanyProfileComponent implements OnInit {
 
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
+
+
+  user: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
   len: number;
   username: string;
   avioCompany: AvioCompany;
   flights: AvioFlight[] = [];
   sub: any;
   id: number;
-  avgRatingAvio : number;
-  report : AvioReport;
-  showReport : boolean;
-  dateRange : DateRange;
-  startDateMy : Date;
-  endDateMy : Date;
-  showAdminControls : boolean;
+  avgRatingAvio: number;
+  report: AvioReport;
+  showReport: boolean;
+  dateRange: DateRange;
+  startDateMy: Date;
+  endDateMy: Date;
+  showAdminControls: boolean;
 
   addressUrl: string;
   trustedUrl: SafeUrl;
-  
-  constructor(private avioCompaniesService: AvioCompaniesService, 
+
+  constructor(private avioCompaniesService: AvioCompaniesService,
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
     private sanitizer: DomSanitizer) {
-      this.router = router;
-    }
+    this.router = router;
+  }
 
   ngOnInit() {
     this.len = localStorage.length;
-    
+
     this.username = localStorage.getItem('username');
-    console.log(localStorage);
+
+    if (this.username) {
+      this.getRoles(this.username).subscribe(data => {
+        this.autoDTO = data;
+        this.roles = this.autoDTO.authorities;
+
+        if (this.roles[0].authority === 'HOTEL_ADMIN') {
+          this.user = false;
+          this.adminHotel = true;
+          this.adminRent = false;
+        } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+          this.user = false;
+          this.adminHotel = false;
+          this.adminRent = true;
+        } else if (this.roles[0].authority === 'REGISTERED_USER') {
+          this.user = true;
+          this.adminHotel = false;
+          this.adminRent = false;
+        }
+      });
+    }
 
     let x = localStorage.getItem('role');
-    if(x == undefined || x == null || x !=  "AVIO_COMPANY_ADMIN") {
-          this.showAdminControls = false;
+    if (x == undefined || x == null || x != "AVIO_COMPANY_ADMIN") {
+      this.showAdminControls = false;
     } else {
       this.showAdminControls = true;
     }
@@ -67,7 +97,6 @@ export class AvioCompanyProfileComponent implements OnInit {
 
     this.avioCompaniesService.getAvioAvgRating(this.id).subscribe(data => {
       this.avgRatingAvio = data;
-      console.log('vratio ' + this.avgRatingAvio);
     });
 
     this.getAvioCompany(this.id).subscribe(data => {
@@ -86,15 +115,15 @@ export class AvioCompanyProfileComponent implements OnInit {
     let grad = address.city.split(" ");
     let ulica = address.street.split(" ");
 
-    for(let i = 0; i<grad.length; i++) {
-      if(i == 0) {
+    for (let i = 0; i < grad.length; i++) {
+      if (i == 0) {
         this.addressUrl += grad[i];
       } else {
         this.addressUrl += '%20' + grad[i];
       }
     }
 
-    for(let i = 0; i<ulica.length; i++) {
+    for (let i = 0; i < ulica.length; i++) {
       this.addressUrl += '%20' + ulica[i];
     }
     this.addressUrl += '%20' + address.number;
@@ -110,11 +139,12 @@ export class AvioCompanyProfileComponent implements OnInit {
   }
 
   logOut() {
-    console.log('usao u logout');
+    this.roles = [];
     this.userService.logOut();
-    
-    console.log('ostalo ' + localStorage.length);
-    this.ngOnInit();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.user = false;
+    this.router.navigate['home'];
   }
 
   generateReport() {
@@ -123,11 +153,15 @@ export class AvioCompanyProfileComponent implements OnInit {
     this.dateRange.startDate = this.startDateMy;
     this.dateRange.endDate = this.endDateMy;
 
-    this.userService.generateReportAvio(this.id,this.dateRange).subscribe(data => {
-      console.log(data);
+    this.userService.generateReportAvio(this.id, this.dateRange).subscribe(data => {
       this.report = data;
       this.showReport = true;
     });
 
   }
+
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
+  }
+
 }

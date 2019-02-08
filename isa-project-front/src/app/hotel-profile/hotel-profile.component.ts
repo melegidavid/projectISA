@@ -14,6 +14,8 @@ import * as $ from 'jquery';
 import { Address } from '../dto/address.model';
 import { DomSanitizer, SafeUrl } from '../../../node_modules/@angular/platform-browser';
 import { AvioFlight } from '../dto/avio-flight.model';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
 
 
 
@@ -35,22 +37,32 @@ export class HotelProfileComponent implements OnInit {
   startPrice: number;
   endPrice: number;
 
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
+
+
+  user: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
+
+
   hotel: Hotel;
   room: HotelRoom;
   rooms: HotelRoom[] = [];
   selectedRooms: HotelRoom[] = [];
   menu: HotelMenuItem[] = [];
-  avgRatingHotel : number;
+  avgRatingHotel: number;
 
-  report : HotelReport;
-  showReport : boolean;
-  dateRange : DateRange;
-  startDateMy : Date;
-  endDateMy : Date;
+  report: HotelReport;
+  showReport: boolean;
+  dateRange: DateRange;
+  startDateMy: Date;
+  endDateMy: Date;
 
   private sub: any;
 
-  showAdminControls : boolean;
+  showAdminControls: boolean;
 
   id: number;
   len: number;
@@ -84,15 +96,36 @@ export class HotelProfileComponent implements OnInit {
     this.endDateMy = new Date();
 
     this.username = localStorage.getItem('username');
+
+
+    if (this.username) {
+      this.getRoles(this.username).subscribe(data => {
+        this.autoDTO = data;
+        this.roles = this.autoDTO.authorities;
+
+        if (this.roles[0].authority === 'HOTEL_ADMIN') {
+          this.user = false;
+          this.adminHotel = true;
+          this.adminRent = false;
+        } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+          this.user = false;
+          this.adminHotel = false;
+          this.adminRent = true;
+        } else if (this.roles[0].authority === 'REGISTERED_USER') {
+          this.user = true;
+          this.adminHotel = false;
+          this.adminRent = false;
+        }
+      });
+    }
     this.maxGuestsNumber = JSON.parse(localStorage.getItem('numberOfTravelers'));
     this.flight = JSON.parse(localStorage.getItem('flight'));
     this.alreadyExistingHotel = JSON.parse(localStorage.getItem('hotel'));
 
-    console.log(localStorage);
 
     let x = localStorage.getItem('role');
-    if(x == undefined || x == null || x !=  "HOTEL_ADMIN") {
-          this.showAdminControls = false;
+    if (x == undefined || x == null || x != "HOTEL_ADMIN") {
+      this.showAdminControls = false;
     } else {
       this.showAdminControls = true;
     }
@@ -103,7 +136,6 @@ export class HotelProfileComponent implements OnInit {
 
     this.hotelService.getHotelAvgRating(this.id).subscribe(data => {
       this.avgRatingHotel = data;
-      console.log('vratio ' + this.avgRatingHotel);
     });
 
     this.getHotel(this.id).subscribe(data => {
@@ -124,8 +156,6 @@ export class HotelProfileComponent implements OnInit {
       this.startDate = JSON.parse(localStorage.getItem('startDate'));
       this.endDate = JSON.parse(localStorage.getItem('endDate'));
 
-      console.log("pocetni" + this.startDate);
-      console.log("krajnji" + this.endDate);
       this.endDate = new Date(this.endDate + 'T00:00:00+01:00');
       this.startDate = new Date(this.startDate + 'T00:00:00+01:00');
       let differnce = this.endDate.getTime() - this.startDate.getTime();
@@ -175,15 +205,15 @@ export class HotelProfileComponent implements OnInit {
     let grad = address.city.split(" ");
     let ulica = address.street.split(" ");
 
-    for(let i = 0; i<grad.length; i++) {
-      if(i == 0) {
+    for (let i = 0; i < grad.length; i++) {
+      if (i == 0) {
         this.addressUrl += grad[i];
       } else {
         this.addressUrl += '%20' + grad[i];
       }
     }
 
-    for(let i = 0; i<ulica.length; i++) {
+    for (let i = 0; i < ulica.length; i++) {
       this.addressUrl += '%20' + ulica[i];
     }
     this.addressUrl += '%20' + address.number;
@@ -210,7 +240,7 @@ export class HotelProfileComponent implements OnInit {
         this.hotelService.makeReservation(room.id, roomReservation);
         localStorage.setItem('hotel', JSON.stringify(this.hotel));
       });
-      
+
       localStorage.setItem('rooms', JSON.stringify(this.selectedRooms));
       localStorage.setItem('guestsNumber', JSON.stringify(this.guestsNumber));
       this.router.navigate(['hotels', this.id, 'menu_reservation']);
@@ -271,11 +301,12 @@ export class HotelProfileComponent implements OnInit {
   }
 
   logOut() {
-    console.log('usao u logout');
+    this.roles = [];
     this.userService.logOut();
-
-    console.log('ostalo ' + localStorage.length);
-    this.ngOnInit();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.user = false;
+    this.router.navigate['home'];
   }
 
   generateReport() {
@@ -284,12 +315,16 @@ export class HotelProfileComponent implements OnInit {
     this.dateRange.startDate = this.startDateMy;
     this.dateRange.endDate = this.endDateMy;
 
-    this.userService.generateReportHotel(this.id,this.dateRange).subscribe(data => {
-      console.log(data);
+    this.userService.generateReportHotel(this.id, this.dateRange).subscribe(data => {
       this.report = data;
       this.showReport = true;
     });
 
+
+  }
+
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
   }
 
 }

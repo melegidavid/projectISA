@@ -5,6 +5,9 @@ import { HotelMenuItem } from '../dto/hotel-menu-item.model';
 import { UserService } from '../user.service';
 import { HotelsService } from '../all-hotels/hotels.service';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-hotel-edit',
@@ -15,6 +18,16 @@ export class HotelEditComponent implements OnInit {
 
   private sub: any;
   id: number;
+
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
+  username: string;
+
+  user: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
+
 
   hotel: Hotel = new Hotel();
   rooms: HotelRoom[] = [];
@@ -34,24 +47,47 @@ export class HotelEditComponent implements OnInit {
 
   showAddItemDiv: boolean = false;
   showUpdateItemDiv: boolean = false;
-  
+
 
   constructor(
     private userService: UserService,
     private hotelService: HotelsService,
     private route: ActivatedRoute,
-    private router : Router
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.hotel.name = "";
     this.hotel.description = "";
+    this.username = localStorage.getItem('username');
+
+    if (this.username) {
+      this.getRoles(this.username).subscribe(data => {
+        this.autoDTO = data;
+        this.roles = this.autoDTO.authorities;
+
+        if (this.roles[0].authority === 'HOTEL_ADMIN') {
+          this.user = false;
+          this.adminHotel = true;
+          this.adminRent = false;
+        } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+          this.user = false;
+          this.adminHotel = false;
+          this.adminRent = true;
+        } else if (this.roles[0].authority === 'REGISTERED_USER') {
+          this.user = true;
+          this.adminHotel = false;
+          this.adminRent = false;
+        }
+      });
+    }
+
 
     this.restoreAddRoom();
     this.restoreItem(this.itemToUpdate);
     this.restoreItem(this.itemToAdd);
 
-    this.sub = this.route.params.subscribe(params => { 
+    this.sub = this.route.params.subscribe(params => {
       this.id = + params['id'];
     });
 
@@ -82,16 +118,16 @@ export class HotelEditComponent implements OnInit {
 
   toggleUpdate(id: number) {
     this.showUpdateDiv = !this.showUpdateDiv;
-    if(this.showUpdateDiv == true){
+    if (this.showUpdateDiv == true) {
       this.hotelService.getHotelRoom(id).subscribe(data => {
         this.roomToUpdate = data;
       });
     }
   }
 
-  toggleUpdateItem(id : number) {
+  toggleUpdateItem(id: number) {
     this.showUpdateItemDiv = !this.showUpdateItemDiv;
-    if(this.showUpdateItemDiv == true) {
+    if (this.showUpdateItemDiv == true) {
       this.hotelService.getHotelMenuItem(this.id, id).subscribe(data => {
         this.itemToUpdate = data;
       });
@@ -110,7 +146,7 @@ export class HotelEditComponent implements OnInit {
     item.price = null;
     item.description = "";
     item.id = null;
-    
+
     item.hotel = new Hotel();
     item.hotel.id = this.id;
   }
@@ -137,7 +173,7 @@ export class HotelEditComponent implements OnInit {
   }
 
   updateRoom() {
-    this.hotelService.updateHotelRoom(this.id, this.roomToUpdate.id , this.roomToUpdate).subscribe(data => {
+    this.hotelService.updateHotelRoom(this.id, this.roomToUpdate.id, this.roomToUpdate).subscribe(data => {
 
       this.hotelService.getHotelRooms(this.id).subscribe(data => {
         this.rooms = data;
@@ -148,7 +184,7 @@ export class HotelEditComponent implements OnInit {
 
   updateItem() {
     this.hotelService.updateHotelMenuItem(this.id, this.itemToUpdate.id, this.itemToUpdate).subscribe(data => {
-      
+
       this.hotelService.getHotelMenu(this.id).subscribe(data => {
         this.menu = data;
         this.showUpdateItemDiv = !this.showUpdateItemDiv;
@@ -170,10 +206,10 @@ export class HotelEditComponent implements OnInit {
   }
 
   hideRoom(idRoom: any) {
-    for(let x of this.rooms) {
-      if(x.id == idRoom) {
-        const index = this.rooms.indexOf(x,0);
-        if(index > -1) {
+    for (let x of this.rooms) {
+      if (x.id == idRoom) {
+        const index = this.rooms.indexOf(x, 0);
+        if (index > -1) {
           this.roomsToRemove.push(x);
           this.rooms.splice(index, 1);
           break;
@@ -183,10 +219,10 @@ export class HotelEditComponent implements OnInit {
   }
 
   hideItem(idItem: any) {
-    for(let x of this.menu) {
-      if(x.id == idItem) {
-        const index = this.menu.indexOf(x,0);
-        if(index > -1) {
+    for (let x of this.menu) {
+      if (x.id == idItem) {
+        const index = this.menu.indexOf(x, 0);
+        if (index > -1) {
           this.itemsToRemove.push(x);
           this.menu.splice(index, 1);
           break;
@@ -196,21 +232,28 @@ export class HotelEditComponent implements OnInit {
   }
 
   removeRooms() {
-    for(let r of this.roomsToRemove) {
+    for (let r of this.roomsToRemove) {
       this.hotelService.deleteHotelRoom(r.id);
     }
   }
 
   removeItems() {
-    for(let i of this.itemsToRemove) {
+    for (let i of this.itemsToRemove) {
       this.hotelService.deleteHotelMenuItem(i.id);
     }
   }
 
   logOut() {
+    this.roles = [];
     this.userService.logOut();
-    
-    console.log('ostalo ' + localStorage.length);
-    this.ngOnInit();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.user = false;
+    this.router.navigate['home'];
   }
+
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
+  }
+
 }

@@ -9,32 +9,40 @@
 
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item ">
+                <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
                     <a class="nav-link" routerLink="/home">Home</a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item " *ngIf="adminHotel == false && adminRent == false">
                     <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="adminRent == false">
                     <a class="nav-link" routerLink="/hotels">Hotels</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="adminHotel == false">
                     <a class="nav-link" routerLink="/rentACar">Rent a car</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
+                <li class="nav-item " *ngIf="adminRent == false && adminHotel == false && user == false">
+                    <a class="nav-link" routerLink="/register">Register</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
+                <li class="nav-item " *ngIf="adminRent == false && adminHotel == false && user == false">
+                    <a class="nav-link" routerLink="/auth/login">Login</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+                <li class="nav-item " *ngIf="adminRent == true || adminHotel == true || user == true">
+                    <a class="nav-link" routerLink="/home" (click)="logOut()">Logout</a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" [routerLink]="['/users', username]" *ngIf="len > 0">{{username}}</a>
+
+                <li class="nav-item " *ngIf="adminRent == true">
+                    <a class="nav-link" [routerLink]="['/admin-rent', username]">{{username}}</a>
+                </li>
+                <li class="nav-item " *ngIf="adminHotel == true">
+                    <a class="nav-link" [routerLink]="['/admin-hotel', username]">{{username}}</a>
+                </li>
+                <li class="nav-item " *ngIf="user == true">
+                    <a class="nav-link" [routerLink]="['/users', username]">{{username}}</a>
                 </li>
             </ul>
         </div>
+
     </div>
 </nav>
 
@@ -48,11 +56,12 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="hotel.name" name="txtName" class="form-control" placeholder="Naziv *" value="" />
+                    <input type="text" [(ngModel)]="hotel.name" name="txtName" class="form-control"
+                        placeholder="Naziv *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="hotel.description" name="txtPhone" class="form-control" placeholder="Promotivni opis" value=""
-                    />
+                    <input type="text" [(ngModel)]="hotel.description" name="txtPhone" class="form-control"
+                        placeholder="Promotivni opis" value="" />
                 </div>
                 <div class="form-group">
                     <input type="submit" class="ad-btn" value="Save" />
@@ -76,19 +85,20 @@
         <div *ngIf="showAddDiv" class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="roomToAdd.number" name="txtAdd1" class="form-control" placeholder="Room number *" value=""
-                    />
+                    <input type="text" [(ngModel)]="roomToAdd.number" name="txtAdd1" class="form-control"
+                        placeholder="Room number *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="number" min="1" [(ngModel)]="roomToAdd.price" name="txtAdd2" class="form-control" placeholder="Price *" value="" />
+                    <input type="number" min="1" [(ngModel)]="roomToAdd.price" name="txtAdd2" class="form-control"
+                        placeholder="Price *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="roomToAdd.description" name="txtAdd3" class="form-control" placeholder="Desctioption" value=""
-                    />
+                    <input type="text" [(ngModel)]="roomToAdd.description" name="txtAdd3" class="form-control"
+                        placeholder="Desctioption" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="number" min="1" [(ngModel)]="roomToAdd.bedNumber" name="txtAdd3" class="form-control" placeholder="Number of beds" value=""
-                    />
+                    <input type="number" min="1" [(ngModel)]="roomToAdd.bedNumber" name="txtAdd3" class="form-control"
+                        placeholder="Number of beds" value="" />
                 </div>
                 <button type="button" class="ad-btn" (click)="addRoom()">Add</button>
             </div>
@@ -104,7 +114,7 @@
                     </div>
                     <div class="card-image-overlay m-auto">
                         <span class="card-detail-badge">Number of beds {{room.bedNumber}}</span>
-                      </div>
+                    </div>
                     <div class="card-body text-center">
                         <div class="ad-title m-auto">
                             <h5>Room {{room.number}}</h5>
@@ -119,20 +129,20 @@
         <div *ngIf="showUpdateDiv" class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="roomToUpdate.number" name="txtUpdate1" class="form-control" placeholder="Room number *" value=""
-                    />
+                    <input type="text" [(ngModel)]="roomToUpdate.number" name="txtUpdate1" class="form-control"
+                        placeholder="Room number *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="number" min="1" [(ngModel)]="roomToUpdate.price" name="txtUpdate2" class="form-control" placeholder="Price *" value=""
-                    />
+                    <input type="number" min="1" [(ngModel)]="roomToUpdate.price" name="txtUpdate2" class="form-control"
+                        placeholder="Price *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="roomToUpdate.description" name="txtUpdate3" class="form-control" placeholder="Desctioption" value=""
-                    />
+                    <input type="text" [(ngModel)]="roomToUpdate.description" name="txtUpdate3" class="form-control"
+                        placeholder="Desctioption" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="number" min="1" [(ngModel)]="roomToUpdate.bedNumber" name="txtUpdate2" class="form-control" placeholder="Number of beds" value=""
-                    />
+                    <input type="number" min="1" [(ngModel)]="roomToUpdate.bedNumber" name="txtUpdate2"
+                        class="form-control" placeholder="Number of beds" value="" />
                 </div>
                 <button type="button" class="ad-btn" (click)="updateRoom()">Update</button>
             </div>
@@ -153,15 +163,16 @@
         <div *ngIf="showAddItemDiv" class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="itemToAdd.serviceName" name="txtAdd1" class="form-control" placeholder="Service name *" value="" />
+                    <input type="text" [(ngModel)]="itemToAdd.serviceName" name="txtAdd1" class="form-control"
+                        placeholder="Service name *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" min="1" [(ngModel)]="itemToAdd.price" name="txtAdd2" class="form-control" placeholder="Price *"
-                        value="" />
+                    <input type="text" min="1" [(ngModel)]="itemToAdd.price" name="txtAdd2" class="form-control"
+                        placeholder="Price *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="itemToAdd.description" name="txtAdd3" class="form-control" placeholder="Desctioption *" value=""
-                    />
+                    <input type="text" [(ngModel)]="itemToAdd.description" name="txtAdd3" class="form-control"
+                        placeholder="Desctioption *" value="" />
                 </div>
                 <button type="button" class="ad-btn" (click)="addItem()">Add</button>
             </div>
@@ -187,16 +198,16 @@
         <div *ngIf="showUpdateItemDiv" class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="itemToUpdate.serviceName" name="txtUpdates1" class="form-control" placeholder="Service name *" value=""
-                    />
+                    <input type="text" [(ngModel)]="itemToUpdate.serviceName" name="txtUpdates1" class="form-control"
+                        placeholder="Service name *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="number" [(ngModel)]="itemToUpdate.price" name="txtUpdates12" class="form-control" placeholder="Price *"
-                        value="" />
+                    <input type="number" [(ngModel)]="itemToUpdate.price" name="txtUpdates12" class="form-control"
+                        placeholder="Price *" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" [(ngModel)]="itemToUpdate.description" name="txtUpdates13" class="form-control" placeholder="Desctioption *"
-                        value="" />
+                    <input type="text" [(ngModel)]="itemToUpdate.description" name="txtUpdates13" class="form-control"
+                        placeholder="Desctioption *" value="" />
                 </div>
                 <button type="button" class="ad-btn" (click)="updateItem()">Update</button>
             </div>

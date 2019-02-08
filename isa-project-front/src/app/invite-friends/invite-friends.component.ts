@@ -7,6 +7,8 @@ import { AvioCompaniesService } from '../all-avio-companies/avio-companies.servi
 import { AvioFlightReservation } from '../dto/avio-flight-reservation';
 import { AvioFlightSeat } from '../dto/avio-flight-seat.model';
 import { Router } from '../../../node_modules/@angular/router';
+import { Authority } from '../dto/authority.model';
+import { AuthorityDTO } from '../dto/authorityDTO.model';
 
 @Component({
   selector: 'app-invite-friends',
@@ -19,10 +21,20 @@ export class InviteFriendsComponent implements OnInit {
   username: string;
   user: UserDTO;
 
+  role: Authority = new Authority();
+  roles: Authority[] = [];
+  autoDTO: AuthorityDTO = new AuthorityDTO();
+
+
+  userFlag: boolean = false;
+  adminHotel: boolean = false;
+  adminRent: boolean = false;
+
+
   selectedFriends: UserDTO[] = [];
 
   numberOfTravelers: number;
-  
+
   numberOfFriends: number;
 
   flight: AvioFlight;
@@ -37,6 +49,29 @@ export class InviteFriendsComponent implements OnInit {
 
   ngOnInit() {
     this.username = localStorage.getItem('username');
+
+    if (this.username) {
+      this.getRoles(this.username).subscribe(data => {
+        this.autoDTO = data;
+        this.roles = this.autoDTO.authorities;
+
+        if (this.roles[0].authority === 'HOTEL_ADMIN') {
+          this.userFlag = false;
+          this.adminHotel = true;
+          this.adminRent = false;
+        } else if (this.roles[0].authority === 'RENT_CAR_ADMIN') {
+          this.userFlag = false;
+          this.adminHotel = false;
+          this.adminRent = true;
+        } else if (this.roles[0].authority === 'REGISTERED_USER') {
+          this.userFlag = true;
+          this.adminHotel = false;
+          this.adminRent = false;
+        }
+      });
+    }
+
+
     this.flight = JSON.parse(localStorage.getItem('flight'));
     this.seats = JSON.parse(localStorage.getItem('selectedSeats'));
     this.getUser(this.username).subscribe(data => {
@@ -75,9 +110,19 @@ export class InviteFriendsComponent implements OnInit {
       });
 
       this.router.navigate(['hotels']);
-      
+
     });
   }
+
+  logOut() {
+    this.roles = [];
+    this.userService.logOut();
+    this.adminHotel = false;
+    this.adminRent = false;
+    this.userFlag = false;
+    this.router.navigate['home'];
+  }
+
 
   public getUser(username: string): Observable<UserDTO> {
     return this.userService.getUserByUsername(username);
@@ -85,6 +130,10 @@ export class InviteFriendsComponent implements OnInit {
 
   public getFriends(id: number): Observable<UserDTO[]> {
     return this.userService.getFriendsOfUser(id);
+  }
+
+  public getRoles(username: string): Observable<AuthorityDTO> {
+    return this.userService.getRoles(username);
   }
 
   public inviteFriend(friend: UserDTO) {

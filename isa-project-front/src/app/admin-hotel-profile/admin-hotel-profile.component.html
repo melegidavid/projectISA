@@ -1,0 +1,234 @@
+<!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!------ Include the above in your HEAD tag ---------->
+
+
+<link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css" />
+
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="images/travel.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hotels">Hotels</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" [routerLink]="['/admin-hotel', username]" >{{username}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid padding">
+  <div class="row padding">
+    <div style="widows: 50px;">
+    </div>
+    <div class="col-sm-9">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title mb-4">
+            <div class="d-flex justify-content-start">
+              <div class="image-container">
+                <img src="images/user-150x150.png" id="imgProfile" style="width: 150px; height: 150px"
+                  class="img-thumbnail" />
+                <div class="middle">
+                  <input type="file" style="display: none;" id="profilePicture" name="file" />
+                </div>
+              </div>
+              <div class="userData ml-3">
+                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">
+                  <a href="javascript:void(0);" *ngIf="user">{{user.name}}</a>
+                </h2>
+                <h2 class="d-block" style="font-size: 1.0rem; font-weight: bold">
+                  <a href="javascript:void(0);" *ngIf="user"> {{user.lastName}}</a>
+                </h2>
+                <h2 class="d-block" style="font-size: 1.0rem; font-weight: bold">
+                  <button type="button" class="btn btn-outline-danger" (click)="edit = true">Change
+                    data
+                  </button>
+                </h2>
+                <h2 class="d-block" style="font-size: 1.0rem; font-weight: bold">
+                  <button type="button" class="btn btn-outline-danger" (click)="changePassword = true">Change
+                    password
+                  </button>
+                </h2>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab"
+                    aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                </li>
+              </ul>
+              <div class="tab-content ml-1" id="myTabContent">
+                <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Username:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div>
+                        <label *ngIf="user" class="form-control">{{user.username}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+
+                  <!--old pass-->
+                  <div class="row" *ngIf="changePassword == true">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Old password:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div>
+                        <input *ngIf="changedUser" [(ngModel)]="inputOldPassword" type="password" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <hr *ngIf="changePassword == true">
+                  <!--new pass-->
+                  <div class="row" *ngIf="changePassword == true">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">New password:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div>
+                        <input *ngIf="changedUser" [(ngModel)]="inputNewPassword" type="password" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <hr *ngIf="changePassword == true">
+
+                  <div *ngIf="changePassword == true" class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <button type="button" class="btn btn-outline-danger" (click)="saveChangePassword()">Save</button>
+                    </div>
+                    <div class="col-sm-8 col-6">
+                      <button type="button" class="btn btn-outline-danger"
+                        (click)="discardChangePassword()">Discard</button>
+                    </div>
+                  </div>
+
+                  <div class="row" *ngIf="changePassword == false">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Password:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div>
+                        <input *ngIf="user" type="password" disabled value="inputPassword" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Name:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div *ngIf="edit == true">
+                        <input *ngIf="changedUser" [(ngModel)]="inputName" type="text" class="input">
+                      </div>
+                      <div *ngIf="edit == false">
+                        <label *ngIf="user" class="form-control">{{user.name}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Last Name:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div *ngIf="edit == true">
+                        <input *ngIf="changedUser" [(ngModel)]="inputLastName" type="text" class="input">
+                      </div>
+                      <div *ngIf="edit == false">
+                        <label *ngIf="user" class="form-control">{{user.lastName}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">E-Mail:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div *ngIf="edit == true">
+                        <input *ngIf="changedUser" [(ngModel)]="inputEmail" type="text" class="input">
+                      </div>
+                      <div *ngIf="edit == false">
+                        <label *ngIf="user" class="form-control">{{user.email}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">City:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div *ngIf="edit == true">
+                        <input *ngIf="changedUser" [(ngModel)]="inputCity" type="text" class="input">
+                      </div>
+                      <div *ngIf="edit == false">
+                        <label *ngIf="user" class="form-control">{{user.city}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <label style="font-weight:bold;">Telephone number:</label>
+                    </div>
+                    <div class="col-md-8 col-6">
+                      <div *ngIf="edit == true">
+                        <input *ngIf="changedUser" [(ngModel)]="inputTelephoneNumber" type="text" class="input">
+                      </div>
+                      <div *ngIf="edit == false">
+                        <label *ngIf="user" class="form-control">{{user.telephoneNumber}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <div *ngIf="edit == true" class="row">
+                    <div class="col-sm-3 col-md-2 col-5">
+                      <button type="button" class="btn btn-outline-danger" (click)="saveChangedData()">Save</button>
+                    </div>
+                    <div class="col-sm-8 col-6">
+                      <button type="button" class="btn btn-outline-danger"
+                        (click)="discardChangedData()">Discard</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
