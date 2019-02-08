@@ -32,11 +32,15 @@ public class NotificationService {
 	
 	public void sendInvite(User user1, User user2, AvioFlight flight) throws MailException {
 		SimpleMailMessage mail = new SimpleMailMessage();
+		
+		String mailText = "You are invited for a vacation to " + flight.getEndLocation().getCity() + ", "+ flight.getEndLocation().getCountry() + "\n" 
+		+ "By: " + user1.getName() + " " + user1.getLastName() 
+		+ "\nCheck invite on following link: http://localhost:4200/auth/login";
+		
 		mail.setTo(user2.getEmail());
 		mail.setFrom("duleda.isa@gmail.com");
 		mail.setSubject("Invite for a vacation");
-		mail.setText("You are invited for a vacation in" + flight.getEndLocation().getCity() + "," +flight.getEndLocation().getCountry() + "by: " + user1.getName() + " " + user1.getLastName() + "./n Check invites on your profile after: http://localhost:4200/auth/login");
-	
+		mail.setText(mailText);
 		mailSender.send(mail);
 	}
 	

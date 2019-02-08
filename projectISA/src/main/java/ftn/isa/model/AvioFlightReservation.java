@@ -23,7 +23,7 @@ public class AvioFlightReservation {
 	private int ratingCompany;
 	private boolean isDeleted;
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "id", nullable = false, unique = true)
+	@JoinColumn(referencedColumnName = "id", nullable = false)
 	private AvioFlightSeat seat;
 	
 

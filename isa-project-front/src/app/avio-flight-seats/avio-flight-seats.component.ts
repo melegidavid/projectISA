@@ -4,6 +4,9 @@ import * as $ from 'jquery';
 import { Observable } from '../../../node_modules/rxjs';
 import { AvioCompaniesService } from '../all-avio-companies/avio-companies.service';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
+import { UserService } from '../user.service';
+import { UserDTO } from '../dto/user.model';
+import { getLocaleFirstDayOfWeek } from '@angular/common';
 
 @Component({
   selector: 'app-avio-flight-seats',
@@ -28,6 +31,7 @@ export class AvioFlightSeatsComponent implements OnInit {
 
   constructor(
     private avioCompaniesService: AvioCompaniesService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -35,6 +39,7 @@ export class AvioFlightSeatsComponent implements OnInit {
     this.username = localStorage.getItem('username');
     this.classOfFlight = localStorage.getItem('fligthClass');
     this.numberOfTravelers = JSON.parse(localStorage.getItem('numberOfTravelers'));
+    
     console.log("broj putnika: " + this.numberOfTravelers);
     
     this.sub = this.route.params.subscribe(params => { //uzimanje parametara iz url-a
@@ -49,6 +54,10 @@ export class AvioFlightSeatsComponent implements OnInit {
     });
     
 
+  }
+
+  setSeats(){
+    localStorage.setItem("selectedSeats", JSON.stringify(this.selectedSeats));
   }
 
   public getAvioFlightSeats(id: number | string) : Observable<AvioFlightSeat[]> {

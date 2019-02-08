@@ -9,6 +9,8 @@ public class InviteForFlightDTO {
 	private UserDTO userDTO2;
 	private AvioFlightDTO avioFlightDTO;
 	private boolean accepted;
+	
+	public InviteForFlightDTO() {}
 
 	public InviteForFlightDTO(InviteForFlight invite) {
 		this.id = invite.getId();

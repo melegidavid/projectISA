@@ -3,8 +3,8 @@ import { AvioFlight } from "./avio-flight.model";
 
 export class InviteForFlight{
     id: number;
-    user1: UserDTO;
-    user2: UserDTO;
-    avioFlight: AvioFlight;
+    userDTO1: UserDTO;
+    userDTO2: UserDTO;
+    avioFlightDTO: AvioFlight;
     accepted: boolean;
 }

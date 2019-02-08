@@ -467,51 +467,40 @@ public class UserController {
 		User user = userService.findUser(id);
 		AvioFlight flight = flightService.findAvioFlight(idFlight);
 
-		List<UserDTO> friendsOfUser = this.getFriendsOfUser(id).getBody();
-		int i = 0;
-		for (UserDTO friend : friends) {
-			if (friendsOfUser.contains(friend)) {
-				i++;
+		for (UserDTO fr : friends) {
+			User friend = userService.findUser(fr.getId());
+			InviteForFlight newInvite = new InviteForFlight();
+			newInvite.setUser1(user);
+			newInvite.setUser2(friend);
+			newInvite.setAccepted(false);
+			newInvite.setFlight(flight);
+			newInvite = inviteService.saveInvite(newInvite);
+
+			try {
+				mailService.sendInvite(user, friend, flight); // send mail
+			} catch (MailException m) {
+				System.out.println("Neuspesno poslat poziv!");
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 		}
 
-		if (i == friends.size()) {
-			for (UserDTO fr : friends) {
-				User friend = new User(fr.getUsername(), fr.getPassword(), fr.getEmail(), fr.getName(),
-						fr.getLastName(), fr.getCity(), fr.getTelephoneNumber(), true);
-				InviteForFlight newInvite = new InviteForFlight();
-				newInvite.setUser1(user);
-				newInvite.setUser2(friend);
-				newInvite.setAccepted(false);
-				newInvite.setFlight(flight);
-				newInvite = inviteService.saveInvite(newInvite);
+		return new ResponseEntity<>(friends, HttpStatus.OK);
 
-				try {
-					mailService.sendInvite(user, friend, flight); // send mail
-				} catch (MailException m) {
-					System.out.println("Neuspesno poslat poziv!");
-					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-				}
-			}
-
-			return new ResponseEntity<>(friends, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(value = "/{id}/invites", method = RequestMethod.GET)
-	public ResponseEntity<List<InviteForFlightDTO>> getInvites(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/{username}/invites", method = RequestMethod.GET)
+	public ResponseEntity<List<InviteForFlightDTO>> getInvites(@PathVariable("username") String username) {
 
 		List<InviteForFlight> allInvites = new ArrayList<InviteForFlight>();
 
 		List<InviteForFlightDTO> invites = new ArrayList<InviteForFlightDTO>();
 
+		User user = userService.getUserByUsername(username);
 		allInvites = inviteService.getAllInvites();
 
 		if (allInvites != null) {
 			for (InviteForFlight invite : allInvites) {
-				if (invite.getUser2().getId().equals(id)) {
+				if (invite.getUser2().equals(user) && invite.isAccepted() == false) {
 					invites.add(new InviteForFlightDTO(invite));
 				}
 			}
@@ -519,4 +508,21 @@ public class UserController {
 
 		return new ResponseEntity<>(invites, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/{id}/acceptInvite", method =RequestMethod.POST)
+	public ResponseEntity<Void> acceptInvite(@PathVariable("id")Long id, @RequestBody InviteForFlightDTO inviteDTO) {
+
+		User user = userService.findUser(id);
+		InviteForFlight invite = inviteService.findInvite(inviteDTO.getId());
+		if(user != null && invite != null && invite.getUser2().equals(user)) {	
+			
+			invite.setAccepted(true);
+			invite = inviteService.updateInvite(invite);
+			
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+	
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 }

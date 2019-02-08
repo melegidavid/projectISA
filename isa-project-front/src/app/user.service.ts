@@ -15,6 +15,7 @@ import { DateRange } from './dto/date-range';
 import { RentCarReport } from './dto/rent-car-report';
 import { HotelReport } from './dto/hotel-report';
 import { AvioReport } from './dto/avio-report';
+import { InviteForFlight } from './dto/inviteForFlight';
 
 
 
@@ -215,8 +216,16 @@ export class UserService {
     return this.http.post("http://localhost:9004/users/" + id + "/changePassword/" + oldPass + "/" + newPass, { responseType: 'text' });
   }
 
-  getInvites(id: number): Observable<any> {
-    return this.http.get("http://localhost:9004/users/" + id + "/invites", { responseType: 'json' });
+  getInvites(username: string): Observable<any> {
+    return this.http.get("http://localhost:9004/users/" + username + "/invites", { responseType: 'json' });
+  }
+
+  inviteFriends(id: number, idFlight: number, friends: UserDTO[]): Observable<any> {
+    return this.http.post("http://localhost:9004/users/" + id + "/inviteFriends/" + idFlight, friends, { responseType: 'json' });
+  }
+
+  acceptInvite(id:number, invite:InviteForFlight): Observable<any>{
+    return this.http.post("http://localhost:9004/users/" + id + "/acceptInvite",  invite);
   }
 
 

@@ -3,7 +3,9 @@ import { UserService } from '../user.service';
 import { UserDTO } from '../dto/user.model';
 import { Observable, fromEventPattern } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InviteForFlight} from '../dto/inviteForFlight';
+import { InviteForFlight } from '../dto/inviteForFlight';
+import { AvioCompaniesService } from '../all-avio-companies/avio-companies.service';
+import { AvioFlight } from '../dto/avio-flight.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,8 +18,8 @@ export class UserProfileComponent implements OnInit {
 
   len: number;
   username: string;
-  user: UserDTO;
-  friend: UserDTO;
+  user: UserDTO = new UserDTO();
+  friend: UserDTO = new UserDTO();
   friends: UserDTO[] = [];
   private sub: any;
   id: number;
@@ -29,14 +31,14 @@ export class UserProfileComponent implements OnInit {
 
   usersToSearch: UserDTO[] = [];
 
-  newFriend: UserDTO;
+  newFriend: UserDTO = new UserDTO();
   requests: UserDTO[] = [];
   request: UserDTO;
   numberOfRequests: number;
 
   edit: boolean = false;
   changePassword: boolean = false;
-  changedUser: UserDTO; 
+  changedUser: UserDTO = new UserDTO();
 
   inputUsername: string;
   inputPassword: string;
@@ -50,14 +52,17 @@ export class UserProfileComponent implements OnInit {
 
   invites: InviteForFlight[] = [];
   numberOfInvites: number;
-  invite: InviteForFlight;
+  invite: InviteForFlight = new InviteForFlight();
+  tempFlight: AvioFlight = new AvioFlight();
+  inviteID: number;
 
 
 
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private avioService: AvioCompaniesService
   ) { }
 
   ngOnInit() {
@@ -81,7 +86,7 @@ export class UserProfileComponent implements OnInit {
 
       this.getUserFriendsByUsername(this.username).subscribe(data => {
         this.friends = data;
-      
+
       });
 
       this.getUserList().subscribe(data => {
@@ -97,10 +102,11 @@ export class UserProfileComponent implements OnInit {
         this.numberOfRequests = this.requests.length;
       });
 
-      this.getInvites(this.user.id).subscribe(data=>{
+      this.getInvites(this.username).subscribe(data => {
         this.invites = data;
+        console.log(this.invites);
         this.numberOfInvites = this.invites.length;
-        console.log(data);
+        console.log(this.numberOfInvites);
       });
 
     }
@@ -166,7 +172,7 @@ export class UserProfileComponent implements OnInit {
       this.getUsersToSearch(this.username).subscribe(data => {
         this.usersToSearch = data;
       });
-      
+
       this.getUsersRequests(this.username).subscribe(data => {
         this.requests = data;
         this.numberOfRequests = this.requests.length;
@@ -174,26 +180,67 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  acceptInvite(){
+  acceptInvite(invite: InviteForFlight) {
+    console.log(invite);
+    this.userService.acceptInvite(this.id, invite).subscribe(data => {
+      console.log(data);
+      this.getInvites(this.username).subscribe(data => {
+        this.invites = data;
+        this.numberOfInvites = this.invites.length;
+      });
+    });
+
     
   }
 
-  saveChangePassword(){
-    this.userService.changePassword(this.user.id, this.inputOldPassword, this.inputNewPassword).subscribe(data=>{
+  declineInvite(invite: InviteForFlight) {
+    this.inviteID = invite.id;
+    this.tempFlight = invite.avioFlightDTO;
+    this.avioService.declineInvite(this.tempFlight.id, this.id, this.inviteID).subscribe(data =>{
+      console.log("DECLINE: ");
+      console.log(data);
+      this.getInvites(this.username).subscribe(data => {
+        this.invites = data;
+        console.log(data);
+        this.numberOfInvites = this.invites.length;
+      });
+    });
+  }
+
+  showRequests(){
+    this.getUsersRequests(this.username).subscribe(data => {
+      this.requests = data;
+      console.log(data);
+      this.numberOfRequests = this.requests.length;
+    });
+  }
+
+  showInvites(){
+    this.getInvites(this.username).subscribe(data=>{
+      this.invites = data;
+      console.log("INVITES");
+      console.log(data);
+      
+      this.numberOfInvites = this.invites.length;
+    });
+  }
+
+  saveChangePassword() {
+    this.userService.changePassword(this.user.id, this.inputOldPassword, this.inputNewPassword).subscribe(data => {
       this.changePassword = false;
       this.logOut();
       this.router.navigate(['auth/login']);
     });
   }
 
-  discardChangePassword(){
+  discardChangePassword() {
     this.inputPassword = this.user.password;
     this.inputOldPassword = "";
     this.inputNewPassword = "";
     this.changePassword = false;
   }
 
-  saveChangedData(){
+  saveChangedData() {
     this.changedUser.name = this.inputName;
     this.changedUser.lastName = this.inputLastName;
     this.changedUser.email = this.inputEmail;
@@ -201,11 +248,11 @@ export class UserProfileComponent implements OnInit {
     this.changedUser.city = this.inputCity;
     this.edit = false;
 
-    this.userService.updateUser(this.user.id, this.changedUser).subscribe(data=>{
+    this.userService.updateUser(this.user.id, this.changedUser).subscribe(data => {
       this.user = data;
     });
   }
-  discardChangedData(){
+  discardChangedData() {
     this.inputName = this.changedUser.name;
     this.inputLastName = this.changedUser.lastName;
     this.inputEmail = this.changedUser.email;
@@ -242,8 +289,8 @@ export class UserProfileComponent implements OnInit {
     return this.userService.getUsersRequest(username);
   }
 
-  public getInvites(id: number):Observable<any>{
-    return this.userService.getInvites(id);
+  public getInvites(username: string): Observable<InviteForFlight[]> {
+    return this.userService.getInvites(username);
   }
 
 }

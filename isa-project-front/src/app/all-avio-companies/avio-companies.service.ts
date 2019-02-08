@@ -5,6 +5,8 @@ import { AvioCompany } from '../dto/avio-company.model';
 import { AvioFlight } from '../dto/avio-flight.model';
 import { AvioflightSearchDTO } from '../dto/avio-flight-search';
 import { AvioFlightSeat } from '../dto/avio-flight-seat.model';
+import { AvioFlightReservation } from '../dto/avio-flight-reservation';
+
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +48,14 @@ export class AvioCompaniesService {
 
   getAvioAvgRating(id: number) : Observable<number> {
     return this.http.get<number>("http://localhost:9004/avio_companies/" + id + "/avgAvioRating");
+  }
+
+  makeReservation(reservation: AvioFlightReservation) :Observable<any>{
+    return this.http.post("http://localhost:9004/avio_companies/flight/reservation", reservation, {responseType: 'json'});
+  }
+
+  declineInvite(idFlight: number, idUser: number, idInvite: number){
+    return this.http.delete("http://localhost:9004/avio_companies/"+ idFlight + "/flight/" +idUser + "/declineReservation/" + idInvite);
   }
 
 }

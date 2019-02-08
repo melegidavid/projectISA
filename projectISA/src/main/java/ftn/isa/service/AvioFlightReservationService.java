@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ftn.isa.model.AvioFlight;
 import ftn.isa.model.AvioFlightReservation;
 import ftn.isa.repository.AvioFlightReservationRepository;
 
@@ -18,8 +19,14 @@ public class AvioFlightReservationService {
 
 	public List<AvioFlightReservation> getAllReservation(){
 		List<AvioFlightReservation> list = new ArrayList<AvioFlightReservation>();
-		flightReservationRepository.findAll().forEach(list::add);
-		return list;
+		list = flightReservationRepository.findAll();
+		List<AvioFlightReservation> result = new ArrayList<AvioFlightReservation>();
+		for (AvioFlightReservation reservation : list) {
+			if (reservation.isDeleted() != true) {
+				result.add(reservation);
+			}
+		}
+		return result;
 	}
 	
 	public AvioFlightReservation findReservation(Long id) {
@@ -36,6 +43,7 @@ public class AvioFlightReservationService {
 	
 	
 	public void removeReservation(Long id) {
-		flightReservationRepository.deleteById(id);
+		flightReservationRepository.getOne(id).setDeleted(true);
+		flightReservationRepository.save(flightReservationRepository.getOne(id));
 	}
 }

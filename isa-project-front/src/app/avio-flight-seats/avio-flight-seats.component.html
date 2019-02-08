@@ -54,7 +54,7 @@
   <div class="col-md-8">
   </div>
   <div class="col-md-4" *ngIf="clickedCounter == numberOfTravelers">
-      <button class="btn btn-primary" routerLink="/invite-friends">Next</button>
+      <button class="btn btn-primary" (click)="setSeats()" routerLink="/invite-friends">Next</button>
   </div>
 </div>
 

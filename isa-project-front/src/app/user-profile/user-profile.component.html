@@ -128,7 +128,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" role="tab"
+                                    <a class="nav-link" id="requests-tab" data-toggle="tab" href="#requests" (click)="showRequests()" role="tab"
                                         aria-controls="requests" aria-selected="true">Friend
                                         Requests
                                         <span *ngIf="numberOfRequests >  0" class="badge">{{numberOfRequests}}</span>
@@ -136,9 +136,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" id="invites-tab" data-toggle="tab" href="#invites" role="tab"
-                                        aria-controls="invites" aria-selected="true">Friend
-                                        Requests
+                                    <a class="nav-link" id="invites-tab" data-toggle="tab" href="#invites" (click)="showInvites()" role="tab"
+                                        aria-controls="invites" aria-selected="true">Invites
                                         <span *ngIf="numberOfInvites >  0" class="badge">{{numberOfInvites}}</span>
                                     </a>
                                 </li>
@@ -395,26 +394,26 @@
                                 <div class="tab-pane fade" id="invites" role="tabpanel" aria-labelledby="invites-tab">
                                     <div *ngFor="let invite of invites">
                                         <div class="jumbotron">
-                                            <div class="row" style="height: 10px">
+                                            <div class="row">
                                                 <div class="col-sm-6">
-                                                    <label>From: {{invite.user1.name}} {{invite.user1.lastName}}</label>
+                                                    <label>From: {{invite.userDTO1.name}} {{invite.userDTO1.lastName}}</label>
                                                     <hr>
-                                                    <label>Flight: {{invite.avioFlight.startLocation.city}} + '-' +
-                                                        {{invite.avioFlight.endLocation.city}}</label>
+                                                    <label>Flight: {{invite.avioFlightDTO.startLocation.city}} - 
+                                                        {{invite.avioFlightDTO.endLocation.city}}</label>
                                                     <hr>
                                                     <label>Date:
-                                                        {{invite.avioFlight.dateTimeStart | date: 'medium'}}</label>
+                                                        {{invite.avioFlightDTO.dateTimeStart | date: 'medium'}}</label>
                                                     <hr>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="row">
                                                         <div class="col-sm-3">
                                                             <button type="button" class="btn btn-outline-danger"
-                                                                (click)="acceptInvite()">Accept</button>
+                                                                (click)="acceptInvite(invite)">Accept</button>
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <button type="button" class="btn btn-outline-danger"
-                                                                (click)="declineInvite()">Decline</button>
+                                                                (click)="declineInvite(invite)">Decline</button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -27,12 +27,14 @@ import ftn.isa.model.AvioCompany;
 import ftn.isa.model.AvioFlight;
 import ftn.isa.model.AvioFlightReservation;
 import ftn.isa.model.AvioFlightSeat;
+import ftn.isa.model.InviteForFlight;
 import ftn.isa.model.User;
 import ftn.isa.service.AddressService;
 import ftn.isa.service.AvioCompanyService;
 import ftn.isa.service.AvioFlightReservationService;
 import ftn.isa.service.AvioFlightSeatService;
 import ftn.isa.service.AvioFlightService;
+import ftn.isa.service.InviteForFlightService;
 import ftn.isa.service.UserService;
 
 @RestController
@@ -57,6 +59,9 @@ public class AvioCompanyController {
 
 	@Autowired
 	private AvioFlightReservationService reservationService;
+
+	@Autowired
+	private InviteForFlightService inviteService;
 
 	// kontroler avio kompanije
 
@@ -555,7 +560,7 @@ public class AvioCompanyController {
 
 		if (avioFlight != null) {
 			if (avioFlight.getSeats() != null) {
-				for(AvioFlightSeat seat : avioFlight.getSeats()) {
+				for (AvioFlightSeat seat : avioFlight.getSeats()) {
 					seats.add(new AvioFlightSeatDTO(seat));
 				}
 			}
@@ -586,7 +591,7 @@ public class AvioCompanyController {
 	}
 
 	@RequestMapping(value = "/flight/{id}/seats", method = RequestMethod.GET)
-	public ResponseEntity<List<AvioFlightSeat>> getSeatsOfFlight(@PathVariable("id") Long id) {
+	public ResponseEntity<List<AvioFlightSeatDTO>> getSeatsOfFlight(@PathVariable("id") Long id) {
 
 		AvioFlight avioFlight = avioFlightService.findAvioFlight(id);
 
@@ -600,7 +605,15 @@ public class AvioCompanyController {
 			}
 		}
 
-		return new ResponseEntity<>(seats, HttpStatus.OK);
+		List<AvioFlightSeatDTO> seatsDTO = new ArrayList<AvioFlightSeatDTO>();
+
+		if (!seats.isEmpty()) {
+			for (AvioFlightSeat seat : seats) {
+				seatsDTO.add(new AvioFlightSeatDTO(seat));
+			}
+		}
+
+		return new ResponseEntity<>(seatsDTO, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/flight/{id}/seats/{seatId}", method = RequestMethod.GET)
@@ -630,6 +643,8 @@ public class AvioCompanyController {
 			AvioFlightReservation newReservation = new AvioFlightReservation();
 			newReservation.setAvioFlight(avioFlight);
 			newReservation.setUser(user);
+			seat.setFree(false);
+			seat = seatService.updateSeat(seat);
 			newReservation.setSeat(seat);
 			newReservation.setDeleted(false);
 			newReservation.setRatingFlight(-1);
@@ -643,20 +658,57 @@ public class AvioCompanyController {
 
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-	
-	@RequestMapping(value="/{id}/avgAvioRating", method=RequestMethod.GET)
-	public Double getAvioAvgRating(@PathVariable Long id){
-		
+
+	@RequestMapping(value = "/{id}/avgAvioRating", method = RequestMethod.GET)
+	public Double getAvioAvgRating(@PathVariable Long id) {
+
 		return avioCompanyService.getAvgRating(id);
 	}
-	
-	//generisanje izvestaja od strane admina, preutorize admin, prima id rentCara
-	@RequestMapping(value="/{idAvio}/generate", method=RequestMethod.POST) 
+
+	// generisanje izvestaja od strane admina, preutorize admin, prima id rentCara
+	@RequestMapping(value = "/{idAvio}/generate", method = RequestMethod.POST)
 	public ResponseEntity<AvioReport> generateReport(@PathVariable Long idAvio, @RequestBody DateRange dateRange) {
-		
+
 		AvioReport rcr = avioCompanyService.generateReport(idAvio, dateRange);
-		
+
 		return new ResponseEntity<>(rcr, HttpStatus.CREATED);
+	}
+
+	// decline
+	@RequestMapping(value = "/{idFlight}/flight/{idUser}/declineReservation/{idInvite}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> declineReservation(@PathVariable("idUser") Long idUser,
+			@PathVariable("idFlight") Long idFlight, @PathVariable("idInvite") Long idInvite) {
+
+		User user = userService.findUser(idUser);
+		AvioFlight flight = avioFlightService.findAvioFlight(idFlight);
+		InviteForFlight invite = inviteService.findInvite(idInvite);
+
+		List<AvioFlightReservation> reservations = reservationService.getAllReservation();
+
+		if (user != null && flight != null && !reservations.isEmpty() && flight.isDeleted() == false) {
+			System.out.println("USO PRVI IF");
+			for (AvioFlightReservation reservation : reservations) {
+				if (reservation != null && reservation.isDeleted() == false) {
+					System.out.println("USO DRUGI IF");
+					if (reservation.getUser().equals(user) && reservation.getAvioFlight().equals(flight)) {
+						System.out.println("USERNAME: " + reservation.getUser().getUsername());
+						System.out.println("FLIGHT: " + reservation.getAvioFlight().getStartLocation());
+						AvioFlightSeat seat = seatService.findSeat(reservation.getSeat().getId());
+						if (seat != null && seat.isDeleted() == false && seat.isFree() == false) {
+							System.out.println("USO TRECI IF");
+							seat.setFree(true);
+							seat = seatService.updateSeat(seat);
+						}
+						System.out.println("USO U DECLINE");
+						inviteService.removeInvite(invite.getId());
+						reservationService.removeReservation(reservation.getId());
+					}
+				}
+			}
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }

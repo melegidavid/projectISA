@@ -124,7 +124,7 @@ export class AllAvioCompaniesComponent implements OnInit {
     console.log(flight.startLocation.city);
     console.log(flight.endLocation.city);
     console.log(this.username);
-    //localStorage.setItem('flight', JSON.stringify(flight));
+    localStorage.setItem('flight', JSON.stringify(flight));
     localStorage.setItem('fligthClass', this.classFlight);
     localStorage.setItem('numberOfTravelers', JSON.stringify(this.travelers));
 
