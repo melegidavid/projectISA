@@ -109,7 +109,6 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
 		//userService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
 

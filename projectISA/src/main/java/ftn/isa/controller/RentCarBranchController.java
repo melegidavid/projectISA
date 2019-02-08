@@ -82,7 +82,6 @@ public class RentCarBranchController {
 		return new ResponseEntity<>(new RentCarBranchDTO(rentCarBranch), HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/save", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<RentCarBranchDTO> saveRentCarBranch(@RequestBody RentCarBranchDTO rentCarBranchDTO){
 		
@@ -107,7 +106,7 @@ public class RentCarBranchController {
 		return new ResponseEntity<>(new RentCarBranchDTO(rentCarBranch), HttpStatus.CREATED);	
 	}
 	
-	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
+	
 	@RequestMapping(value="/update", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<RentCarBranchDTO> updateRentCarBranch(@RequestBody RentCarBranchDTO rentCarBranchDTO){
 		
@@ -129,7 +128,7 @@ public class RentCarBranchController {
 		return new ResponseEntity<>(new RentCarBranchDTO(rentCarBranch), HttpStatus.OK);	
 	}
 	
-	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteRentCarBranch(@PathVariable Long id){
 		

@@ -22,7 +22,7 @@ public class Authority implements GrantedAuthority {
     Long id;
 
 	@Version
-	private Long version;
+	private Long version = 1L;
 	
     @Column(name="name")
     String name;

@@ -19,7 +19,7 @@ public class Address {
 	private int number;
 	
 	@Version
-	private Long version;
+	private Long version = 1L;
 	
 	public Address() {
 		

@@ -118,7 +118,6 @@ public class VehicleController {
 	}
 	
 	
-	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteVehicle(@PathVariable Long id){
 		

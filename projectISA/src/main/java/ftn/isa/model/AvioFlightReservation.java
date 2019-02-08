@@ -24,7 +24,7 @@ public class AvioFlightReservation {
 	private User user;
 	private int ratingFlight;
 	@Version
-	private Long version;
+	private Long version  = 1L;
 
 	private int ratingCompany;
 	private boolean isDeleted;

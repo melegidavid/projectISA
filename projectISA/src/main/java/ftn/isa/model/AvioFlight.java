@@ -23,7 +23,7 @@ public class AvioFlight {
 	private Long id;
 
 	@Version
-	private Long version;
+	private Long version = 1L;
 	
 	private LocalDateTime dateTimeStart;
 	private LocalDateTime dateTimeFinish;
