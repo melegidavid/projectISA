@@ -240,7 +240,7 @@
                   <label *ngIf="flight">{{flight.avioCompany.name}}</label>
                 </div>
               </div>
-              <div *ngIf="username" class="col-sm-3 col-md-2 col-5">
+              <div *ngIf="username && alreadyExistingFlight == undefined" class="col-sm-3 col-md-2 col-5">
                 <button type="button" class="btn btn-outline-primary" (click)="reservationFlight(flight)">Make reservation</button>
               </div>
             </div>

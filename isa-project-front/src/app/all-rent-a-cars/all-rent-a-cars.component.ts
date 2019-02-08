@@ -7,6 +7,7 @@ import { RentACarService } from './rent-a-car.service';
 import { UserService } from '../user.service';
 import { RentACarSearchDTO } from '../dto/rent-a-car-search';
 import { Address } from '../dto/address.model';
+import { AvioFlight } from '../dto/avio-flight.model';
 
 @Component({
   selector: 'app-all-rent-a-cars',
@@ -21,9 +22,11 @@ export class AllRentACarsComponent implements OnInit {
   username: string;
   rentACars: RentACar[] = [];
   name : string = "";
-  start : string = "";
-  end : string = "";
+  start : Date;
+  end : Date;
   address : Address = new Address();
+
+  flight: AvioFlight;
 
   constructor(
     private http: HttpClient,
@@ -36,13 +39,24 @@ export class AllRentACarsComponent implements OnInit {
   ngOnInit() {
     this.len = localStorage.length;
     this.username = localStorage.getItem('username');
+    this.flight = JSON.parse(localStorage.getItem('flight'));
+    this.restoreInputs(); 
+
+    if(this.flight != undefined) {
+      this.start = JSON.parse(localStorage.getItem('startDate'));
+      console.log("start date mi ispisi" + this.start);
+      this.address.city = this.flight.endLocation.city;
+      console.log("adres siti: " + this.address.city);
+      this.address.country = this.flight.endLocation.country;
+      console.log("adres kantri: " + this.address.country);
+    }
     console.log(localStorage);
 
     this.getRentACars().subscribe((data) => {
       this.rentACars = data;
     });
 
-    this.restoreInputs(); 
+    
   }
 
   public getRentACars(): Observable<RentACar[]> {
@@ -57,17 +71,17 @@ export class AllRentACarsComponent implements OnInit {
     //validiraj formate datuma
     let startDate : Date;
 
-    if(this.start == "") {
+    if(this.start == undefined) {
       startDate = null;
     } else {
       startDate = new Date(this.start);
     }
 
     let endDate : Date;
-    if(this.end == "") {
+    if(this.end == undefined) {
       endDate = null;
     } else {
-      endDate = new Date(this.end);
+      endDate = this.end;
     }
 
     if(this.address.number == null) {
@@ -103,8 +117,8 @@ export class AllRentACarsComponent implements OnInit {
 
   public restoreInputs() {
     this.name = "";
-    this.end = "";
-    this.start = "";
+    this.end = undefined;
+    this.start = undefined;
     this.address.city = "";
     this.address.country = "";
     this.address.street = "";

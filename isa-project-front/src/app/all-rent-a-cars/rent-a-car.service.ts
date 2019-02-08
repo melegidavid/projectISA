@@ -6,6 +6,8 @@ import { RentACarMenuItem } from '../dto/rent-a-car-menu-item.model';
 import { RentACarBranch } from '../dto/rent-a-car-branch.model';
 import { Vehicle } from '../dto/vehicle.model';
 import { RentACarSearchDTO } from '../dto/rent-a-car-search';
+import { VehicleSearch } from '../dto/vehicle-search.model';
+import { VehicleReservationDTO } from '../dto/vehicleReservationDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -51,8 +53,18 @@ export class RentACarService {
     return this.http.get<Vehicle[]>("http://localhost:9004/rent_a_cars/" + id + "/vehicles", {responseType: 'json'});
   }
 
+  getFreeVehicles(dto: VehicleSearch) : Observable<Vehicle[]> {
+    return this.http.post<Vehicle[]>("http://localhost:9004/vehicles/searchVehicles", dto);
+  }
+
+
   getVehicle(id: number | string) : Observable<Vehicle> {
     return this.http.get<Vehicle>("http://localhost:9004/vehicles/" + id, {responseType: 'json'});
+  }
+
+  makeReservation(dto : VehicleReservationDTO) : Observable<VehicleReservationDTO>{
+    console.log("ja uso");
+    return this.http.post<VehicleReservationDTO>("http://localhost:9004/vehicles/reserveVehicle" , dto);
   }
 
   updateVehicle(vehicle: Vehicle) {

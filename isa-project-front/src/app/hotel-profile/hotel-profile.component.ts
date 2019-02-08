@@ -11,6 +11,10 @@ import { RoomReservation } from '../dto/room-reservation.model';
 import { HotelReport } from '../dto/hotel-report';
 import { DateRange } from '../dto/date-range';
 import * as $ from 'jquery';
+import { Address } from '../dto/address.model';
+import { DomSanitizer, SafeUrl } from '../../../node_modules/@angular/platform-browser';
+import { AvioFlight } from '../dto/avio-flight.model';
+
 
 
 @Component({
@@ -27,6 +31,7 @@ export class HotelProfileComponent implements OnInit {
 
   roomsNumber: number;
   guestsNumber: number;
+  maxGuestsNumber: number;
   startPrice: number;
   endPrice: number;
 
@@ -53,11 +58,19 @@ export class HotelProfileComponent implements OnInit {
 
   searchClicked: boolean = false;
 
+  addressUrl: string;
+  trustedUrl: SafeUrl;
+
+  flight: AvioFlight;
+  alreadyExistingHotel: Hotel;
+
+
   constructor(
     private hotelService: HotelsService,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService) {
+    private userService: UserService,
+    private sanitizer: DomSanitizer) {
 
     this.router = router;
   }
@@ -71,6 +84,10 @@ export class HotelProfileComponent implements OnInit {
     this.endDateMy = new Date();
 
     this.username = localStorage.getItem('username');
+    this.maxGuestsNumber = JSON.parse(localStorage.getItem('numberOfTravelers'));
+    this.flight = JSON.parse(localStorage.getItem('flight'));
+    this.alreadyExistingHotel = JSON.parse(localStorage.getItem('hotel'));
+
     console.log(localStorage);
 
     let x = localStorage.getItem('role');
@@ -92,6 +109,8 @@ export class HotelProfileComponent implements OnInit {
     this.getHotel(this.id).subscribe(data => {
       if (data != undefined) {
         this.hotel = data;
+        this.makeAddressUrl(this.hotel.addressDTO);
+        this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.addressUrl);
       }
     });
 
@@ -105,6 +124,8 @@ export class HotelProfileComponent implements OnInit {
       this.startDate = JSON.parse(localStorage.getItem('startDate'));
       this.endDate = JSON.parse(localStorage.getItem('endDate'));
 
+      console.log("pocetni" + this.startDate);
+      console.log("krajnji" + this.endDate);
       this.endDate = new Date(this.endDate + 'T00:00:00+01:00');
       this.startDate = new Date(this.startDate + 'T00:00:00+01:00');
       let differnce = this.endDate.getTime() - this.startDate.getTime();
@@ -149,6 +170,26 @@ export class HotelProfileComponent implements OnInit {
       });
   }
 
+  public makeAddressUrl(address: Address) {
+    this.addressUrl = 'https://maps.google.com/maps?q=';
+    let grad = address.city.split(" ");
+    let ulica = address.street.split(" ");
+
+    for(let i = 0; i<grad.length; i++) {
+      if(i == 0) {
+        this.addressUrl += grad[i];
+      } else {
+        this.addressUrl += '%20' + grad[i];
+      }
+    }
+
+    for(let i = 0; i<ulica.length; i++) {
+      this.addressUrl += '%20' + ulica[i];
+    }
+    this.addressUrl += '%20' + address.number;
+    this.addressUrl += '&t=&z=13&ie=UTF8&iwloc=&output=embed';
+  }
+
   public makeReservation() {
     let bedsSum: number = 0;
     this.selectedRooms.forEach(room => {
@@ -167,7 +208,10 @@ export class HotelProfileComponent implements OnInit {
         roomReservation.price = this.period * room.price;
 
         this.hotelService.makeReservation(room.id, roomReservation);
+        localStorage.setItem('hotel', JSON.stringify(this.hotel));
       });
+      
+      localStorage.setItem('rooms', JSON.stringify(this.selectedRooms));
       localStorage.setItem('guestsNumber', JSON.stringify(this.guestsNumber));
       this.router.navigate(['hotels', this.id, 'menu_reservation']);
 

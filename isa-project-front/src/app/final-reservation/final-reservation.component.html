@@ -1,0 +1,82 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="images/travel.png">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hotels">Hotels</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/register" *ngIf="username == undefined">Register</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/auth/login" *ngIf="username == undefined">Login</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="username">Logout</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" *ngIf="len > 0">{{username}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid padding">
+  <div class="row welcome text-centre">
+    <div class="col-12">
+      <h1 class="display-4">Your reservation</h1>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-primary" (click)="finishReservation()">Finish reservation</button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <h1>Avio flight</h1>
+  <p>{{flight.avioCompany.name}}</p>
+  <p>From {{flight.startLocation.city + ', '}} {{flight.startLocation.country}}</p>
+  <p>To {{flight.endLocation.city + ', '}} {{flight.endLocation.country}}</p>
+</div>
+
+<div class="container-fluid" *ngIf="hotel != undefined">
+  <h1>Hotel</h1>
+  <p>{{hotel.name}}</p>
+  <h2>Rooms</h2>
+  <div *ngFor="let room of rooms">
+    <p>Room {{room.number}}</p>
+  </div>
+</div>
+
+
+<div class="container-fluid" *ngIf="vehicle">
+  <h1>Rent a car</h1>
+  <p>Vehicle: {{vehicle.mark + ' '}} {{vehicle.model}}</p>
+</div>
+
+

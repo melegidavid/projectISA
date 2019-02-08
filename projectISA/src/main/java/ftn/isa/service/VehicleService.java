@@ -102,29 +102,45 @@ public class VehicleService {
 		List<Vehicle> allVehicles = rentCar.getVehicles();
 		List<Vehicle> searchResult = new ArrayList<>();
 		
+		
+		
 		for(Vehicle v : allVehicles) {
 			
-			if(v.getType() != params.getVehicleType()) {
-				continue;
+			if(!params.getVehicleType().equals("")) {
+				if(!v.getType().toString().equals(params.getVehicleType())) {
+					continue;
+				}	
 			}
 			
-			if(v.getSeatsNumber() < params.getNumberOfPassengers()) {
-				continue; 
-			}
 			
+			if(params.getNumberOfPassengers() != 0) {
+				if(v.getSeatsNumber() < params.getNumberOfPassengers()) {
+					continue; 
+				}
+			}
+		
 			
 			boolean toAdd = true;
+			
 		    for(VehicleReservation res : v.getReseravations()) {
-		    	if(params.getReturnDate().after(res.getStartReservation()) && params.getReturnDate().before(res.getEndReseravtion())) {
-		    		toAdd = false;
+		    	
+		    	if(params.getReturnDate() != null) {
+		    		if(params.getReturnDate().after(res.getStartReservation()) && params.getReturnDate().before(res.getEndReseravtion())) {
+			    		toAdd = false;
+			    	}
 		    	}
 		    	
-		    	if(params.getTakeDate().after(res.getStartReservation()) && params.getTakeDate().before(res.getEndReseravtion())) {
-		    		toAdd = false;
+		    	if(params.getTakeDate() != null) {
+		    		if(params.getTakeDate().after(res.getStartReservation()) && params.getTakeDate().before(res.getEndReseravtion())) {
+			    		toAdd = false;
+			    	}
 		    	}
 		    	
-		    	if(res.getStartReservation().after(params.getTakeDate()) && res.getEndReseravtion().before(params.getReturnDate())) {
-		    		toAdd = false;
+		    	
+		    	if(params.getReturnDate() != null && params.getTakeDate() != null ) {
+		    		if(res.getStartReservation().after(params.getTakeDate()) && res.getEndReseravtion().before(params.getReturnDate())) {
+		    			toAdd = false;
+		    		}		    		
 		    	}
 		    }
 		    

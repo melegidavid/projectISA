@@ -2,7 +2,6 @@ package ftn.isa.dto;
 
 import java.util.Date;
 
-import ftn.isa.enums.VehicleType;
 
 public class VehicleSearchDTO {
 
@@ -11,7 +10,7 @@ public class VehicleSearchDTO {
 	private Date returnDate;
 	private Long takePlace;
 	private Long returnPlace;
-	private VehicleType vehicleType;
+	private String vehicleType;
 	private int numberOfPassengers;
 	
 	
@@ -19,7 +18,7 @@ public class VehicleSearchDTO {
 
 
 	public VehicleSearchDTO(Long idRentCar, Date takeDate, Date returnDate, Long takePlace,
-			Long returnPlace, VehicleType vehicleType, int numberOfPassengers) {
+			Long returnPlace, String vehicleType, int numberOfPassengers) {
 		super();
 		this.idRentCar = idRentCar;
 		this.takeDate = takeDate;
@@ -81,12 +80,12 @@ public class VehicleSearchDTO {
 	}
 
 
-	public VehicleType getVehicleType() {
+	public String getVehicleType() {
 		return vehicleType;
 	}
 
 
-	public void setVehicleType(VehicleType vehicleType) {
+	public void setVehicleType(String vehicleType) {
 		this.vehicleType = vehicleType;
 	}
 

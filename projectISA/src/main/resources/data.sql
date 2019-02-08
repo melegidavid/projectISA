@@ -72,19 +72,20 @@ insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,fl
 insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (122,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 109, 122, false, 20, 20, 20);
 insert into avio_flight (id,date_time_start, date_time_finish,flight_duration,flight_distance,price, start_location_id, end_location_id, avio_company_id, is_deleted, economy_class_seats, business_class_seats, first_class_seats) values (123,"2019-02-03 02:48:03", "2019-02-03 02:48:03", 120, 2000, 300, 101, 110, 121, false, 20, 20, 20);
 
-insert into address(id, country, city, postal_code, street, number) values (101,'Srbija', 'Beograd',11000, 'Juzni Bulevar', 2);
-insert into address(id, country, city, postal_code, street, number) values (102,'Srbija', 'Novi Sad',21000, 'Ulica neka', 23);
-insert into address(id, country, city, postal_code, street, number) values (103,'Srbija', 'Zrenjanin',21000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (104,'Srbija', 'Leskovac',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (105,'Srbija', 'Nis',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (106,'Srbija', 'Subotica',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (107,'Srbija', 'Kragujevac',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (108,'Srbija', 'Kraljevo',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (109,'Srbija', 'Sombor',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (110,'Srbija', 'Valjevo',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (111,'Srbija', 'Krusevac',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (112,'Srbija', 'Sabac',16000, 'Ulica neka', 33);
-insert into address(id, country, city, postal_code, street, number) values (113,'Srbija', 'Surdulica',22000, 'Ulica neka', 33);
+insert into address(id, country, city, postal_code, street, number) values (101,'Srbija', 'Beograd',11000, 'Dunavska', 20);
+insert into address(id, country, city, postal_code, street, number) values (102,'Srbija', 'Novi Sad',21000, 'Dunavska', 1);
+insert into address(id, country, city, postal_code, street, number) values (103,'Srbija', 'Zrenjanin',21000, 'Cara Lazara', 33);
+insert into address(id, country, city, postal_code, street, number) values (104,'Srbija', 'Leskovac',16000, 'Bulevar Nikole Pasica', 30);
+insert into address(id, country, city, postal_code, street, number) values (105,'Srbija', 'Nis',16000, 'Jug Bogdana', 50);
+insert into address(id, country, city, postal_code, street, number) values (106,'Srbija', 'Subotica',24000, 'Segedinski put', 45);
+insert into address(id, country, city, postal_code, street, number) values (107,'Srbija', 'Kragujevac',16000, 'Zmaj Jovinia', 10);
+insert into address(id, country, city, postal_code, street, number) values (108,'Srbija', 'Kraljevo',16000, 'Hajduk Veljkova', 5);
+insert into address(id, country, city, postal_code, street, number) values (109,'Srbija', 'Sombor',16000, 'Vojvodjanska', 12);
+insert into address(id, country, city, postal_code, street, number) values (110,'Srbija', 'Valjevo',16000, 'Vladike Nikolaja', 22);
+insert into address(id, country, city, postal_code, street, number) values (111,'Srbija', 'Krusevac',16000, 'Vidovdanska', 10);
+insert into address(id, country, city, postal_code, street, number) values (112,'Srbija', 'Sabac',16000, 'Janka Veselinovica', 13);
+insert into address(id, country, city, postal_code, street, number) values (113,'Srbija', 'Surdulica',22000, 'Jugoslovenska', 30);
+
 
 
 insert into destinations (avio_company_id, address_id) values (121, 101);
@@ -98,7 +99,7 @@ insert into destinations (avio_company_id, address_id) values (122, 103);
 insert into destinations (avio_company_id, address_id) values (122, 104);
 
 insert into hotel (id, name, address_id, description) values (101,'Hotel Park', 101, 'Imamo i kladionicu');
-insert into hotel (id, name, address_id, description) values (102,'Hotel Vojvodina', 102, 'Nemamo ni kladionicu');
+insert into hotel (id, name, address_id, description) values (102,'Hotel Vojvodina', 103, 'Nemamo ni kladionicu');
 
 insert into hotel_menu_item (id, service_name, price, description, hotel_id, deleted) values (101,'Cistimo krevete', 99.00, 'opis opis opis',102, false);
 insert into hotel_menu_item (id, service_name, price, description, hotel_id, deleted) values (102,'Mini bar', 25.00, 'Neki random opis', 102, false);

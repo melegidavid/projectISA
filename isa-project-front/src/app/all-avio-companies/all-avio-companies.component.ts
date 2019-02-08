@@ -52,6 +52,7 @@ export class AllAvioCompaniesComponent implements OnInit {
   searchResult: boolean = false;
   searchFlightsResult: AvioFlight[] = [];
 
+  alreadyExistingFlight: AvioFlight;
 
   constructor(
     private avioCompanyService: AvioCompaniesService,
@@ -62,6 +63,7 @@ export class AllAvioCompaniesComponent implements OnInit {
   ngOnInit() {
     this.len = localStorage.length;
     this.username = localStorage.getItem('username');
+    this.alreadyExistingFlight = JSON.parse(localStorage.getItem('flight'));
     console.log(localStorage);
 
 
@@ -127,6 +129,7 @@ export class AllAvioCompaniesComponent implements OnInit {
     localStorage.setItem('flight', JSON.stringify(flight));
     localStorage.setItem('fligthClass', this.classFlight);
     localStorage.setItem('numberOfTravelers', JSON.stringify(this.travelers));
+    localStorage.setItem('startDate', JSON.stringify(this.departureDate));
 
     this.router.navigate(['flight', flight.id, 'seats']);
 

@@ -151,7 +151,9 @@ public class HotelController {
 		List<HotelRoom> rooms = hotel.getRooms();
 		
 		if(rooms.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			List<HotelRoomDTO> roomsDTO	= new ArrayList<>();
+			return new ResponseEntity<>(roomsDTO, HttpStatus.OK);
 		}
 		
 		List<HotelRoomDTO> roomsDTO	= new ArrayList<>();
@@ -250,7 +252,9 @@ public class HotelController {
 		List<HotelMenuItem> menu = hotel.getMenu();
 		
 		if(menu.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			//return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			List<HotelMenuItemDTO> menuDTO = new ArrayList<>();
+			return new ResponseEntity<>(menuDTO, HttpStatus.OK);
 		}
 		
 		List<HotelMenuItemDTO> menuDTO = new ArrayList<>();

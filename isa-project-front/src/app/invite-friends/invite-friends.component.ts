@@ -6,6 +6,7 @@ import { AvioFlight } from '../dto/avio-flight.model';
 import { AvioCompaniesService } from '../all-avio-companies/avio-companies.service';
 import { AvioFlightReservation } from '../dto/avio-flight-reservation';
 import { AvioFlightSeat } from '../dto/avio-flight-seat.model';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-invite-friends',
@@ -31,7 +32,8 @@ export class InviteFriendsComponent implements OnInit {
   seats: AvioFlightSeat[] = [];
 
   constructor(private userService: UserService,
-    private avioService: AvioCompaniesService) { }
+    private avioService: AvioCompaniesService,
+    private router: Router) { }
 
   ngOnInit() {
     this.username = localStorage.getItem('username');
@@ -71,6 +73,9 @@ export class InviteFriendsComponent implements OnInit {
       this.makeReservation(this.reservation).subscribe(data => {
 
       });
+
+      this.router.navigate(['hotels']);
+      
     });
   }
 

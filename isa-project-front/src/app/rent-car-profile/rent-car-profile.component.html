@@ -5,44 +5,44 @@
 
 <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" routerLink="/home">
-        <img src="images/travel.png">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/home">Home</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/hotels">Hotels</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/rentACar">Rent a car</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" *ngIf="len > 0">{{username}}</a>
-          </li>
-        </ul>
-      </div>
+        <a class="navbar-brand" routerLink="/home">
+            <img src="images/travel.png">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/home">Home</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/avioCompanies">Avio companies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/hotels">Hotels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/rentACar">Rent a car</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/register" *ngIf="len == 0">Register</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/auth/login" *ngIf="len == 0">Login</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" routerLink="/home" (click)="logOut()" *ngIf="len > 0">Logout</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" *ngIf="len > 0">{{username}}</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </nav>
-  
+</nav>
+
 
 <div class="container emp-profile">
     <form method="post">
@@ -114,6 +114,57 @@
             </div>
         </div>
     </form>
+
+    <div class="container" *ngIf="flight != undefined" style="align-content: center; width: -1000px;">
+        <div class="row centered-form">
+            <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Enter parameters </h3>
+                    </div>
+                    <div class="panel-body">
+                        <form (ngSubmit)="search()">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="date1">Take date</label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" [(ngModel)]="startDateSearch" class="form-control" name="dateFrom" id="date1">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="date1">Return date</label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" [(ngModel)]="endDateSearch" class="form-control" name="dateTo" id="date1">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <select name="roles" class="form-control input-sm" [(ngModel)]="vehicleTypeSearch" id="role1" required>
+                                    <option value="CAR" selected="true">Car</option>
+                                    <option value="BIKE">Bike</option>
+                                    <option value="QUAD">Quad</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="number" min="1" [(ngModel)]="numberOfPassengersSearch" name="email" id="broj" class="form-control input-sm"
+                                    placeholder="Number of passengers">
+                            </div>
+
+                            <input type="submit" value="Search" class="btn btn-info btn-block">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container-fluid padding">
         <div class="row welcome text-centre">
             <div class="col-12">
@@ -139,52 +190,74 @@
                 <div class="card-body text-center">
                     <div class="ad-title m-auto">
                         <h5>{{vehicle.mark + ' '}} {{vehicle.model}}</h5>
-                        <h6>{{vehicle.price}} RSD</h6>
+                        <h6>{{vehicle.price}} e</h6>
                     </div>
-                    <a class="ad-btn" href="#">Rezervisi</a>
+                    <button class="ad-btn" (click)="makeReservation(vehicle)" *ngIf="searchClicked">Add</button>
                 </div>
                 <div class="card-body">
-                    <!-- <input type="date"> -->
-                    <!-- Branch: {{vehicle.rentCarBranch.name}} -->
+                    <p>
+                        Number of seats: {{vehicle.seatsNumber}}
+                    </p>
                 </div>
             </div>
             <hr>
         </div>
     </div>
 
-    
+    <div class="container-fluid" *ngIf="flight != undefined">
+        <div class="col-md-8">
+            <h2>Skip vehicle reservation</h2>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" routerLink="/final-reservation">Next</button>
+        </div>
+    </div>
+
+    <div class="container-fluid padding">
+        <div class="row welcome text-centre">
+            <div class="col-12">
+                <h1 class="display-4">Find us on map</h1>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px;">
+            <iframe [src]='trustedUrl' frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+    </div>
+
     <div *ngIf="showAdminControls">
         <h3>Generisanje izvestaja</h3>
         <div class="row">
-			<div class="col">
-				<label for="date1">Pocetni datum</label>
-			</div>
-			<div class="col">
-				<label for="date1">Krajnji datum</label>
-			</div>
-		</div>
+            <div class="col">
+                <label for="date1">Pocetni datum</label>
+            </div>
+            <div class="col">
+                <label for="date1">Krajnji datum</label>
+            </div>
+        </div>
 
-		<div class="row">
-			<div class="col">
-				<input type="date" [(ngModel)]="startDate" class="form-control" name="dateFrom" id="date1">
-			</div>
-			<div class="col">
-				<input type="date" [(ngModel)]="endDate" class="form-control" name="dateTo" id="date1">
-			</div>
-		</div>
+        <div class="row">
+            <div class="col">
+                <input type="date" [(ngModel)]="startDate" class="form-control" name="dateFrom" id="date1">
+            </div>
+            <div class="col">
+                <input type="date" [(ngModel)]="endDate" class="form-control" name="dateTo" id="date1">
+            </div>
+        </div>
 
         <button class="btn btn-primary" *ngIf="showAdminControls" (click)="generateReport()">Generate report</button>
     </div>
 
-    <div *ngIf="showReport"  class="row">
+    <div *ngIf="showReport" class="row">
         <div class="col">
-            <p >{{report.avgRatingReport}}</p>
-            <p >{{report.prihodPerioda}}</p>
+            <p>{{report.avgRatingReport}}</p>
+            <p>{{report.prihodPerioda}}</p>
             <div *ngFor="let vehicle of report.vehicleReports">
                 {{vehicle}}
             </div>
         </div>
     </div>
-
-    
 </div>

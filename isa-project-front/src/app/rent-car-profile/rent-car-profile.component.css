@@ -216,3 +216,32 @@ body{
     .active {
         font-size: 1.2em;
     }
+
+    /* mape */
+.map-container{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+    }
+    .map-container iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+    }
+
+    .centered-form{
+        margin-top: 60px;
+    }
+    
+    .centered-form .panel{
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+    }
+
+    .form-cotrol {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }

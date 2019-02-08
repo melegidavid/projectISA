@@ -6,6 +6,7 @@ import { HotelsService } from './hotels.service';
 import { UserService } from '../user.service';
 import { RoomReservation } from '../dto/room-reservation.model';
 import { RoomSearch } from '../dto/room-search.model';
+import { AvioFlight } from '../dto/avio-flight.model';
 
 @Component({
   selector: 'app-all-hotels',
@@ -29,6 +30,8 @@ export class AllHotelsComponent implements OnInit {
   username: string;
   hotels : Hotel[] = [];
   hotel: Hotel;
+
+  flight: AvioFlight;
   
   constructor(
     private http: HttpClient,
@@ -39,10 +42,17 @@ export class AllHotelsComponent implements OnInit {
   ngOnInit() {
     this.len = localStorage.length;
     this.username = localStorage.getItem('username');
-    this.startDate = undefined;
-    this.endDate = undefined;
-    localStorage.removeItem('startDate');
-    localStorage.removeItem('endDate');
+    this.flight = JSON.parse(localStorage.getItem('flight'));
+    if(this.flight == undefined) {
+      localStorage.removeItem('startDate');
+      localStorage.removeItem('endDate');
+    } else {
+      this.startDate = JSON.parse(localStorage.getItem('startDate'));
+      this.countrySearch = this.flight.endLocation.country;
+      this.citySearch = this.flight.endLocation.city;
+    }
+    // this.startDate = undefined;
+    // this.endDate = undefined;
     this.getHotels().subscribe(data => {
       this.hotels = data;
     });
@@ -55,6 +65,7 @@ export class AllHotelsComponent implements OnInit {
       alert("Choose both check in and check out date");
     } else {
       let roomSearch = new RoomSearch();
+      console.log("pocetni u searchu" + this.startDate);
       roomSearch.startDate = this.startDate;
       roomSearch.endDate = this.endDate;
       

@@ -20,6 +20,8 @@ import { HotelMenuItemReservationComponent } from './hotel-menu-item-reservation
 import { HotelEditComponent } from './hotel-edit/hotel-edit.component';
 import { AvioFlightSeatsComponent } from './avio-flight-seats/avio-flight-seats.component';
 import { InviteFriendsComponent } from './invite-friends/invite-friends.component';
+import { combineAll } from '../../node_modules/rxjs/operators';
+import { FinalReservationComponent } from './final-reservation/final-reservation.component';
 
 
 const routes: Routes = [
@@ -49,7 +51,8 @@ const routes: Routes = [
   { path: 'users/:username', component: UserProfileComponent}, 
   { path: 'admin', component: AdminComponent},
   { path: 'admin-avio-company', component: AdminAvioCompanyComponent },
-  { path: 'auth/activate/:id', component: ActivateProfileComponent}
+  { path: 'auth/activate/:id', component: ActivateProfileComponent}, 
+  { path: 'final-reservation' , component: FinalReservationComponent}
 ];
 
 @NgModule({

@@ -7,6 +7,8 @@ import { UserService } from '../user.service';
 import { AvioFlight } from '../dto/avio-flight.model';
 import { AvioReport } from '../dto/avio-report';
 import { DateRange } from '../dto/date-range';
+import { Address } from '../dto/address.model';
+import { DomSanitizer, SafeUrl } from '../../../node_modules/@angular/platform-browser';
 
 @Component({
   selector: 'app-avio-company-profile',
@@ -28,11 +30,15 @@ export class AvioCompanyProfileComponent implements OnInit {
   startDateMy : Date;
   endDateMy : Date;
   showAdminControls : boolean;
+
+  addressUrl: string;
+  trustedUrl: SafeUrl;
   
   constructor(private avioCompaniesService: AvioCompaniesService, 
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService) {
+    private userService: UserService,
+    private sanitizer: DomSanitizer) {
       this.router = router;
     }
 
@@ -66,11 +72,33 @@ export class AvioCompanyProfileComponent implements OnInit {
 
     this.getAvioCompany(this.id).subscribe(data => {
       this.avioCompany = data;
+      this.makeAddressUrl(this.avioCompany.address);
+      this.trustedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.addressUrl);
     });
 
     this.getAvioFlights(this.id).subscribe(data => {
       this.flights = data;
     });
+  }
+
+  public makeAddressUrl(address: Address) {
+    this.addressUrl = 'https://maps.google.com/maps?q=';
+    let grad = address.city.split(" ");
+    let ulica = address.street.split(" ");
+
+    for(let i = 0; i<grad.length; i++) {
+      if(i == 0) {
+        this.addressUrl += grad[i];
+      } else {
+        this.addressUrl += '%20' + grad[i];
+      }
+    }
+
+    for(let i = 0; i<ulica.length; i++) {
+      this.addressUrl += '%20' + ulica[i];
+    }
+    this.addressUrl += '%20' + address.number;
+    this.addressUrl += '&t=&z=13&ie=UTF8&iwloc=&output=embed';
   }
 
   public getAvioCompany(id: number | string): Observable<AvioCompany> {

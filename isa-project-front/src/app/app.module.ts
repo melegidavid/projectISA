@@ -32,6 +32,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { HotelEditComponent } from './hotel-edit/hotel-edit.component';
 import { AvioFlightSeatsComponent } from './avio-flight-seats/avio-flight-seats.component';
 import { InviteFriendsComponent } from './invite-friends/invite-friends.component';
+import { FinalReservationComponent } from './final-reservation/final-reservation.component';
 
 @NgModule({
   declarations: [
@@ -63,13 +64,15 @@ import { InviteFriendsComponent } from './invite-friends/invite-friends.componen
     HotelMenuItemReservationComponent,
     HotelEditComponent,
     AvioFlightSeatsComponent,
-    InviteFriendsComponent
+    InviteFriendsComponent,
+    FinalReservationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserModule
   ],
   providers: [
     UserService,

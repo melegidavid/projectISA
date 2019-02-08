@@ -68,10 +68,12 @@
           <input type="text" class="form-control" [(ngModel)]="name" name="n0" placeholder="Enter name here...">
 
           <label for="country1">Start date</label>
-          <input type="text" class="form-control" [(ngModel)]="start" name="n1" placeholder="Enter here...">
-
+          <br>
+          <label *ngIf="flight != undefined">{{start}}</label> 
+          <input  *ngIf="flight == undefined" type="date" class="form-control" [(ngModel)]="start" name="n1">
+          <br>
           <label for="city1">End date</label>
-          <input type="text" class="form-control" [(ngModel)]="end" name="n2" placeholder="Enter here...">
+          <input type="date" class="form-control" [(ngModel)]="end" name="n2">
 
           <label for="city1">Country</label>
           <input type="text" class="form-control" [(ngModel)]="address.country" name="n3" placeholder="Enter here...">

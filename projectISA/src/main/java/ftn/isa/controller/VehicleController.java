@@ -1,7 +1,5 @@
 package ftn.isa.controller;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,25 +134,46 @@ public class VehicleController {
 	}
 	
 	
-	@RequestMapping(value="/reserveVehicle", method=RequestMethod.POST)
-	public ResponseEntity<Void> reserveVehicle(@RequestBody ReservationDTO reservationDTO){
+	@RequestMapping(value="/reserveVehicle", method=RequestMethod.POST, consumes="application/json")
+	public ResponseEntity<ReservationDTO> reserveVehicle(@RequestBody ReservationDTO reservationDTO){
 		
+		System.out.println("DDDDDDDDDDDDDDDDDDD");
 		User user = (User) userService.loadUserByUsername(reservationDTO.getUsername());
 		System.out.println("Nadjen korisnik " + user.getUsername());
 		
 		VehicleReservation vr = new VehicleReservation();
 		
+		
+		System.out.println(reservationDTO.getStartReservation());
+		System.out.println(reservationDTO.getEndReservation());
+		System.out.println(reservationDTO.getVehicle().getId());
+		
 		vr.setBelongsToVehicle(vehicleService.findOne(reservationDTO.getVehicle().getId()));
 		vr.setUser(user);
-		vr.setStartReservation(Date.valueOf(LocalDate.now()));
-		vr.setEndReseravtion(Date.valueOf(LocalDate.now()));
-		vr.setTakePlace(branchService.findOne(reservationDTO.getTakePlaceId()));
-		vr.setReturnPlace(branchService.findOne(reservationDTO.getReturnPlaceId()));
-		vr.calculatePrice();
+		vr.setStartReservation(reservationDTO.getStartReservation());
+		vr.setEndReseravtion(reservationDTO.getEndReservation());
+		
+		System.out.println(rentCarService.findOne(reservationDTO.getVehicle().getRentCar().getId()).getBranches().get(0).getName());rentCarService.findOne(reservationDTO.getVehicle().getRentCar().getId()).getBranches().get(0);
+		System.out.println(rentCarService.findOne(reservationDTO.getVehicle().getRentCar().getId()).getBranches().get(0).getName());rentCarService.findOne(reservationDTO.getVehicle().getRentCar().getId()).getBranches().get(0);
+		
+		vr.setTakePlace(rentCarService.findOne(reservationDTO.getVehicle().getRentCar().getId()).getBranches().get(0));
+		
+		vr.setReturnPlace(rentCarService.findOne(reservationDTO.getVehicle().getRentCar().getId()).getBranches().get(0));
+		
+		//vr.calculatePrice();
 	
+		
+		//user.getVehicleReservations().
+		
+		System.out.println(vr.getUser().getUsername());
+		System.out.println(vr.getBelongsToVehicle().getName());
+		
+		
+	
+		
 		reservationService.save(vr);
 		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<ReservationDTO>(reservationDTO,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/searchVehicles", method=RequestMethod.POST)

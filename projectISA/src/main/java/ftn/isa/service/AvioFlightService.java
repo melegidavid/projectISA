@@ -66,6 +66,7 @@ public class AvioFlightService {
 		if (typeOfFlight.equals("oneWay")) {
 			for (AvioFlight avioFlight : allFlights) {
 				if (searchFlights.getFromLocation() != null) {
+					System.out.println("FROM LOCATION: " + searchFlights.getFromLocation().getId());
 					Address tempFromLocation = addressService.findOne(searchFlights.getFromLocation().getId());
 					Address tempToLocation = addressService.findOne(searchFlights.getToLocation().getId());
 					LocalDate tempDepartureDate = searchFlights.getDepartureDate();
