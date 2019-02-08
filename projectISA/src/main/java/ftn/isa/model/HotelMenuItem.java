@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity
 public class HotelMenuItem {
@@ -22,6 +23,9 @@ public class HotelMenuItem {
 	private double price;
 	private String description;
 	private boolean deleted;
+
+	@Version
+	private Long version;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Hotel hotel;

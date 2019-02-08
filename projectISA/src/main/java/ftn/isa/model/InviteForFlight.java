@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 @Entity
 public class InviteForFlight {
@@ -25,6 +26,8 @@ public class InviteForFlight {
 	private AvioFlight flight;
 	private boolean accepted;
 	
+	@Version
+	private Long version;
 	
 
 	public InviteForFlight() {

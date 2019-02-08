@@ -1,9 +1,14 @@
 package ftn.isa.model;
 
+import javax.persistence.Version;
+
 public class UserTokenState {
 
 	private String accessToken;
     private Long expiresIn;
+    
+    @Version
+	private Long version;
 
     public UserTokenState() {
         this.accessToken = null;

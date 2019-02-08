@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.Where;
 
@@ -28,6 +29,9 @@ public class RentCarBranch {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private RentCar rentCar;
+	
+	@Version
+	private Long version;
 	
 	
 	public RentCarBranch() {

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Version;
 
 @Entity
 public class AvioFullFlight {
@@ -22,6 +23,9 @@ public class AvioFullFlight {
 	private double fullFlightDuration;
 	private double fullFlightDistance;
 	private double fullPrice;
+	
+	@Version
+	private Long version;
 	
 	@ManyToMany
 	@JoinTable(name = "locationOfTransfers",

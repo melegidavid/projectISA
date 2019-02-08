@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 @Entity
 public class Hotel {
@@ -31,6 +32,7 @@ public class Hotel {
 	@JoinColumn(referencedColumnName="id", nullable = false, unique = true)
 	private Address address;
 	private String description;
+
 	
 	@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<HotelMenuItem> menu = new ArrayList<>();

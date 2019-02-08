@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.Version;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ftn.isa.dto.DateRange;
@@ -19,6 +21,9 @@ public class RentCarReport {
 	@JsonIgnore
 	private RentCar rentCar;
 	private List<String> vehicleReports = new ArrayList<String>();
+	
+	@Version
+	private Long version;
 	
 	private String prihodPerioda;
 	

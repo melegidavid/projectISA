@@ -47,29 +47,22 @@ public class AvioCompanyService {
 		avioCompanyRepository.getOne(id).setDeleted(true);
 		avioCompanyRepository.save(avioCompanyRepository.getOne(id));
 	}
+
 	
-    public double getAvgRating(Long id) {
+	public double getAvgRating(Long id) {
 
-    	
-
-    	AvioCompany company = this.findAvioCompany(id);
+    	AvioCompany company = avioCompanyRepository.getOne(id);
 		
-    	System.out.println("Usao da trazi za kompaniju " + company.getName());
-    	
-		double sum = 0;
+    	double sum = 0;
 		double count = 0;
 		
 		List<AvioFlight> letovi = company.getFlights();
-		
-		System.out.println("Broj letova: " + letovi.size());
 		
 		List<AvioFlightReservation> reservations = new ArrayList<>();
 		
 		for(AvioFlight a : letovi) {
 			reservations.addAll(a.getReseravations());
 		}
-		
-		System.out.println("Broj rezervacija: " + reservations.size());
 		
 		for(AvioFlightReservation ar : reservations) {
 			if(ar.getRatingCompany() > 0) {
@@ -78,25 +71,18 @@ public class AvioCompanyService {
 			}
 		}
 		
-		System.out.println("Count "+ count);
-		System.out.println("Sum "+ sum);
-		
 		if(count == 0) {
 			return 0;
 		}
-		
 		
 		double result = sum/count;
 		DecimalFormat df = new DecimalFormat("#.##");      
 		result = Double.valueOf(df.format(result));
 		
-		
-		System.out.println(result);
-
 		return result;
 	}
     
-    public AvioReport generateReport(Long id, DateRange dateRange) {
+	public AvioReport generateReport(Long id, DateRange dateRange) {
 		
 		AvioCompany company = this.findAvioCompany(id);
 		AvioReport report = new AvioReport(company);

@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ftn.isa.model.Hotel;
 import ftn.isa.model.HotelRoom;
@@ -14,6 +17,7 @@ import ftn.isa.repository.HotelRoomRepository;
 import ftn.isa.repository.RoomReservationRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class HotelRoomService {
 
 	@Autowired 
@@ -26,14 +30,17 @@ public class HotelRoomService {
 		return hotelRoomRepository.getOne(roomId);
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public HotelRoom saveHotelRoom(HotelRoom room) {
 		return hotelRoomRepository.save(room);
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED)
 	public HotelRoom updateHotelRoom(HotelRoom room) {
 		return hotelRoomRepository.save(room);
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void removeHotelRoom(HotelRoom room) {
 		HotelRoom r = this.findHotelRoom(room.getId());
 		r.setDeleted(true);
@@ -61,10 +68,12 @@ public class HotelRoomService {
 		return freeRooms;
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public RoomReservation makeRoomReservation(RoomReservation roomReservation) {
 		return roomReservationRepository.save(roomReservation);
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED)
 	public RoomReservation updateReservation(RoomReservation roomReservation) {
 		return roomReservationRepository.save(roomReservation);
 	}
@@ -73,9 +82,11 @@ public class HotelRoomService {
 		return roomReservationRepository.getOne(roomId);
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void removeRoomReservation(Long id) {
 		System.out.println("STIGLO: " + id);
 		RoomReservation rr = this.findRoomReservation(id);
+		System.out.println("STIGLO: " + rr.getId());
 		this.roomReservationRepository.delete(rr);
 	}
 }

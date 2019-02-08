@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -20,6 +21,9 @@ public class Authority implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+	@Version
+	private Long version;
+	
     @Column(name="name")
     String name;
 	

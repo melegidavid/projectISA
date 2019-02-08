@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity
 public class RoomReservation {
@@ -20,6 +21,9 @@ public class RoomReservation {
 	private double price;
 	private int hotelRating;
 	private int roomRating;
+	
+	@Version
+	private Long version;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;

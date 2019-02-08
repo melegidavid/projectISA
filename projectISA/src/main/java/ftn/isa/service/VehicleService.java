@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ftn.isa.dto.VehicleSearchDTO;
 import ftn.isa.model.RentCar;
@@ -15,6 +18,7 @@ import ftn.isa.model.VehicleReservation;
 import ftn.isa.repository.VehicleRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class VehicleService {
 
 	@Autowired
@@ -40,14 +44,17 @@ public class VehicleService {
 		return result;
 	}
 	
+	@Transactional(readOnly = true)
 	public Vehicle save(Vehicle vehicle) {
 		return vehicleRepository.save(vehicle);
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED)
 	public Vehicle update(Vehicle vehicle) {
 		return vehicleRepository.save(vehicle);
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
 	public void remove(Long id) {
 		Vehicle v = this.findOne(id);
 		

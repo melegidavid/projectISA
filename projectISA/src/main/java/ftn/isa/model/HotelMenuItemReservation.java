@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity
 public class HotelMenuItemReservation {
@@ -19,6 +20,9 @@ public class HotelMenuItemReservation {
 	private Date startReservation;
 	private Date endReservation;
 	private double price; //cena za sve dane boravka
+	
+	@Version
+	private Long version;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private User user;

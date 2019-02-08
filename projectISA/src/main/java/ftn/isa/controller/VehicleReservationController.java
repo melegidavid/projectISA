@@ -61,15 +61,8 @@ public class VehicleReservationController {
 
 		User user = vehicleReservationService.findOne(idReservation).getUser();
 		
-		System.out.println("duzina je bila " + vehicleReservationService.findAll().size() );
-		
-		
 		vehicleReservationService.remove(idReservation);
 		
-		System.out.println("duzina je sad " + vehicleReservationService.findAll().size() );
-		
-		System.out.println("Usao u kontroler, brise " + idReservation + " a user je" + user.getUsername() );
-		 
 		List<VehicleReservation> reservations = user.getVehicleReservations();		
 		List<ReservationDTO> reservationDTOs = new ArrayList<ReservationDTO>();
 
@@ -83,18 +76,9 @@ public class VehicleReservationController {
 	@RequestMapping(value = "/{idReservation}/cancelRoomReservation" , method = RequestMethod.GET)
 	public ResponseEntity<List<RoomReservationDTO>> cancelRoomReservation(@PathVariable Long idReservation) {
 
-		
 		User user = roomReservationService.findRoomReservation(idReservation).getUser();
 		
-		System.out.println("duzina je bila " + user.getRoomReservations().size() );
-		
 		roomReservationService.removeRoomReservation(idReservation);	
-		System.out.println(roomReservationService.findRoomReservation(idReservation));
-		
-		
-        System.out.println("duzina je sad " + user.getRoomReservations().size() );
-		
-		System.out.println("Usao u kontroler, brise " + idReservation + " a user je" + user.getUsername() );
 		 
 		
 		List<RoomReservation> reservations = user.getRoomReservations();

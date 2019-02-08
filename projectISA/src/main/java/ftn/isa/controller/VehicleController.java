@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,6 @@ import ftn.isa.model.RentCar;
 import ftn.isa.model.User;
 import ftn.isa.model.Vehicle;
 import ftn.isa.model.VehicleReservation;
-import ftn.isa.service.RentCarBranchService;
 import ftn.isa.service.RentCarService;
 import ftn.isa.service.UserService;
 import ftn.isa.service.VehicleReservationService;
@@ -32,9 +32,7 @@ public class VehicleController {
 	
 	@Autowired
 	private VehicleService vehicleService;
-	
-	@Autowired
-	private RentCarBranchService branchService;
+
 	
 	@Autowired
 	private UserService userService;
@@ -120,6 +118,7 @@ public class VehicleController {
 	}
 	
 	
+	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteVehicle(@PathVariable Long id){
 		

@@ -6,13 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.sun.research.ws.wadl.Response;
 
 import ftn.isa.dto.AvioCompanyDTO;
 import ftn.isa.dto.AvioFlightDTO;
@@ -20,7 +19,6 @@ import ftn.isa.dto.AvioFullFlightDTO;
 import ftn.isa.model.AvioCompany;
 import ftn.isa.model.AvioFlight;
 import ftn.isa.model.AvioFullFlight;
-import ftn.isa.service.AvioCompanyService;
 import ftn.isa.service.AvioFlightService;
 import ftn.isa.service.AvioFullFlightService;
 
@@ -33,9 +31,6 @@ public class AvioFullFlightController {
 
 	@Autowired
 	private AvioFlightService avioFlightService;
-
-	@Autowired
-	private AvioCompanyService avioCompanyService;
 
 	// avio full flight controller
 
@@ -58,6 +53,7 @@ public class AvioFullFlightController {
 		return new ResponseEntity<>(new AvioFullFlightDTO(avioFullFlight), HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('AVIO_COMPANY_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<AvioFullFlightDTO> addAvioFullFlight(@RequestBody AvioFullFlightDTO avioFullFlightDTO) {
 		AvioFullFlight avioFullFlight = new AvioFullFlight();
@@ -72,6 +68,7 @@ public class AvioFullFlightController {
 		return new ResponseEntity<>(new AvioFullFlightDTO(avioFullFlight), HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('AVIO_COMPANY_ADMIN')")
 	@RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<AvioFullFlightDTO> updateAvioFullFlight(@RequestBody AvioFullFlightDTO avioFullFlightDTO) {
 		AvioFullFlight avioFullFlight = avioFullFlightService.findAvioFullFlight(avioFullFlightDTO.getId());
@@ -91,6 +88,7 @@ public class AvioFullFlightController {
 
 	}
 
+	@PreAuthorize("hasRole('AVIO_COMPANY_ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> removeAvioFullFlight(@PathVariable("id") Long id) {
 		AvioFullFlight avioFullFlight = avioFullFlightService.findAvioFullFlight(id);
@@ -154,6 +152,7 @@ public class AvioFullFlightController {
 
 	}
 
+	@PreAuthorize("hasRole('AVIO_COMPANY_ADMIN')")
 	@RequestMapping(value = "/{id}/flights", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<AvioFlightDTO> addFlightToFullFlight(@PathVariable("id") Long id,
 			@RequestBody AvioFlightDTO avioFlightDTO) {
@@ -180,6 +179,7 @@ public class AvioFullFlightController {
 		return new ResponseEntity<>(new AvioFlightDTO(avioFlight), HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('AVIO_COMPANY_ADMIN')")
 	@RequestMapping(value = "/{id}/flights/{flightId}", method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity<AvioFlightDTO> updateFlightOfFullFlight(@PathVariable("id") Long id,
 			@PathVariable("flightId") Long flightId, @RequestBody AvioFlightDTO avioFlightDTO) {
@@ -218,6 +218,7 @@ public class AvioFullFlightController {
 		}
 	}
 
+	@PreAuthorize("hasRole('AVIO_COMPANY_ADMIN')")
 	@RequestMapping(value = "/{id}/flights/{flightId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> removeFlightOfFullFlight(@PathVariable("id") Long id,
 			@PathVariable("flightId") Long flightId) {

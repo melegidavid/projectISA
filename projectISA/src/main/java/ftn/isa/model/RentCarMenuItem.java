@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity
 public class RentCarMenuItem {
@@ -15,6 +16,9 @@ public class RentCarMenuItem {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Version
+	private Long version;
+	
 	private String serviceName;
 	private double price;
 	private String description;

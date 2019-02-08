@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 @Entity
 public class RentCar {
@@ -35,6 +36,7 @@ public class RentCar {
 	
 	@OneToMany(mappedBy = "rentCar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Vehicle> vehicles = new ArrayList<>();
+
 
 	
 	

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.Where;
 
@@ -34,7 +35,9 @@ public class Vehicle {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private RentCar rentCar;
-	
+
+	@Version
+	private Long version;
 
 	@OneToMany(mappedBy = "belongsToVehicle",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<VehicleReservation> reseravations = new ArrayList<>();

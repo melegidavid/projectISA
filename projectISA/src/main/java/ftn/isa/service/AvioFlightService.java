@@ -1,14 +1,14 @@
 package ftn.isa.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.internet.AddressException;
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ftn.isa.dto.AvioFlightSearchDTO;
 import ftn.isa.model.Address;
@@ -16,6 +16,7 @@ import ftn.isa.model.AvioFlight;
 import ftn.isa.repository.AvioFlightRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class AvioFlightService {
 
 	@Autowired
@@ -40,16 +41,19 @@ public class AvioFlightService {
 	}
 
 	// save
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public AvioFlight saveAvioFlight(AvioFlight avioFlight) {
 		return avioFlightRepository.save(avioFlight);
 	}
 
 	// update
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED)
 	public AvioFlight updateAvioFlight(AvioFlight avioFlight) {
 		return avioFlightRepository.save(avioFlight);
 	}
 
 	// delete
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void removeAvioFlight(Long id) {
 		avioFlightRepository.getOne(id).setDeleted(true);
 		avioFlightRepository.save(avioFlightRepository.getOne(id));
@@ -66,7 +70,6 @@ public class AvioFlightService {
 		if (typeOfFlight.equals("oneWay")) {
 			for (AvioFlight avioFlight : allFlights) {
 				if (searchFlights.getFromLocation() != null) {
-					System.out.println("FROM LOCATION: " + searchFlights.getFromLocation().getId());
 					Address tempFromLocation = addressService.findOne(searchFlights.getFromLocation().getId());
 					Address tempToLocation = addressService.findOne(searchFlights.getToLocation().getId());
 					LocalDate tempDepartureDate = searchFlights.getDepartureDate();
@@ -125,3 +128,4 @@ public class AvioFlightService {
 		return searchResult;
 	}
 }
+

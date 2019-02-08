@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity
 public class VehicleReservation {
@@ -35,6 +36,9 @@ public class VehicleReservation {
 	
 	private int vehicleRating = -1;
 	private int rentCarRating = -1;
+	
+	@Version
+	private Long version;
 	
 	public VehicleReservation() {
 		

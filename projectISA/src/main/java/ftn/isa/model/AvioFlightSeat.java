@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 @Entity
 public class AvioFlightSeat {
@@ -15,6 +16,9 @@ public class AvioFlightSeat {
 	private int number;
 	private String classOfSeat;
 	private boolean deleted;
+	
+	@Version
+	private Long version;
 
 	public AvioFlightSeat() {
 	}

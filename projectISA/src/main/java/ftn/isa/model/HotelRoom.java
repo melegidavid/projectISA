@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity
 public class HotelRoom {
@@ -35,6 +36,8 @@ public class HotelRoom {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Hotel hotel;
 	
+	@Version
+	private Long version;
 	@ElementCollection
     @MapKeyColumn(name="user", unique = true, nullable = false)
     @Column(name="rate", nullable = false)

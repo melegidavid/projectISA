@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 @Entity
 public class Address {
@@ -16,6 +17,9 @@ public class Address {
 	private int postalCode;
 	private String street;
 	private int number;
+	
+	@Version
+	private Long version;
 	
 	public Address() {
 		

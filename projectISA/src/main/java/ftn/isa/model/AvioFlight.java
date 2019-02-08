@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 @Entity
 public class AvioFlight {
@@ -21,6 +22,9 @@ public class AvioFlight {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Version
+	private Long version;
+	
 	private LocalDateTime dateTimeStart;
 	private LocalDateTime dateTimeFinish;
 	private double flightDuration;

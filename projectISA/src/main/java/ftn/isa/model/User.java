@@ -16,13 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 import org.joda.time.DateTime;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import ftn.isa.enums.Role;
 
 @Entity
 public class User implements UserDetails {
@@ -41,6 +40,9 @@ public class User implements UserDetails {
 	private String city;
 	private String telephoneNumber;
 	private boolean adminChange;
+	
+	@Version
+	private Long version;
 	
 	@Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -22,6 +21,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 @Entity
 public class AvioCompany {
@@ -39,13 +39,10 @@ public class AvioCompany {
 	private double averageRating;
 	private boolean isDeleted;
 
+	
+
 	@ManyToMany
-	@JoinTable(name = "destinations", joinColumns = @JoinColumn(name = "avio_company_id", referencedColumnName = "id"), // ovde
-																														// se
-																														// pravi
-																														// medju
-																														// tabela.
-			inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "id"))
+	@JoinTable(name = "destinations", joinColumns = @JoinColumn(name = "avio_company_id", referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(name = "address_id", referencedColumnName = "id"))
 	private Set<Address> destinations = new HashSet<Address>();
 
 	@OneToMany(mappedBy = "avioCompany", fetch = FetchType.LAZY)

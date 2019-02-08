@@ -9,18 +9,20 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ftn.isa.model.User;
 import ftn.isa.repository.UserRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
 
 	@Autowired
@@ -44,23 +46,23 @@ public class UserService implements UserDetailsService {
 		return userRepository.getOne(id);
 	}
 
+	@Transactional(readOnly = false)
 	public void addUser(User user) {
-		System.out.println("dodajeee");
-		user.setPassword(passwordEncoder.encode(user.getPassword())); // dodao za pass
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public void removeUser(User user) {
-		// user.setDeleted(true);
-		// userRepository.save(user);
-
 		userRepository.delete(user);
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_UNCOMMITTED)
 	public User updateUser(User user) {
 		return userRepository.save(user);
 	}
 
+	
 	public boolean isRegistered(String username) {
 		User user = userRepository.findByUsername(username);
 		if (user != null) {
@@ -92,6 +94,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	// Funkcija pomocu koje korisnik menja svoju lozinku
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
 	public void changePassword(String username, String oldPassword, String newPassword) {
 
 		if (authenticationManager != null) {

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,7 +85,8 @@ public class RentCarController {
 		
 		return new ResponseEntity<>(new RentCarDTO(rentCar), HttpStatus.OK);
 	}
-	
+
+	@PreAuthorize("hasRole('SERVICE_ADMIN')")
 	@RequestMapping(value="/save", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<RentCarDTO> saveRentCar(@RequestBody RentCarDTO rentCarDTO){
 		
@@ -109,6 +111,7 @@ public class RentCarController {
 		return new ResponseEntity<>(new RentCarDTO(rentCar), HttpStatus.CREATED);	
 	}
 	
+	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/update", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<RentCarDTO> updateRentCar(@RequestBody RentCarDTO rentCarDTO){
 		
@@ -126,7 +129,7 @@ public class RentCarController {
 		return new ResponseEntity<>(new RentCarDTO(rentCar), HttpStatus.OK);	
 	}
 	
-	
+	@PreAuthorize("hasRole('SERVICE_ADMIN')")
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteRentCar(@PathVariable Long id){
 		
@@ -151,15 +154,6 @@ public class RentCarController {
 		
 		return vehicleService.getAvgRating(id);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 
@@ -201,6 +195,7 @@ public class RentCarController {
 		return new ResponseEntity<>(menuItemDTO, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/{idRentCar}/saveMenuItem", method=RequestMethod.POST, consumes="application/json") //bez value mozda
 	public ResponseEntity<RentCarMenuItemDTO> saveRentCarMenuItem(@PathVariable Long idRentCar , @RequestBody RentCarMenuItemDTO rentCarMenuItemDTO){
 		
@@ -215,6 +210,7 @@ public class RentCarController {
 		return new ResponseEntity<>(new RentCarMenuItemDTO(rentCarMenuItem), HttpStatus.CREATED);	
 	}
 	
+	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/{idRentCar}/updateMenuItem", method=RequestMethod.PUT, consumes="application/json") //bez value mozda
 	public ResponseEntity<RentCarMenuItemDTO> updateRentCarMenuItem(@RequestBody RentCarMenuItemDTO itemDTO){
 		
@@ -234,6 +230,7 @@ public class RentCarController {
 		return new ResponseEntity<>(new RentCarMenuItemDTO(menuItem), HttpStatus.OK);	
 	}
 	
+	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/{idRentCar}/{idMenuItem}/deleteMenuItem", method=RequestMethod.DELETE) //bez value mozda
 	public ResponseEntity<Void> deleteRentCarMenuItem(@PathVariable Long idMenuItem){
 		
@@ -271,8 +268,9 @@ public class RentCarController {
 		return new ResponseEntity<>(vehiclesDTO, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/{idRentCar}/vehicles", method=RequestMethod.POST) 
-	public ResponseEntity<VehicleDTO> saveRentCarMenuItem(@PathVariable Long idRentCar , @RequestBody VehicleDTO vehicleDTO) {
+	public ResponseEntity<VehicleDTO> saveRentCarVehicle(@PathVariable Long idRentCar , @RequestBody VehicleDTO vehicleDTO) {
 		Vehicle vehicle = new Vehicle();
 		
 		RentCar rentCar = rentCarService.findOne(vehicleDTO.getRentCar().getId());
@@ -291,7 +289,7 @@ public class RentCarController {
 		return new ResponseEntity<>(new VehicleDTO(vehicle), HttpStatus.CREATED);
 	}
 	
-	//generisanje izvestaja od strane admina, preutorize admin, prima id rentCara
+	@PreAuthorize("hasRole('RENT_CAR_ADMIN')")
 	@RequestMapping(value="/{idRentCar}/generate", method=RequestMethod.POST) 
 	public ResponseEntity<RentCarReport> generateReport(@PathVariable Long idRentCar, @RequestBody DateRange dateRange) {
 		

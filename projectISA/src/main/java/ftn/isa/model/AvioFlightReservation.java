@@ -4,12 +4,15 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import org.springframework.data.annotation.Version;
 
 @Entity
+
 public class AvioFlightReservation {
 
 	@Id
@@ -20,6 +23,9 @@ public class AvioFlightReservation {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	private int ratingFlight;
+	@Version
+	private Long version;
+
 	private int ratingCompany;
 	private boolean isDeleted;
 	@OneToOne(fetch = FetchType.LAZY)

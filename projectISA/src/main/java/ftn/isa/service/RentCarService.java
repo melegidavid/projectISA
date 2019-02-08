@@ -9,6 +9,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ftn.isa.dto.DateRange;
 import ftn.isa.dto.RentCarSearchDTO;
@@ -48,7 +51,6 @@ public class RentCarService {
 	public void remove(Long id) {
 		rentCarRepository.deleteById(id);
 	}
-	
 	
 	public double getAvgRating(Long id) {
 		
@@ -96,7 +98,6 @@ public class RentCarService {
 		return report;
 	}
 
-	
 	
 	
 	public List<RentCar> search(RentCarSearchDTO params, AddressService addressService) {
